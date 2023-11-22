@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{E5710266-6E9E-4609-BB46-B0687ABABE02}" SchemaVersion="119">
+	<AudioObjects>
+		<WorkUnit Name="Default Work Unit" ID="{E5710266-6E9E-4609-BB46-B0687ABABE02}" PersistMode="Standalone">
+			<ChildrenList>
+				<Folder Name="Player" ID="{3B1930DD-B138-43FB-840C-E72DA1F748A4}" ShortID="1037054976">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="13"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
+					<ChildrenList>
+						<Folder Name="Squirrell" ID="{2D6CA363-AE8C-45AC-8FD6-532DF34FB211}" ShortID="946768523"/>
+						<Folder Name="Rhino" ID="{0A2463ED-4340-4341-A2EA-77FE52CFEEE7}" ShortID="824686486"/>
+						<Folder Name="Dolphin" ID="{36576746-A561-46D5-9AA4-7C754A75680B}" ShortID="134536832"/>
+						<Folder Name="Manta" ID="{AD32C129-0C5A-493C-8590-2873314DF92E}" ShortID="821166728"/>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Enemy" ID="{6DA4D662-B00F-4438-A322-FCE520F221A1}" ShortID="414900661">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="9"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
+				</Folder>
+				<Folder Name="Ambience" ID="{3949C86A-2362-4B06-A978-B2F5972DF6DA}" ShortID="267264605">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="15"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
+				</Folder>
+				<Folder Name="Teammate" ID="{0B5BCFF1-7E49-44E1-B6F8-FA58312A16F9}" ShortID="759472274">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="19"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
+				</Folder>
+				<Folder Name="UI" ID="{D1BD13CB-503A-412F-A7D0-F16266C821E3}" ShortID="479199380">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="21"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
+				</Folder>
+				<Folder Name="Volumes" ID="{0B4EC1EA-F44A-49DA-83D8-56D225FBEC40}" ShortID="356320913">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="4"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
+					<ChildrenList>
+						<Folder Name="Crystals" ID="{E7280328-AB6E-4BF2-A7C8-10D49B88A756}" ShortID="612416594">
+							<ChildrenList>
+								<RandomSequenceContainer Name="crys_playerbreak" ID="{5ACBCDC9-3344-4538-ACD7-452DB4AF89E7}" ShortID="129417664">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{A785DE59-CD4D-401F-A72F-8E860B171CF2}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{1DFF1C09-8272-4274-A85C-69A1A19A2B68}"/>
+										</Reference>
+									</ReferenceList>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="crys_enembreak" ID="{9BC07381-FEE2-41C5-8FAF-9C44275FF893}" ShortID="256446431">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{A785DE59-CD4D-401F-A72F-8E860B171CF2}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{1DFF1C09-8272-4274-A85C-69A1A19A2B68}"/>
+										</Reference>
+									</ReferenceList>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="crys_teammatebreak" ID="{8F7DD941-2E81-443B-84F0-3DD5BE7E193D}" ShortID="50579611">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{A785DE59-CD4D-401F-A72F-8E860B171CF2}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{1DFF1C09-8272-4274-A85C-69A1A19A2B68}"/>
+										</Reference>
+									</ReferenceList>
+								</RandomSequenceContainer>
+							</ChildrenList>
+						</Folder>
+					</ChildrenList>
+				</Folder>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>

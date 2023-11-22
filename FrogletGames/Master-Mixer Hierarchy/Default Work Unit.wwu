@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{1DFF1C09-8272-4274-A85C-69A1A19A2B68}" SchemaVersion="119">
+	<Busses>
+		<WorkUnit Name="Default Work Unit" ID="{1DFF1C09-8272-4274-A85C-69A1A19A2B68}" PersistMode="Standalone">
+			<ChildrenList>
+				<Bus Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}">
+					<ReferenceList>
+						<Reference Name="AudioDevice" PluginName="System" CompanyID="0" PluginID="174" PluginType="7">
+							<ObjectRef Name="System" ID="{EB65B33A-CD2D-4405-B379-EBE9FC0828A5}" WorkUnitID="{10D90D0B-3A59-496D-8E41-5973C572ADCF}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Bus Name="Player_Master" ID="{88157127-69E0-48D2-A287-0B1D79A3F60E}">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="18"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+							</PropertyList>
+							<ChildrenList>
+								<Bus Name="Player_Squirrell" ID="{C5185816-8A5D-42A9-8F37-E74539DBAA14}"/>
+								<Bus Name="Player_Rhino" ID="{2FAEC04C-4601-4F9F-8DF6-CB873AB36088}"/>
+								<Bus Name="Player_Manta" ID="{BD119C50-B73E-419C-9642-1F81A037AE0B}"/>
+								<Bus Name="Player_Dolphin" ID="{F3AA923C-E530-4F24-977C-FE5B043C7B00}"/>
+							</ChildrenList>
+						</Bus>
+						<Bus Name="Amb_Master" ID="{4DB43B45-24FC-4737-854B-CF9ACAAF967E}">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="13"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+							</PropertyList>
+							<ChildrenList>
+								<Bus Name="Amb_Bed" ID="{362F8C55-1B26-442C-84E0-6FC24605EEEF}">
+									<ChildrenList>
+										<Bus Name="2DAmb_Bed" ID="{23EA9756-95C6-4C79-9915-61CAF4DD922F}"/>
+									</ChildrenList>
+								</Bus>
+								<Bus Name="3DAmbience" ID="{24C2A958-4010-49E4-8CDD-CE0094812600}"/>
+								<Bus Name="2DAmbience" ID="{B1372F55-3502-4242-8D21-71B871DEAE99}"/>
+							</ChildrenList>
+						</Bus>
+						<Bus Name="TeamM_Master" ID="{DBFD0340-3F0E-4187-96F1-989119E023CA}">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="23"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+							</PropertyList>
+						</Bus>
+						<Bus Name="Enem_Master" ID="{1502700E-D8B1-4759-932C-0EC7AD9CABE2}">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="10"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+							</PropertyList>
+						</Bus>
+						<AuxBus Name="Reverbs" ID="{D0562C76-F28E-43E9-8A1B-32F3FF7C2A83}">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="4"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+							</PropertyList>
+							<ChildrenList>
+								<AuxBus Name="Large_rev" ID="{12DB1BA5-5286-41CE-BA74-D62EE6F6A117}"/>
+								<AuxBus Name="Medium_rev" ID="{7BAC2D1D-71A6-46D6-876A-8C56F86F9490}"/>
+								<AuxBus Name="Short_rev" ID="{A0654795-1D3C-41C2-A71D-1005F4B85D7B}"/>
+							</ChildrenList>
+						</AuxBus>
+					</ChildrenList>
+				</Bus>
+			</ChildrenList>
+		</WorkUnit>
+	</Busses>
+</WwiseDocument>
