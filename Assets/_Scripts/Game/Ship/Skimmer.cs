@@ -95,7 +95,7 @@ namespace CosmicShore.Core
                         break;
                     case TrailBlockImpactEffects.Steal:
                         //Debug.Log($"steal: playername {Player.PlayerName} team: {team}");
-                        trailBlockProperties.trailBlock.Steal(Player.PlayerName, team);
+                        trailBlockProperties.trailBlock.Steal(Player, team);
                         break;
                     case TrailBlockImpactEffects.ChangeBoost:
                         resourceSystem.ChangeBoostAmount((chargeAmount * trailBlockProperties.volume) + (activelySkimmingBlockCount * MultiSkimMultiplier));
@@ -116,6 +116,8 @@ namespace CosmicShore.Core
 
         void PerformShipImpactEffects(ShipGeometry shipGeometry)
         {
+            if (StatsManager.Instance != null)
+                StatsManager.Instance.SkimmerShipCollision(ship, shipGeometry.Ship);
             foreach (ShipImpactEffects effect in shipImpactEffects)
             {
                 switch (effect)
@@ -229,7 +231,8 @@ namespace CosmicShore.Core
                 if (distance == minMatureBlockDistance) minMatureBlock = trailBlock;
             }
 
-            if (!trailBlock.GetComponent<LineRenderer>() && ship.ShipStatus.AlignmentEnabled) // TODO: ditch line renderer
+            if (!trailBlock.GetComponent<LineRenderer>() && ship.ShipStatus.AlignmentEnabled
+                && Player.ActivePlayer && Player.ActivePlayer.Ship == ship) // TODO: ditch line renderer
             {
                 CreateLineRendererAroundBlock(trailBlock);
 

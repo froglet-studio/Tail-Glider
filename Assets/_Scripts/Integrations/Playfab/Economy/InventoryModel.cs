@@ -6,15 +6,26 @@ namespace CosmicShore.Integrations.Playfab.Economy
     [Serializable]
     public class InventoryModel
     {
+        // Crystals - including Omni Crystals and Elemental Crystals
+        public List<VirtualItem> Crystals;
+
         // Vessels
-        public List<VirtualItemModel> Vessels;
+        public List<VirtualItem> Vessels;
+
+
         // Vessel Upgrades
-        public List<VirtualItemModel> VesselUpgrades;
+        public List<VirtualItem> VesselUpgrades;
+
+
         // Ships
-        public List<VirtualItemModel> Ships;
+        public List<VirtualItem> Ships;
+
+
         // MiniGames
-        public List<VirtualItemModel> MiniGames;
-        // Shards already has Quantity, 
-        public List<VirtualItemModel> VesselShards;
+        public List<VirtualItem> MiniGames;
+
+
+        // Vessel Knowledge
+        public List<VirtualItem> VesselKnowledge;
     }
 }
