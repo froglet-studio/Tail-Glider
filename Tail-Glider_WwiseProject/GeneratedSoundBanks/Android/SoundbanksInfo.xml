@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Android" BasePlatform="Android" SchemaVersion="16" SoundBankVersion="150">
+	<RootPaths>
+		<ProjectRoot>../..</ProjectRoot>
+		<SourceFilesRoot>../../.cache/Android</SourceFilesRoot>
+		<SoundBanksRoot>.</SoundBanksRoot>
+		<ExternalSourcesInputFile></ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>.</ExternalSourcesOutputRoot>
+	</RootPaths>
+	<DialogueEvents/>
+	<SoundBanks>
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{7D2BC47E-0F4F-5C5B-3106-550E00219FC7}">
+			<ShortName>Init</ShortName>
+			<Path>Init.bnk</Path>
+			<Plugins>
+				<AudioDevices>
+					<Plugin Id="2317455096" Name="No_Output" LibName="No Output" LibId="11862023"/>
+					<Plugin Id="3859886410" Name="System" LibName="System" LibId="11403271"/>
+				</AudioDevices>
+			</Plugins>
+			<Busses>
+				<Bus Id="85412153" Name="Ambience"/>
+				<Bus Id="504873280" Name="TeamBus"/>
+				<Bus Id="1195823038" Name="Crystal_Bus"/>
+				<Bus Id="2508999640" Name="EnemBus"/>
+				<Bus Id="3803692087" Name="Master Audio Bus"/>
+				<Bus Id="3966895392" Name="PlayerBus"/>
+			</Busses>
+		</SoundBank>
+		<SoundBank Id="2597442952" Type="User" Language="SFX" Hash="{E3BD67D1-1094-B740-D606-74853E71AA73}">
+			<ShortName>Master_Bank</ShortName>
+			<Path>Master_Bank.bnk</Path>
+		</SoundBank>
+	</SoundBanks>
+	<FileHash>{8BB80C80-4BA5-AA01-86DE-023D98C3CA29}</FileHash>
+</SoundBanksInfo>

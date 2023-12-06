@@ -1,0 +1,12 @@
+Audio Bus	ID	Name			Wwise Object Path	Notes
+	85412153	Ambience			\Default Work Unit\Master Audio Bus\SFX\Ambience	
+	504873280	TeamBus			\Default Work Unit\Master Audio Bus\SFX\Actors\TeamBus	
+	1195823038	Crystal_Bus			\Default Work Unit\Master Audio Bus\SFX\Volumes\Crystal_Bus	
+	2508999640	EnemBus			\Default Work Unit\Master Audio Bus\SFX\Actors\EnemBus	
+	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
+	3966895392	PlayerBus			\Default Work Unit\Master Audio Bus\SFX\Actors\PlayerBus	
+
+Audio Devices	ID	Name	Type				Notes
+	2317455096	No_Output	No Output			
+	3859886410	System	System			
+

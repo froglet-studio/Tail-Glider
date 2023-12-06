@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="16" SoundBankVersion="150">
+	<RootPaths>
+		<ProjectRoot>../..</ProjectRoot>
+		<SourceFilesRoot>../../.cache/Windows</SourceFilesRoot>
+		<SoundBanksRoot>.</SoundBanksRoot>
+		<ExternalSourcesInputFile></ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>.</ExternalSourcesOutputRoot>
+	</RootPaths>
+	<DialogueEvents/>
+	<SoundBanks>
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{41EEB9AC-AFBD-1592-2BBC-76B5FFFFE2A7}">
+			<ShortName>Init</ShortName>
+			<Path>Init.bnk</Path>
+			<Plugins>
+				<AudioDevices>
+					<Plugin Id="2317455096" Name="No_Output" LibName="No Output" LibId="11862023"/>
+					<Plugin Id="3859886410" Name="System" LibName="System" LibId="11403271"/>
+				</AudioDevices>
+			</Plugins>
+			<Busses>
+				<Bus Id="85412153" Name="Ambience"/>
+				<Bus Id="504873280" Name="TeamBus"/>
+				<Bus Id="1195823038" Name="Crystal_Bus"/>
+				<Bus Id="2508999640" Name="EnemBus"/>
+				<Bus Id="3803692087" Name="Master Audio Bus"/>
+				<Bus Id="3966895392" Name="PlayerBus"/>
+			</Busses>
+		</SoundBank>
+		<SoundBank Id="2597442952" Type="User" Language="SFX" Hash="{E3BD67D1-1094-B740-D606-74853E71AA73}">
+			<ShortName>Master_Bank</ShortName>
+			<Path>Master_Bank.bnk</Path>
+		</SoundBank>
+	</SoundBanks>
+	<FileHash>{1F217861-D857-04EA-C047-5AD3ED56BD0A}</FileHash>
+</SoundBanksInfo>

@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{EDB51FC4-5F79-4B41-85FE-4923DE9348CE}" SchemaVersion="119">
 	<SoundBanks>
-		<WorkUnit Name="Default Work Unit" ID="{EDB51FC4-5F79-4B41-85FE-4923DE9348CE}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{EDB51FC4-5F79-4B41-85FE-4923DE9348CE}" PersistMode="Standalone">
+			<ChildrenList>
+				<SoundBank Name="Master_Bank" ID="{C4545959-627D-4025-8849-D5E48965A490}">
+					<ObjectInclusionList>
+						<ObjectRef Name="crys_enembreak" ID="{33376529-803A-41DC-B86F-69CA77565688}" WorkUnitID="{5F11DC2E-3E26-4F4D-99F6-4187BC721C0D}" Origin="Manual" Filter="7"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+			</ChildrenList>
+		</WorkUnit>
 	</SoundBanks>
 </WwiseDocument>

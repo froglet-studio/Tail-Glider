@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{5F11DC2E-3E26-4F4D-99F6-4187BC721C0D}" SchemaVersion="119">
 	<Events>
-		<WorkUnit Name="Default Work Unit" ID="{5F11DC2E-3E26-4F4D-99F6-4187BC721C0D}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{5F11DC2E-3E26-4F4D-99F6-4187BC721C0D}" PersistMode="Standalone">
+			<ChildrenList>
+				<Folder Name="SFX" ID="{20E65289-FBFA-42BE-9FCB-BE7C0EB1B321}" ShortID="837194485">
+					<ChildrenList>
+						<Folder Name="Volumes" ID="{55CE8D36-17F8-4768-8DCF-FD91CA082238}" ShortID="544245046">
+							<ChildrenList>
+								<Folder Name="Crystals" ID="{FBB15A57-C341-4EAB-9DCD-66209642808F}" ShortID="412308650">
+									<ChildrenList>
+										<Event Name="crys_enembreak" ID="{33376529-803A-41DC-B86F-69CA77565688}">
+											<ChildrenList>
+												<Action Name="" ID="{762DFCCF-6BF4-4129-9465-A13188EF1211}" ShortID="931920600">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="crys_enembreak" ID="{3E65038A-A87D-4E51-8189-483E4F093011}" WorkUnitID="{99E7B6FE-AAD4-4444-8FED-7941CA79ECB8}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+									</ChildrenList>
+								</Folder>
+							</ChildrenList>
+						</Folder>
+					</ChildrenList>
+				</Folder>
+			</ChildrenList>
+		</WorkUnit>
 	</Events>
 </WwiseDocument>

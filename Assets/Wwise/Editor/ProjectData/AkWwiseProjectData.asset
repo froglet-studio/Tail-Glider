@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPath: Virtual Acoustics\Default Work Unit
     guid: 613b37bb4cff8e438fcc82310a9a931a
     GuidInternal: 
-    m_lastTime: -8585008701338257623
+    m_lastTime: -8584997308625646975
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
@@ -38,8 +38,94 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: cf8b144d575f3b41969d50c8707ca9dd
     GuidInternal: 
-    m_lastTime: -8585008701338137559
+    m_lastTime: -8584997305673704144
     List:
+    - name: Actors
+      guid: a7a252af82226a498d482e8668dd457b
+      id: 4151480447
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: cf8b144d575f3b41969d50c8707ca9dd
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: SFX
+        ObjectType: 4
+        guid: 5d378d4273c41643a23ef1fea0ef1a4a
+      - ElementName: Actors
+        ObjectType: 4
+        guid: a7a252af82226a498d482e8668dd457b
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\SFX\Actors
+    - name: Ambience
+      guid: 19fc68d85781c94b861190c90ca61a0d
+      id: 85412153
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: cf8b144d575f3b41969d50c8707ca9dd
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: SFX
+        ObjectType: 4
+        guid: 5d378d4273c41643a23ef1fea0ef1a4a
+      - ElementName: Ambience
+        ObjectType: 2
+        guid: 19fc68d85781c94b861190c90ca61a0d
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\SFX\Ambience
+    - name: Crystal_Bus
+      guid: 58ce5681a232aa4aacd6e16e0a39b943
+      id: 1195823038
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: cf8b144d575f3b41969d50c8707ca9dd
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: SFX
+        ObjectType: 4
+        guid: 5d378d4273c41643a23ef1fea0ef1a4a
+      - ElementName: Volumes
+        ObjectType: 4
+        guid: 4fd9452c1941d446b91ee472263f7e3b
+      - ElementName: Crystal_Bus
+        ObjectType: 2
+        guid: 58ce5681a232aa4aacd6e16e0a39b943
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\SFX\Volumes\Crystal_Bus
+    - name: EnemBus
+      guid: f22cbd6b881eb14aa84702b14ebc9b35
+      id: 2508999640
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: cf8b144d575f3b41969d50c8707ca9dd
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: SFX
+        ObjectType: 4
+        guid: 5d378d4273c41643a23ef1fea0ef1a4a
+      - ElementName: Actors
+        ObjectType: 4
+        guid: a7a252af82226a498d482e8668dd457b
+      - ElementName: EnemBus
+        ObjectType: 2
+        guid: f22cbd6b881eb14aa84702b14ebc9b35
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\SFX\Actors\EnemBus
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
       id: 3803692087
@@ -54,6 +140,89 @@ MonoBehaviour:
         ObjectType: 2
         guid: d8a41415a61d2a41a17e75ca0c2149f3
       Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus
+    - name: PlayerBus
+      guid: 095bbec9d8edc44e81078d3a906b367f
+      id: 3966895392
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: cf8b144d575f3b41969d50c8707ca9dd
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: SFX
+        ObjectType: 4
+        guid: 5d378d4273c41643a23ef1fea0ef1a4a
+      - ElementName: Actors
+        ObjectType: 4
+        guid: a7a252af82226a498d482e8668dd457b
+      - ElementName: PlayerBus
+        ObjectType: 2
+        guid: 095bbec9d8edc44e81078d3a906b367f
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\SFX\Actors\PlayerBus
+    - name: SFX
+      guid: 5d378d4273c41643a23ef1fea0ef1a4a
+      id: 393239870
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: cf8b144d575f3b41969d50c8707ca9dd
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: SFX
+        ObjectType: 4
+        guid: 5d378d4273c41643a23ef1fea0ef1a4a
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\SFX
+    - name: TeamBus
+      guid: 3595904d04edea418ce1a41f84ccec67
+      id: 504873280
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: cf8b144d575f3b41969d50c8707ca9dd
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: SFX
+        ObjectType: 4
+        guid: 5d378d4273c41643a23ef1fea0ef1a4a
+      - ElementName: Actors
+        ObjectType: 4
+        guid: a7a252af82226a498d482e8668dd457b
+      - ElementName: TeamBus
+        ObjectType: 2
+        guid: 3595904d04edea418ce1a41f84ccec67
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\SFX\Actors\TeamBus
+    - name: Volumes
+      guid: 4fd9452c1941d446b91ee472263f7e3b
+      id: 4043670282
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: cf8b144d575f3b41969d50c8707ca9dd
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: SFX
+        ObjectType: 4
+        guid: 5d378d4273c41643a23ef1fea0ef1a4a
+      - ElementName: Volumes
+        ObjectType: 4
+        guid: 4fd9452c1941d446b91ee472263f7e3b
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\SFX\Volumes
   BankWwu:
   - PhysicalPath: SoundBanks\Default Work Unit.wwu
     PathAndIcons:
@@ -66,8 +235,22 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: c41fb5ed795f414b85fe4923de9348ce
     GuidInternal: 
-    m_lastTime: -8585008701338387676
-    List: []
+    m_lastTime: -8584997301414288549
+    List:
+    - name: Master_Bank
+      guid: 595954c47d6225408849d5e48965a490
+      id: 2597442952
+      PathAndIcons:
+      - ElementName: SoundBanks
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: c41fb5ed795f414b85fe4923de9348ce
+      - ElementName: Master_Bank
+        ObjectType: 7
+        guid: 595954c47d6225408849d5e48965a490
+      Path: SoundBanks\Default Work Unit\Master_Bank
   EventWwu:
   - PhysicalPath: Events\Default Work Unit.wwu
     PathAndIcons:
@@ -80,8 +263,94 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 2edc115f263e4d4f99f64187bc721c0d
     GuidInternal: 
-    m_lastTime: -8585008701338087469
-    List: []
+    m_lastTime: -8584997305673894488
+    List:
+    - name: crys_enembreak
+      guid: 296537333a80dc41b86f69ca77565688
+      id: 3340174131
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 2edc115f263e4d4f99f64187bc721c0d
+      - ElementName: SFX
+        ObjectType: 4
+        guid: 8952e620fafbbe429fcbbe7c0eb1b321
+      - ElementName: Volumes
+        ObjectType: 4
+        guid: 368dce55f81768478dcffd91ca082238
+      - ElementName: Crystals
+        ObjectType: 4
+        guid: 575ab1fb41c3ab4e9dcd66209642808f
+      - ElementName: crys_enembreak
+        ObjectType: 3
+        guid: 296537333a80dc41b86f69ca77565688
+      Path: Events\Default Work Unit\SFX\Volumes\Crystals\crys_enembreak
+      maxAttenuation: 0
+      maxDuration: 1.4972109
+      minDuration: 1.1091156
+    - name: Crystals
+      guid: 575ab1fb41c3ab4e9dcd66209642808f
+      id: 1100010280
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 2edc115f263e4d4f99f64187bc721c0d
+      - ElementName: SFX
+        ObjectType: 4
+        guid: 8952e620fafbbe429fcbbe7c0eb1b321
+      - ElementName: Volumes
+        ObjectType: 4
+        guid: 368dce55f81768478dcffd91ca082238
+      - ElementName: Crystals
+        ObjectType: 4
+        guid: 575ab1fb41c3ab4e9dcd66209642808f
+      Path: Events\Default Work Unit\SFX\Volumes\Crystals
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: SFX
+      guid: 8952e620fafbbe429fcbbe7c0eb1b321
+      id: 393239870
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 2edc115f263e4d4f99f64187bc721c0d
+      - ElementName: SFX
+        ObjectType: 4
+        guid: 8952e620fafbbe429fcbbe7c0eb1b321
+      Path: Events\Default Work Unit\SFX
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Volumes
+      guid: 368dce55f81768478dcffd91ca082238
+      id: 4043670282
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 2edc115f263e4d4f99f64187bc721c0d
+      - ElementName: SFX
+        ObjectType: 4
+        guid: 8952e620fafbbe429fcbbe7c0eb1b321
+      - ElementName: Volumes
+        ObjectType: 4
+        guid: 368dce55f81768478dcffd91ca082238
+      Path: Events\Default Work Unit\SFX\Volumes
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
   RtpcWwu:
   - PhysicalPath: Game Parameters\Default Work Unit.wwu
     PathAndIcons:
@@ -94,7 +363,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 442fa4c24c2afe4384befdcf582e239d
     GuidInternal: 
-    m_lastTime: -8585008701338157677
+    m_lastTime: -8584997308626386767
     List: []
   StateWwu:
   - PhysicalPath: States\Default Work Unit.wwu
@@ -108,7 +377,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: 4a1b22208c80ac4183e7468cdded4128
     GuidInternal: 
-    m_lastTime: -8585008701338177629
+    m_lastTime: -8584997308625871797
     List: []
   SwitchWwu:
   - PhysicalPath: Switches\Default Work Unit.wwu
@@ -122,7 +391,7 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: ac127ff0ba975047a681cf66501a6508
     GuidInternal: 
-    m_lastTime: -8585008701338107626
+    m_lastTime: -8584997308625805977
     List: []
   TriggerWwu:
   - PhysicalPath: Triggers\Default Work Unit.wwu
@@ -136,10 +405,10 @@ MonoBehaviour:
     ParentPath: Triggers\Default Work Unit
     guid: 77f72e278732f748a2628f2133801070
     GuidInternal: 
-    m_lastTime: -8585008701338367664
+    m_lastTime: -8584997308625690514
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 
+  ExpandedWaapiItemIds: 050000000600000007000000180000001b000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0

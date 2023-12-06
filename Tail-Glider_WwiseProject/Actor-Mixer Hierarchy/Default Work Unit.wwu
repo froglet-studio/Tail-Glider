@@ -1,6 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{99E7B6FE-AAD4-4444-8FED-7941CA79ECB8}" SchemaVersion="119">
 	<AudioObjects>
-		<WorkUnit Name="Default Work Unit" ID="{99E7B6FE-AAD4-4444-8FED-7941CA79ECB8}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{99E7B6FE-AAD4-4444-8FED-7941CA79ECB8}" PersistMode="Standalone">
+			<ChildrenList>
+				<Folder Name="SFX" ID="{4D91A454-9A82-433A-A989-262A9A0D0337}" ShortID="19103529">
+					<ChildrenList>
+						<Folder Name="Volume" ID="{A66A7826-D719-4E04-9B1A-2FB75B9C43A3}" ShortID="29079425">
+							<ChildrenList>
+								<Folder Name="Crystals" ID="{4E517671-A4A2-4666-A650-8BF74848163D}" ShortID="213662708">
+									<ChildrenList>
+										<RandomSequenceContainer Name="crys_enembreak" ID="{3E65038A-A87D-4E51-8189-483E4F093011}" ShortID="372835722">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{4E8278A1-D0A6-4C10-B306-4724EF8FED4C}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Crystal_Bus" ID="{8156CE58-32A2-4AAA-ACD6-E16E0A39B943}" WorkUnitID="{4D148BCF-5F57-413B-969D-50C8707CA9DD}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="crys_enemlayer_var3_MN1-001" ID="{ED222581-ECED-4707-A08F-FA505E2278C8}" ShortID="579845541">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{4E8278A1-D0A6-4C10-B306-4724EF8FED4C}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D148BCF-5F57-413B-969D-50C8707CA9DD}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="crys_enemlayer_var3_MN1-001" ID="{69350739-DD93-4C9E-A55B-21C3C6EBEBDD}">
+															<Language>SFX</Language>
+															<AudioFile>crys_enemlayer_var3_MN1-001.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="612497618"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="crys_enemlayer_var3_MN1-001" ID="{69350739-DD93-4C9E-A55B-21C3C6EBEBDD}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="crys_enemlayer_var3_MN1-002" ID="{7217A1A2-D4E3-456A-8C0C-19D91A871509}" ShortID="201363953">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{4E8278A1-D0A6-4C10-B306-4724EF8FED4C}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D148BCF-5F57-413B-969D-50C8707CA9DD}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="crys_enemlayer_var3_MN1-002" ID="{BBFE8AED-25F7-40F8-B0D5-E7C9D812D202}">
+															<Language>SFX</Language>
+															<AudioFile>crys_enemlayer_var3_MN1-002.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="1050212946"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="crys_enemlayer_var3_MN1-002" ID="{BBFE8AED-25F7-40F8-B0D5-E7C9D812D202}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="crys_enemlayer_var3_MN1-003" ID="{5FEC401F-4279-47B4-A322-4561842A7556}" ShortID="168719026">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{4E8278A1-D0A6-4C10-B306-4724EF8FED4C}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D148BCF-5F57-413B-969D-50C8707CA9DD}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="crys_enemlayer_var3_MN1-003" ID="{BE24C91E-952E-4DBF-A0DA-FFC16039FF6F}">
+															<Language>SFX</Language>
+															<AudioFile>crys_enemlayer_var3_MN1-003.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="252204284"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="crys_enemlayer_var3_MN1-003" ID="{BE24C91E-952E-4DBF-A0DA-FFC16039FF6F}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="crys_enemlayer_var3_MN1-004" ID="{332360E6-949A-47B5-865E-11D7D1ED6BB6}" ShortID="790591758">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{4E8278A1-D0A6-4C10-B306-4724EF8FED4C}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D148BCF-5F57-413B-969D-50C8707CA9DD}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="crys_enemlayer_var3_MN1-004" ID="{836316D6-F5AD-4402-9FCD-338332AA5411}">
+															<Language>SFX</Language>
+															<AudioFile>crys_enemlayer_var3_MN1-004.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="119846100"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="crys_enemlayer_var3_MN1-004" ID="{836316D6-F5AD-4402-9FCD-338332AA5411}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="crys_enemlayer_var3_MN1-005" ID="{C52615C6-CECC-4BB6-941F-1D4BFC179E25}" ShortID="309159896">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{4E8278A1-D0A6-4C10-B306-4724EF8FED4C}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D148BCF-5F57-413B-969D-50C8707CA9DD}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="crys_enemlayer_var3_MN1-005" ID="{09ABE149-4F32-4875-991F-FA604ADA074E}">
+															<Language>SFX</Language>
+															<AudioFile>crys_enemlayer_var3_MN1-005.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="932591806"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="crys_enemlayer_var3_MN1-005" ID="{09ABE149-4F32-4875-991F-FA604ADA074E}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="crys_enemlayer_var3_MN1-006" ID="{C807A7C6-0DF2-467D-8CF9-7D17E2E31725}" ShortID="383558738">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{4E8278A1-D0A6-4C10-B306-4724EF8FED4C}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D148BCF-5F57-413B-969D-50C8707CA9DD}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="crys_enemlayer_var3_MN1-006" ID="{1F7637D9-B5AC-47F7-8E77-B2F072CEF48C}">
+															<Language>SFX</Language>
+															<AudioFile>crys_enemlayer_var3_MN1-006.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="50708850"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="crys_enemlayer_var3_MN1-006" ID="{1F7637D9-B5AC-47F7-8E77-B2F072CEF48C}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+									</ChildrenList>
+								</Folder>
+							</ChildrenList>
+						</Folder>
+					</ChildrenList>
+				</Folder>
+			</ChildrenList>
+		</WorkUnit>
 	</AudioObjects>
 </WwiseDocument>

@@ -9,6 +9,25 @@
 							<ObjectRef Name="System" ID="{7A9E1140-74C1-4918-B880-1C40DD8513D2}" WorkUnitID="{34F9D80A-74D3-43C3-ACF2-147BD7D87013}"/>
 						</Reference>
 					</ReferenceList>
+					<ChildrenList>
+						<Folder Name="SFX" ID="{428D375D-C473-4316-A23E-F1FEA0EF1A4A}" ShortID="486800901">
+							<ChildrenList>
+								<Folder Name="Actors" ID="{AF52A2A7-2282-496A-8D48-2E8668DD457B}" ShortID="766322760">
+									<ChildrenList>
+										<Bus Name="PlayerBus" ID="{C9BE5B09-EDD8-4EC4-8107-8D3A906B367F}"/>
+										<Bus Name="EnemBus" ID="{6BBD2CF2-1E88-4AB1-A847-02B14EBC9B35}"/>
+										<Bus Name="TeamBus" ID="{4D909535-ED04-41EA-8CE1-A41F84CCEC67}"/>
+									</ChildrenList>
+								</Folder>
+								<Bus Name="Ambience" ID="{D868FC19-8157-4BC9-8611-90C90CA61A0D}"/>
+								<Folder Name="Volumes" ID="{2C45D94F-4119-46D4-B91E-E472263F7E3B}" ShortID="480417381">
+									<ChildrenList>
+										<Bus Name="Crystal_Bus" ID="{8156CE58-32A2-4AAA-ACD6-E16E0A39B943}"/>
+									</ChildrenList>
+								</Folder>
+							</ChildrenList>
+						</Folder>
+					</ChildrenList>
 				</Bus>
 			</ChildrenList>
 		</WorkUnit>
