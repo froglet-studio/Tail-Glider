@@ -4,10 +4,22 @@
 		<WorkUnit Name="Default Work Unit" ID="{5F11DC2E-3E26-4F4D-99F6-4187BC721C0D}" PersistMode="Standalone">
 			<ChildrenList>
 				<Folder Name="SFX" ID="{20E65289-FBFA-42BE-9FCB-BE7C0EB1B321}" ShortID="837194485">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="19"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
 					<ChildrenList>
 						<Folder Name="Volumes" ID="{55CE8D36-17F8-4768-8DCF-FD91CA082238}" ShortID="544245046">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="16"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+							</PropertyList>
 							<ChildrenList>
 								<Folder Name="Crystals" ID="{FBB15A57-C341-4EAB-9DCD-66209642808F}" ShortID="412308650">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="15"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+									</PropertyList>
 									<ChildrenList>
 										<Event Name="crys_enembreak" ID="{33376529-803A-41DC-B86F-69CA77565688}">
 											<ChildrenList>
@@ -23,6 +35,68 @@
 									</ChildrenList>
 								</Folder>
 							</ChildrenList>
+						</Folder>
+						<Folder Name="Actors" ID="{61B55C05-2CB1-489D-8184-D19AEB0E7A5B}" ShortID="483367575">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="13"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+							</PropertyList>
+							<ChildrenList>
+								<Folder Name="Rhino" ID="{4BF5053F-77B8-44DA-A5F9-BAB2C71F91E8}" ShortID="233366812">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="13"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+									</PropertyList>
+									<ChildrenList>
+										<Event Name="rhino_boost" ID="{FBA1D192-B5FF-4395-9657-2DEED4CF2E7A}"/>
+									</ChildrenList>
+								</Folder>
+								<Folder Name="Manta" ID="{06800788-752C-4941-91E3-C23AECE41546}" ShortID="251487979">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="13"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+									</PropertyList>
+									<ChildrenList>
+										<Event Name="manta_steal" ID="{6BE16110-32A9-4DA3-8117-528C48905F81}">
+											<ChildrenList>
+												<Action Name="" ID="{4E0426C6-CF90-490A-93E4-ECD566636087}" ShortID="233978518">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="manta_seq" ID="{572B8C7D-7813-4320-8799-E7E31AD43CD1}" WorkUnitID="{99E7B6FE-AAD4-4444-8FED-7941CA79ECB8}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+										<Event Name="manta_gliding" ID="{3C9CB134-24C0-4521-A2A8-4518A8DF914B}"/>
+										<Event Name="manta_dropcrys" ID="{B966C894-238C-4C75-B42C-45BC55497628}"/>
+									</ChildrenList>
+								</Folder>
+								<Folder Name="Squirrel" ID="{69ED3A8E-74DB-4C85-A942-1EBE0E18B8FF}" ShortID="1025530417">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="13"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+									</PropertyList>
+								</Folder>
+								<Folder Name="Dolhpin" ID="{25226882-49CF-4244-B1F1-1343F7575514}" ShortID="725474457">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="13"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+									</PropertyList>
+								</Folder>
+							</ChildrenList>
+						</Folder>
+						<Folder Name="Ambience" ID="{24D9D812-F14A-4278-A7D0-34A1BC60FA53}" ShortID="436820147">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="2"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+							</PropertyList>
+						</Folder>
+						<Folder Name="UI" ID="{40E40CAA-9B30-4D26-9E09-13B810619159}" ShortID="317307967">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="10"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+							</PropertyList>
 						</Folder>
 					</ChildrenList>
 				</Folder>

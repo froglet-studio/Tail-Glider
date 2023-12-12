@@ -1,0 +1,12 @@
+Event	ID	Name			Wwise Object Path	Notes
+	2803998294	manta_steal			\Default Work Unit\SFX\Actors\Manta\manta_steal	
+	3340174131	crys_enembreak			\Default Work Unit\SFX\Volumes\Crystals\crys_enembreak	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	50708850	crys_enemlayer_var3_MN1-006	C:\Users\migue\OneDrive\Documents\GitHub\Tail-Glider\Tail-Glider_WwiseProject\.cache\Android\SFX\crys_enemlayer_var3_MN1-006_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Volume\Crystals\crys_enembreak\crys_enemlayer_var3_MN1-006		112896
+	119846100	crys_enemlayer_var3_MN1-004	C:\Users\migue\OneDrive\Documents\GitHub\Tail-Glider\Tail-Glider_WwiseProject\.cache\Android\SFX\crys_enemlayer_var3_MN1-004_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Volume\Crystals\crys_enembreak\crys_enemlayer_var3_MN1-004		124148
+	252204284	crys_enemlayer_var3_MN1-003	C:\Users\migue\OneDrive\Documents\GitHub\Tail-Glider\Tail-Glider_WwiseProject\.cache\Android\SFX\crys_enemlayer_var3_MN1-003_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Volume\Crystals\crys_enembreak\crys_enemlayer_var3_MN1-003		116906
+	612497618	crys_enemlayer_var3_MN1-001	C:\Users\migue\OneDrive\Documents\GitHub\Tail-Glider\Tail-Glider_WwiseProject\.cache\Android\SFX\crys_enemlayer_var3_MN1-001_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Volume\Crystals\crys_enembreak\crys_enemlayer_var3_MN1-001		112382
+	932591806	crys_enemlayer_var3_MN1-005	C:\Users\migue\OneDrive\Documents\GitHub\Tail-Glider\Tail-Glider_WwiseProject\.cache\Android\SFX\crys_enemlayer_var3_MN1-005_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Volume\Crystals\crys_enembreak\crys_enemlayer_var3_MN1-005		132150
+	1050212946	crys_enemlayer_var3_MN1-002	C:\Users\migue\OneDrive\Documents\GitHub\Tail-Glider\Tail-Glider_WwiseProject\.cache\Android\SFX\crys_enemlayer_var3_MN1-002_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Volume\Crystals\crys_enembreak\crys_enemlayer_var3_MN1-002		97920
+

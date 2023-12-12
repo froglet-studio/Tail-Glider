@@ -27,10 +27,49 @@
 				<Bus Id="3966895392" Name="PlayerBus"/>
 			</Busses>
 		</SoundBank>
-		<SoundBank Id="2597442952" Type="User" Language="SFX" Hash="{E3BD67D1-1094-B740-D606-74853E71AA73}">
+		<SoundBank Id="2597442952" Type="User" Language="SFX" Hash="{7EE9179D-34E3-4AC8-18C1-0E469A90050F}">
 			<ShortName>Master_Bank</ShortName>
 			<Path>Master_Bank.bnk</Path>
+			<Media>
+				<File Id="50708850" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>crys_enemlayer_var3_MN1-006.wav</ShortName>
+					<CachePath>SFX/crys_enemlayer_var3_MN1-006_818F3B66.wem</CachePath>
+				</File>
+				<File Id="119846100" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>crys_enemlayer_var3_MN1-004.wav</ShortName>
+					<CachePath>SFX/crys_enemlayer_var3_MN1-004_818F3B66.wem</CachePath>
+				</File>
+				<File Id="252204284" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>crys_enemlayer_var3_MN1-003.wav</ShortName>
+					<CachePath>SFX/crys_enemlayer_var3_MN1-003_818F3B66.wem</CachePath>
+				</File>
+				<File Id="612497618" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>crys_enemlayer_var3_MN1-001.wav</ShortName>
+					<CachePath>SFX/crys_enemlayer_var3_MN1-001_818F3B66.wem</CachePath>
+				</File>
+				<File Id="932591806" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>crys_enemlayer_var3_MN1-005.wav</ShortName>
+					<CachePath>SFX/crys_enemlayer_var3_MN1-005_818F3B66.wem</CachePath>
+				</File>
+				<File Id="1050212946" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>crys_enemlayer_var3_MN1-002.wav</ShortName>
+					<CachePath>SFX/crys_enemlayer_var3_MN1-002_818F3B66.wem</CachePath>
+				</File>
+			</Media>
+			<Events>
+				<Event Id="3340174131" Name="crys_enembreak" DurationType="OneShot" DurationMin="1.1091156" DurationMax="1.4972109">
+					<MediaRefs>
+						<MediaRef Id="50708850"/>
+						<MediaRef Id="119846100"/>
+						<MediaRef Id="252204284"/>
+						<MediaRef Id="612497618"/>
+						<MediaRef Id="932591806"/>
+						<MediaRef Id="1050212946"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2803998294" Name="manta_steal" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+			</Events>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{8BB80C80-4BA5-AA01-86DE-023D98C3CA29}</FileHash>
+	<FileHash>{BAD6965D-70A6-18F8-B2CA-4DC8ECF3C958}</FileHash>
 </SoundBanksInfo>

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{272EF777-3287-48F7-A262-8F2133801070}" SchemaVersion="119">
 	<Triggers>
-		<WorkUnit Name="Default Work Unit" ID="{272EF777-3287-48F7-A262-8F2133801070}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{272EF777-3287-48F7-A262-8F2133801070}" PersistMode="Standalone">
+			<ChildrenList>
+				<Trigger Name="enemy_progress" ID="{137FB428-7B66-4FBC-BEA2-6BEDC01CC1BE}"/>
+			</ChildrenList>
+		</WorkUnit>
 	</Triggers>
 </WwiseDocument>

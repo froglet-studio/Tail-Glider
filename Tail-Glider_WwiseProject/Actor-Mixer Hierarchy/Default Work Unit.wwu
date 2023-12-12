@@ -4,10 +4,22 @@
 		<WorkUnit Name="Default Work Unit" ID="{99E7B6FE-AAD4-4444-8FED-7941CA79ECB8}" PersistMode="Standalone">
 			<ChildrenList>
 				<Folder Name="SFX" ID="{4D91A454-9A82-433A-A989-262A9A0D0337}" ShortID="19103529">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="10"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
 					<ChildrenList>
 						<Folder Name="Volume" ID="{A66A7826-D719-4E04-9B1A-2FB75B9C43A3}" ShortID="29079425">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="5"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+							</PropertyList>
 							<ChildrenList>
 								<Folder Name="Crystals" ID="{4E517671-A4A2-4666-A650-8BF74848163D}" ShortID="213662708">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="16"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+									</PropertyList>
 									<ChildrenList>
 										<RandomSequenceContainer Name="crys_enembreak" ID="{3E65038A-A87D-4E51-8189-483E4F093011}" ShortID="372835722">
 											<ReferenceList>
@@ -152,10 +164,220 @@
 													</ActiveSourceList>
 												</Sound>
 											</ChildrenList>
+											<StateInfo>
+												<StateGroupList>
+													<StateGroupInfo>
+														<StateGroupRef Name="gamestate_inout" ID="{1B44D8E4-B1E7-4330-BA1F-946BCEE01530}"/>
+													</StateGroupInfo>
+												</StateGroupList>
+											</StateInfo>
+											<ObjectLists>
+												<ObjectList Name="RTPC">
+													<Reference>
+														<Local>
+															<RTPC Name="" ID="{9AD3B782-3378-4759-885A-97272D77FB09}" ShortID="1037383593">
+																<PropertyList>
+																	<Property Name="PropertyName" Type="string" Value="Volume"/>
+																</PropertyList>
+																<ReferenceList>
+																	<Reference Name="ControlInput">
+																		<ObjectRef Name="player_achievement" ID="{1558F63E-42D4-42B5-8DEE-5564B91A1CB3}" WorkUnitID="{C2A42F44-2A4C-43FE-84BE-FDCF582E239D}"/>
+																	</Reference>
+																	<Reference Name="Curve">
+																		<Custom>
+																			<Curve Name="" ID="{42DE1302-5B32-47AE-BFD5-BBABFB36AEC3}">
+																				<PropertyList>
+																					<Property Name="Flags" Type="int32" Value="3"/>
+																				</PropertyList>
+																				<PointList>
+																					<Point>
+																						<XPos>0</XPos>
+																						<YPos>-2.74924</YPos>
+																						<Flags>5</Flags>
+																					</Point>
+																					<Point>
+																						<XPos>47.99331</XPos>
+																						<YPos>-0.16356</YPos>
+																						<Flags>0</Flags>
+																					</Point>
+																					<Point>
+																						<XPos>100</XPos>
+																						<YPos>18.68997</YPos>
+																						<Flags>37</Flags>
+																					</Point>
+																				</PointList>
+																			</Curve>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</RTPC>
+														</Local>
+													</Reference>
+													<Reference>
+														<Local>
+															<RTPC Name="" ID="{78C5F4A5-80DC-41A3-82CF-A7CE7F496525}" ShortID="837160971">
+																<PropertyList>
+																	<Property Name="PropertyName" Type="string" Value="Lowpass"/>
+																</PropertyList>
+																<ReferenceList>
+																	<Reference Name="ControlInput">
+																		<ObjectRef Name="New Modulator Envelope" ID="{05B543FE-EB78-4EB6-8416-390D84223D16}" WorkUnitID="{3FB82981-4DD2-4B3F-BF15-0C7E833473D9}"/>
+																	</Reference>
+																	<Reference Name="Curve">
+																		<Custom>
+																			<Curve Name="" ID="{B8DDB7D2-8D1E-4D7D-B693-DA3D9851580A}">
+																				<PropertyList>
+																					<Property Name="Flags" Type="int32" Value="65537"/>
+																				</PropertyList>
+																				<PointList>
+																					<Point>
+																						<XPos>0</XPos>
+																						<YPos>-100</YPos>
+																						<Flags>21</Flags>
+																					</Point>
+																					<Point>
+																						<XPos>1</XPos>
+																						<YPos>75</YPos>
+																						<Flags>53</Flags>
+																					</Point>
+																				</PointList>
+																			</Curve>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</RTPC>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</RandomSequenceContainer>
+										<RandomSequenceContainer Name="crys_playerbreak" ID="{F65A2D2E-788B-4568-A0AF-013A871A92D1}" ShortID="524210297">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{4E8278A1-D0A6-4C10-B306-4724EF8FED4C}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D148BCF-5F57-413B-969D-50C8707CA9DD}"/>
+												</Reference>
+											</ReferenceList>
+										</RandomSequenceContainer>
+										<RandomSequenceContainer Name="crys_teammatebreak" ID="{8BC39829-1311-4D29-BE81-9E7048633C98}" ShortID="591459368">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{4E8278A1-D0A6-4C10-B306-4724EF8FED4C}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D148BCF-5F57-413B-969D-50C8707CA9DD}"/>
+												</Reference>
+											</ReferenceList>
 										</RandomSequenceContainer>
 									</ChildrenList>
 								</Folder>
 							</ChildrenList>
+						</Folder>
+						<Folder Name="Actors" ID="{D54565DA-DAF9-44EF-9298-73A03DB129B4}" ShortID="892955880">
+							<ChildrenList>
+								<Folder Name="Rhino" ID="{4CBE0805-3560-499C-8879-920303F7B9AC}" ShortID="167700893">
+									<ChildrenList>
+										<RandomSequenceContainer Name="rhino_boost" ID="{F937197E-441D-4D6B-A650-9CEE290EA597}" ShortID="466280047">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{4E8278A1-D0A6-4C10-B306-4724EF8FED4C}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D148BCF-5F57-413B-969D-50C8707CA9DD}"/>
+												</Reference>
+											</ReferenceList>
+										</RandomSequenceContainer>
+									</ChildrenList>
+								</Folder>
+								<Folder Name="Manta" ID="{541E5119-D1C0-4138-BAB4-C1667B22AE12}" ShortID="250565457">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="15"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+									</PropertyList>
+									<ChildrenList>
+										<RandomSequenceContainer Name="manta_seq" ID="{572B8C7D-7813-4320-8799-E7E31AD43CD1}" ShortID="344849279">
+											<PropertyList>
+												<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{4E8278A1-D0A6-4C10-B306-4724EF8FED4C}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="PlayerBus" ID="{C9BE5B09-EDD8-4EC4-8107-8D3A906B367F}" WorkUnitID="{4D148BCF-5F57-413B-969D-50C8707CA9DD}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<RandomSequenceContainer Name="manta_stealing" ID="{44FADDE8-C7F3-49A2-BDB1-710253C4F088}" ShortID="731856083">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{4E8278A1-D0A6-4C10-B306-4724EF8FED4C}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D148BCF-5F57-413B-969D-50C8707CA9DD}"/>
+														</Reference>
+													</ReferenceList>
+												</RandomSequenceContainer>
+												<RandomSequenceContainer Name="manta_gliding" ID="{644CEE2C-7973-4079-8946-3C00C48CF470}" ShortID="99236302">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{4E8278A1-D0A6-4C10-B306-4724EF8FED4C}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D148BCF-5F57-413B-969D-50C8707CA9DD}"/>
+														</Reference>
+													</ReferenceList>
+													<StateInfo>
+														<StateGroupList>
+															<StateGroupInfo>
+																<StateGroupRef Name="gamestate_inout" ID="{1B44D8E4-B1E7-4330-BA1F-946BCEE01530}"/>
+															</StateGroupInfo>
+														</StateGroupList>
+													</StateInfo>
+												</RandomSequenceContainer>
+											</ChildrenList>
+										</RandomSequenceContainer>
+									</ChildrenList>
+								</Folder>
+								<Folder Name="Squirrel" ID="{D8DB540A-BA6B-4F0E-9A02-C9E818E4091B}" ShortID="176752395">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="23"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+									</PropertyList>
+								</Folder>
+								<Folder Name="Dolphin" ID="{21A11F5C-1D41-47A0-9DE6-D51EDBCCECCE}" ShortID="475423603">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="23"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+									</PropertyList>
+									<ChildrenList>
+										<RandomSequenceContainer Name="dolph_chargeup" ID="{4D4131C2-1BD0-45E8-BD94-FC388627A0DF}" ShortID="1031579549">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{4E8278A1-D0A6-4C10-B306-4724EF8FED4C}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{4D148BCF-5F57-413B-969D-50C8707CA9DD}"/>
+												</Reference>
+											</ReferenceList>
+										</RandomSequenceContainer>
+									</ChildrenList>
+								</Folder>
+							</ChildrenList>
+						</Folder>
+						<Folder Name="UI" ID="{4F4317AD-35D9-4826-9A98-889194A98856}" ShortID="1397391">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="20"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+							</PropertyList>
+						</Folder>
+						<Folder Name="Ambience" ID="{904AB24C-7F9C-49F4-9568-C58081D31080}" ShortID="1058967452">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="1"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+							</PropertyList>
 						</Folder>
 					</ChildrenList>
 				</Folder>

@@ -6,6 +6,8 @@
 				<SoundBank Name="Master_Bank" ID="{C4545959-627D-4025-8849-D5E48965A490}">
 					<ObjectInclusionList>
 						<ObjectRef Name="crys_enembreak" ID="{33376529-803A-41DC-B86F-69CA77565688}" WorkUnitID="{5F11DC2E-3E26-4F4D-99F6-4187BC721C0D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX" ID="{20E65289-FBFA-42BE-9FCB-BE7C0EB1B321}" WorkUnitID="{5F11DC2E-3E26-4F4D-99F6-4187BC721C0D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX" ID="{4D91A454-9A82-433A-A989-262A9A0D0337}" WorkUnitID="{99E7B6FE-AAD4-4444-8FED-7941CA79ECB8}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>

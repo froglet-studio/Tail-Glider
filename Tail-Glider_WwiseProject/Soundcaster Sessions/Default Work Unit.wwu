@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{DD7D019E-A31A-4E3C-A6BB-BFED0E9AB255}" SchemaVersion="119">
 	<SoundcasterSessions>
-		<WorkUnit Name="Default Work Unit" ID="{DD7D019E-A31A-4E3C-A6BB-BFED0E9AB255}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{DD7D019E-A31A-4E3C-A6BB-BFED0E9AB255}" PersistMode="Standalone">
+			<ChildrenList>
+				<SoundcasterSession Name="PlayerShip" ID="{E3E34ACA-CC20-43AD-B936-E3D7E4F783BE}">
+					<ModuleList>
+						<Module>
+							<ObjectRef Name="manta_gliding" ID="{3C9CB134-24C0-4521-A2A8-4518A8DF914B}" WorkUnitID="{5F11DC2E-3E26-4F4D-99F6-4187BC721C0D}"/>
+							<Position X="0" Y="1"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="manta_steal" ID="{6BE16110-32A9-4DA3-8117-528C48905F81}" WorkUnitID="{5F11DC2E-3E26-4F4D-99F6-4187BC721C0D}"/>
+							<Position X="1" Y="1"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="manta_dropcrys" ID="{B966C894-238C-4C75-B42C-45BC55497628}" WorkUnitID="{5F11DC2E-3E26-4F4D-99F6-4187BC721C0D}"/>
+							<Position X="2" Y="1"/>
+						</Module>
+					</ModuleList>
+					<RTPCValueList ShowAll="true">
+						<RTPCValue>
+							<GameParameterRef Name="player_achievement" ID="{1558F63E-42D4-42B5-8DEE-5564B91A1CB3}"/>
+							<Value>37.9498327759197</Value>
+						</RTPCValue>
+					</RTPCValueList>
+					<CurrentStateList ShowAll="true"/>
+					<CurrentSwitchList ShowAll="true"/>
+				</SoundcasterSession>
+			</ChildrenList>
+		</WorkUnit>
 	</SoundcasterSessions>
 </WwiseDocument>

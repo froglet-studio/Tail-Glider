@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{F07F12AC-97BA-4750-A681-CF66501A6508}" SchemaVersion="119">
 	<Switches>
-		<WorkUnit Name="Default Work Unit" ID="{F07F12AC-97BA-4750-A681-CF66501A6508}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{F07F12AC-97BA-4750-A681-CF66501A6508}" PersistMode="Standalone">
+			<ChildrenList>
+				<SwitchGroup Name="camera_switch" ID="{C97444FE-21FA-44B1-BC27-862022B8FE9D}">
+					<SwitchOnRTPC>
+						<GameParameterRef Name="player_achievement" ID="{1558F63E-42D4-42B5-8DEE-5564B91A1CB3}"/>
+						<Curve Name="" ID="{8A577743-217F-4534-8977-E98AADAC4385}">
+							<PropertyList>
+								<Property Name="Flags" Type="int32" Value="65537"/>
+							</PropertyList>
+							<PointList>
+								<Point>
+									<XPos>0</XPos>
+									<YPos>0</YPos>
+									<Flags>5</Flags>
+								</Point>
+								<Point>
+									<XPos>100</XPos>
+									<YPos>0</YPos>
+									<Flags>37</Flags>
+								</Point>
+							</PointList>
+						</Curve>
+					</SwitchOnRTPC>
+				</SwitchGroup>
+				<SwitchGroup Name="ship_switch" ID="{932301B4-2CB5-4EEA-AECE-6476EA62D364}"/>
+			</ChildrenList>
+		</WorkUnit>
 	</Switches>
 </WwiseDocument>
