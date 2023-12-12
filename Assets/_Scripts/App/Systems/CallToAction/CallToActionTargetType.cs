@@ -9,6 +9,7 @@ namespace CosmicShore.App.Systems.CTA
 
         // Store Related - 200s
         StoreMenu = 200,
+        ClickDailyReward = 201,
 
         // Hangar Related - 300s
         HangarMenu = 300,
@@ -20,7 +21,7 @@ namespace CosmicShore.App.Systems.CTA
         // Game Play - 400s
         PlayGameSport = 401,
         PlayGameMission = 402,
-        PlayGameDolphinDarts = 403,
+        PlayGameDarts = 403,
         PlayGameRampage = 404,
         PlayGameElimination = 405,
         PlayGameCosmicDrift = 406,
@@ -30,14 +31,14 @@ namespace CosmicShore.App.Systems.CTA
         PlayGameCellularDuel = 410,
         PlayGameCellularBrawl = 411,
         PlayGameDashAndGrab = 412,
-        PlayGameDriftCourse = 413,
+        PlayGameRiskyDriftness = 413,
         PlayGameDenial = 414,
         PlayGameCatNMouse = 415,
         PlayGameStripNStride = 416,
         PlayGamePumpNDump = 417,
         PlayGameMasterExploder = 418,
         PlayGameSoar = 419,
-        PlayGameObstacleCoarse = 420,
+        PlayGameObstacleCourse = 420,
         PlayGameDistraction = 421,
         PlayGameRhinoRun = 422,
         PlayGameKickinMass = 423,
