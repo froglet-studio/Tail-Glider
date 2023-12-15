@@ -35,7 +35,6 @@ namespace CosmicShore
             
 
             var trail = new Trail();
-            var position = new Vector3(Orgin.x, Orgin.y, Orgin.z);
 
             // Head //
             for (int ring = 0; ring < ringCountHead; ring++) //ring = X value

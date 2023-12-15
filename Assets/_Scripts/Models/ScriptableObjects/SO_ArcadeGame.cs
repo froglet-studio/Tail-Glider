@@ -16,8 +16,11 @@ public class SO_ArcadeGame : ScriptableObject
     public Sprite CardBackground;
     public VideoPlayer PreviewClip;
     public List<SO_Vessel> Vessels;
+    public bool GolfScoring;
     [Min(1)] public int MinPlayers = 1;
     [Range(1, 3)] public int MaxPlayers = 2;
+    [Min(1)] public int MinIntensity = 1;
+    [Range(1, 4)] public int MaxIntensity = 4;
     public string SceneName;
     public CallToActionTargetType CallToActionTargetType;
     public UserActionType ViewUserAction;
