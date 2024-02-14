@@ -44,6 +44,7 @@ namespace CosmicShore.Game.IO
         [HideInInspector] public Vector2 RightJoystickStart, LeftJoystickStart;
         [HideInInspector] public Vector2 RightNormalizedJoystickPosition, LeftNormalizedJoystickPosition;
         Vector2 RightJoystickValue, LeftJoystickValue;
+        public Vector2 SingleTouchValue;
         [HideInInspector] public Vector2 EasedRightJoystickPosition, EasedLeftJoystickPosition;
         float JoystickRadius;
 
@@ -114,16 +115,23 @@ namespace CosmicShore.Game.IO
         {
             if (AutoPilotEnabled)
             {
-                XSum = ship.AutoPilot.XSum;
-                YSum = ship.AutoPilot.YSum;
-                XDiff = ship.AutoPilot.XDiff;
-                YDiff = ship.AutoPilot.YDiff;
+                if (ship.ShipStatus.SingleStickControls)
+                {
+                    EasedLeftJoystickPosition.x = ship.AutoPilot.X;
+                    EasedLeftJoystickPosition.y = ship.AutoPilot.Y;
+                }
+                else
+                {
+                    XSum = ship.AutoPilot.XSum;
+                    YSum = ship.AutoPilot.YSum;
+                    XDiff = ship.AutoPilot.XDiff;
+                    YDiff = ship.AutoPilot.YDiff;
+                }
+     
                 PerformSpeedAndDirectionalEffects();
             }
             else if (Gamepad.current != null)
             {
-
-
                 LeftNormalizedJoystickPosition.x = Gamepad.current.leftStick.x.ReadValue();
                 LeftNormalizedJoystickPosition.y = Gamepad.current.leftStick.y.ReadValue();
                 RightNormalizedJoystickPosition.x = Gamepad.current.rightStick.x.ReadValue();
@@ -215,6 +223,7 @@ namespace CosmicShore.Game.IO
                     if (Input.touchCount == 1)
                     {
                         var position = Input.touches[0].position;
+                        SingleTouchValue = position;
 
                         if (Vector2.Distance(LeftJoystickValue, position) < Vector2.Distance(RightJoystickValue, position))
                         {
@@ -271,7 +280,7 @@ namespace CosmicShore.Game.IO
                     YDiff = 0;
 
                     Idle = true;
-                    ship.PerformShipControllerActions(InputEvents.IdleAction); // consider placing some stop methods for other Input events here  
+                    if (ship) ship.PerformShipControllerActions(InputEvents.IdleAction); // consider placing some stop methods for other Input events here  
                 }
             }
         }

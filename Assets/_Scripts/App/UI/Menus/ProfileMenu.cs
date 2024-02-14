@@ -5,6 +5,7 @@ using PlayFab.ClientModels;
 using System;
 using System.Collections;
 using System.Security;
+using CosmicShore.Utility.ClassExtensions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -453,15 +454,16 @@ namespace CosmicShore.App.UI.Menus
                 BusyIndicator.SetActive(false);
             }
             
-            if (AuthenticationManager.PlayerProfile == null)
+            if (AuthenticationManager.UserProfile == null)
             {
                 Debug.LogWarning("Player profile has not yet loaded.");
                 return;
             }
             
-            if(!string.IsNullOrEmpty(AuthenticationManager.PlayerProfile.DisplayName))
-                displayNameInputField.text = AuthenticationManager.PlayerProfile.DisplayName;
+            if(!string.IsNullOrEmpty(AuthenticationManager.UserProfile.DisplayName))
+                displayNameInputField.text = AuthenticationManager.UserProfile.DisplayName;
 
+            if (displayNameResultMessage == null) return;
             displayNameResultMessage.gameObject.SetActive(true);
         }
 

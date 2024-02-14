@@ -27,8 +27,12 @@ namespace CosmicShore.Game.IO
         /// <param name="type">Haptic type</param>
         public static void PlayHaptic(HapticType type)
         {
-            if (!GameSetting.Instance.HapticsEnabled)
+            Debug.Log($"PlayHaptic - HapticType:{type}");
+            if (!GameSetting.Instance.HapticsEnabled || GameSetting.Instance.HapticsLevel == 0)
                 return;
+
+            // TODO: would be better to have a haptics manager register for the event in the gamesetting instance to adjust the haptics level
+            Lofelt.NiceVibrations.HapticController.outputLevel = GameSetting.Instance.HapticsLevel;
 
             var pattern = GetPatternForHapticType(type);
             

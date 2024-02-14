@@ -1,7 +1,4 @@
-#nullable enable
 using System;
-using System.Collections.Generic;
-using CosmicShore.App.Systems.CTA;
 using CosmicShore.App.Systems.UserActions;
 using Firebase;
 using Firebase.Analytics;
@@ -16,21 +13,21 @@ namespace CosmicShore.Integrations.Firebase.Controller
         private static DependencyStatus _dependencyStatus = DependencyStatus.Available;
         public delegate void DependencyResolved();
 
-        public static event DependencyResolved OnDependnecyResolved;
-        private FirebaseApp _app;
+        public static event DependencyResolved OnDependencyResolved;
+        // private FirebaseApp _app;
         
         #region Firebase Analytics Controller Initialization and Enabling
         
         private void Start()
         {
             CheckDependencies();
-            OnDependnecyResolved += InitializeFirebaseAnalytics;
+            OnDependencyResolved += InitializeFirebaseAnalytics;
             UserActionSystem.Instance.OnUserActionCompleted += LogEventUserCompleteAction;
         }
 
         private void OnDisable()
         {
-            OnDependnecyResolved -= InitializeFirebaseAnalytics;
+            OnDependencyResolved -= InitializeFirebaseAnalytics;
             if(UserActionSystem.Instance) UserActionSystem.Instance.OnUserActionCompleted -= LogEventUserCompleteAction;
             _analyticsEnabled = false;
         }
@@ -64,7 +61,7 @@ namespace CosmicShore.Integrations.Firebase.Controller
                     if (_dependencyStatus == DependencyStatus.Available)
                     {
                         Debug.Log("Dependency resolved, now proceed with Firebase");
-                        OnDependnecyResolved?.Invoke();
+                        OnDependencyResolved?.Invoke();
                     }
                     else
                     {
@@ -87,7 +84,7 @@ namespace CosmicShore.Integrations.Firebase.Controller
                     if (_dependencyStatus == DependencyStatus.Available)
                     {
                         Debug.Log("Dependency resolved, now proceed with Firebase");
-                        OnDependnecyResolved?.Invoke();
+                        OnDependencyResolved?.Invoke();
                     }
                     else
                     {
@@ -102,7 +99,8 @@ namespace CosmicShore.Integrations.Firebase.Controller
         private void InitializeFirebaseAnalytics()
         {
             // Firebase analytics initialization
-            _app = FirebaseApp.DefaultInstance;
+            // _app = FirebaseApp.DefaultInstance;
+            // _app.Options.
             
             // Enable Firebase Analytics Data Collection TODO: ask player consent for data collection
             FirebaseAnalytics.SetAnalyticsCollectionEnabled(true);
@@ -181,9 +179,9 @@ namespace CosmicShore.Integrations.Firebase.Controller
 
             var parameters = new[]
             {
-                new Parameter("user_action_completed", action.Label),
-                new Parameter("user_action_type", action.ActionType.ToString()),
-                new Parameter("user_action_value", action.Value)
+                new Parameter(FirebaseAnalytics.ParameterContent, action.Label),
+                new Parameter(FirebaseAnalytics.ParameterContentType, action.ActionType.ToString()),
+                new Parameter(FirebaseAnalytics.ParameterValue, action.Value)
             };
             
             FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventScreenView, parameters);
@@ -210,8 +208,8 @@ namespace CosmicShore.Integrations.Firebase.Controller
                 new Parameter(FirebaseAnalytics.ParameterLevel, nameof(MiniGames)),
                 new Parameter(FirebaseAnalytics.ParameterLevelName, mode.ToString()),
                 new Parameter(FirebaseAnalytics.ParameterCharacter, ship.ToString()),
-                new Parameter("mini_game_player_count", playerCount),
-                new Parameter("mini_game_intensity", intensity),
+                new Parameter(FirebaseAnalytics.ParameterQuantity, playerCount),
+                new Parameter(FirebaseAnalytics.ParameterIndex, intensity)
             };
             
             // // Event dictionary for Unity Analytics Service
@@ -251,8 +249,8 @@ namespace CosmicShore.Integrations.Firebase.Controller
                 new Parameter(FirebaseAnalytics.ParameterLevel, nameof(MiniGames)),
                 new Parameter(FirebaseAnalytics.ParameterLevelName, mode.ToString()),
                 new Parameter(FirebaseAnalytics.ParameterCharacter, ship.ToString()),
-                new Parameter("mini_game_player_count", playerCount),
-                new Parameter("mini_game_intensity", intensity),
+                new Parameter(FirebaseAnalytics.ParameterQuantity, playerCount),
+                new Parameter(FirebaseAnalytics.ParameterIndex, intensity),
                 new Parameter(FirebaseAnalytics.ParameterScore, highScore)
             };
             

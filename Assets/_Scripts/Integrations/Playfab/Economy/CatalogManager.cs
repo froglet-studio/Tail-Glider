@@ -48,13 +48,13 @@ namespace CosmicShore.Integrations.Playfab.Economy
         /// </summary>
         static void InitializePlayFabEconomyAPI()
         {
-            if (AuthenticationManager.PlayerAccount.AuthContext == null)
+            if (AuthenticationManager.PlayFabAccount.AuthContext == null)
             {
                 Debug.LogWarning($"Current Player has not logged in yet.");
                 return;
             }
             // Null check for PlayFab Economy API instance
-            _playFabEconomyInstanceAPI??= new PlayFabEconomyInstanceAPI(AuthenticationManager.PlayerAccount.AuthContext);
+            _playFabEconomyInstanceAPI??= new PlayFabEconomyInstanceAPI(AuthenticationManager.PlayFabAccount.AuthContext);
             Debug.LogFormat("{0} - {1}: PlayFab Economy API initialized.", nameof(CatalogManager), nameof(InitializePlayFabEconomyAPI));
         }
 
@@ -149,9 +149,7 @@ namespace CosmicShore.Integrations.Playfab.Economy
         #endregion
 
         #region Inventory Operations
-        /// <summary>
-        /// Grant Vessel Knowledge
-        /// </summary>
+
         // TODO: vessel knowledge is now part of player data, not a store item. Should re-wire the API calls from PlayerDataController.
         // public void GrantVesselKnowledge(int amount, ShipTypes shipClass, Element element)
         // {
@@ -319,7 +317,7 @@ namespace CosmicShore.Integrations.Playfab.Economy
                     _playerInventory.Crystals.Add(item);
                     break;
                 default:
-                    Debug.LogWarningFormat("{0} - {1} - {2} Item Content Type not related to player inventory items, such as Stores and Subscriptions.", nameof(CatalogManager), nameof(AddToInventory));
+                    Debug.LogWarningFormat("{0} - {1} - Item Content Type not related to player inventory items, such as Stores and Subscriptions.", nameof(CatalogManager), nameof(AddToInventory));
                     break;
             }
         }
