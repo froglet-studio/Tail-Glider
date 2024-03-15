@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{cb7975fc-8c90-4a10-9bb9-1944b2c412ee}">
+		<property name="assetPath">
+			<value>crys_/Charge_Crystals/crys_teammate_char/23_02/crys_charge_tm_v2-007.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>1.973764172335601</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{921f1962-17ee-4315-8fb9-ef6616586a6e}</destination>
+		</relationship>
+	</object>
+</objects>

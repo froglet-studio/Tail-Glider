@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{817d6a52-3c41-46cf-89b5-7daac2d80f83}">
+		<property name="assetPath">
+			<value>crys_/Mass_Crystals/crys_enem/14_02/crys_enemy_mass-002.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>1.4074603174603175</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{921f1962-17ee-4315-8fb9-ef6616586a6e}</destination>
+		</relationship>
+	</object>
+</objects>

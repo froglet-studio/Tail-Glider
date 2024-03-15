@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{4f65f28a-3ea0-454c-8a1c-043f64e5bead}">
+		<property name="assetPath">
+			<value>crys_/Time_Crystals/crys_player/crys_player_time/07_02/crys_teamrtime_var1_crystrans_short_MN-003.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>2.7529251700680271</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{921f1962-17ee-4315-8fb9-ef6616586a6e}</destination>
+		</relationship>
+	</object>
+</objects>

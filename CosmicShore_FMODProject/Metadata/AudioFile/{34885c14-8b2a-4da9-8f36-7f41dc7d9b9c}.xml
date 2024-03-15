@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{34885c14-8b2a-4da9-8f36-7f41dc7d9b9c}">
+		<property name="assetPath">
+			<value>crys_/Mass_Crystals/crys_player/21_02/crys_player_mass_v1-002.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>2.063628117913832</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{921f1962-17ee-4315-8fb9-ef6616586a6e}</destination>
+		</relationship>
+	</object>
+</objects>
