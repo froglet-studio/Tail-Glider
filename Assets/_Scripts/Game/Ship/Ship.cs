@@ -5,8 +5,8 @@ using System.Linq;
 using UnityEngine;
 using CosmicShore.Game.AI;
 using CosmicShore.Game.Projectiles;
-using CosmicShore.Integrations.Enums;
 using CosmicShore.Models.ScriptableObjects;
+using Unity.Netcode;
 
 namespace CosmicShore.Core
 {
@@ -27,22 +27,22 @@ namespace CosmicShore.Core
     [RequireComponent(typeof(ResourceSystem))]
     [RequireComponent(typeof(TrailSpawner))]
     [RequireComponent(typeof(ShipStatus))]
-    public class Ship : MonoBehaviour
+    public class Ship : NetworkBehaviour
     {
         [SerializeField] List<ImpactProperties> impactProperties;
-        [HideInInspector] public CameraManager cameraManager;
-        [HideInInspector] public InputController InputController;
-        [HideInInspector] public ResourceSystem ResourceSystem;
+        public CameraManager CameraManager { get; private set; }
+        public InputController InputController { get; set; }
+        public ResourceSystem ResourceSystem { get; private set; }
 
         [Header("Ship Meta")]
         [SerializeField] string Name;
         [SerializeField] public ShipTypes ShipType;
 
         [Header("Ship Components")]
-        [HideInInspector] public TrailSpawner TrailSpawner;
-        [HideInInspector] public ShipTransformer ShipTransformer;
-        [HideInInspector] public AIPilot AutoPilot;
-        [HideInInspector] public ShipStatus ShipStatus;
+        public TrailSpawner TrailSpawner { get; private set; }
+        public ShipTransformer ShipTransformer { get; private set; }
+        public AIPilot AutoPilot { get; private set; }
+        public ShipStatus ShipStatus { get; private set; }
         [SerializeField] Skimmer nearFieldSkimmer;
         [SerializeField] GameObject OrientationHandle;
         [SerializeField] public List<GameObject> shipGeometries;
@@ -89,9 +89,9 @@ namespace CosmicShore.Core
         Dictionary<ResourceEvents, float> resourceAbilityStartTimes = new();
 
         Material ShipMaterial;
-        [HideInInspector] public Material AOEExplosionMaterial;
-        [HideInInspector] public Material AOEConicExplosionMaterial;
-        [HideInInspector] public Material SkimmerMaterial;
+        public Material AOEExplosionMaterial {get; set;}
+        public Material AOEConicExplosionMaterial {get; set;}
+        public Material SkimmerMaterial {get; set;}
         float speedModifierDuration = 2f;
         
         // Vessel and vessel upgrade properties
@@ -152,7 +152,7 @@ namespace CosmicShore.Core
 
         void Start()
         {
-            cameraManager = CameraManager.Instance;
+            CameraManager = CameraManager.Instance;
             InputController = player.GetComponent<InputController>();
             AutoPilot = GetComponent<AIPilot>();
             if (!FollowTarget) FollowTarget = transform;
@@ -198,6 +198,11 @@ namespace CosmicShore.Core
                     Player.GameCanvas.MiniGameHUD.SetButtonActive(!CheckIfUsingGamepad(), 3);
                 }
             }
+        }
+
+        public override void OnNetworkSpawn()
+        {
+            // if(IsClient)
         }
 
         bool CheckIfUsingGamepad()
@@ -513,6 +518,8 @@ namespace CosmicShore.Core
                 ShipStatus.AttachedTrailBlock = trailBlock;
             }
         }
+
+        public List<GameObject> GetShipGeometries() => shipGeometries;
 
     }
 }

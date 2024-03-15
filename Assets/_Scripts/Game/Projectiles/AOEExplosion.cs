@@ -28,7 +28,7 @@ namespace CosmicShore.Game.Projectiles
         protected static GameObject container;
 
         // Material and Team
-        [HideInInspector] public Material Material { get; set; }
+        public Material Material { get; set; }
         [HideInInspector] public Teams Team;
         [HideInInspector] public Ship Ship;
         [HideInInspector] public bool AnonymousExplosion;

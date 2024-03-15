@@ -107,7 +107,8 @@ namespace CosmicShore.Environment.FlowField
                     if (shipImpactEffects)
                     {
                         ship.PerformCrystalImpactEffects(crystalProperties);
-                        if (ship.TryGetComponent<AIPilot>(out var aiPilot))
+                        var aiPilot = ship.GetComponent<AIPilot>();
+                        if (aiPilot is not null)
                         {
                             aiPilot.aggressiveness = aiPilot.defaultAggressiveness;
                             aiPilot.throttle = aiPilot.defaultThrottle;
@@ -127,7 +128,8 @@ namespace CosmicShore.Environment.FlowField
                     if (shipImpactEffects)
                     {
                         projectile.PerformCrystalImpactEffects(crystalProperties);
-                        if (ship.TryGetComponent<AIPilot>(out var aiPilot))
+                        var aiPilot = ship.GetComponent<AIPilot>();
+                        if (aiPilot is not null)
                         {
                             aiPilot.aggressiveness = aiPilot.defaultAggressiveness;
                             aiPilot.throttle = aiPilot.defaultThrottle;

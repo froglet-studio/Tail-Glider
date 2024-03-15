@@ -1,21 +1,27 @@
+using CosmicShore.Core;
 using CosmicShore.Game.IO;
 
 public class ToggleGyroAction : ShipAction
 {
-    InputController inputController;
+    InputController _inputController;
 
     protected override void Start()
     {
-        if (ship) inputController = ship.InputController;
+        if (ship is null)
+        {
+            ship = GetComponentInParent<Ship>();
+            _inputController = ship.InputController;
+        }
+        
     }
 
     public override void StartAction()
     {
-        inputController.OnToggleGyro(true);
+        _inputController.OnToggleGyro(true);
     }
 
     public override void StopAction()
     {
-        inputController.OnToggleGyro(false);
+        _inputController.OnToggleGyro(false);
     }
 }
