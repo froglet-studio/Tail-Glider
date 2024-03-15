@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using CosmicShore.Integrations.Playfab.Authentication;
+using CosmicShore.Utility.Singleton;
 using PlayFab;
 using PlayFab.EconomyModels;
-using CosmicShore.Utility.Singleton;
 using UnityEngine;
 
 namespace CosmicShore.Integrations.Playfab.Economy
@@ -18,25 +18,26 @@ namespace CosmicShore.Integrations.Playfab.Economy
         static PlayFabEconomyInstanceAPI _playFabEconomyInstanceAPI;
 
         // Player inventory and items
-        public static StoreShelve StoreShelve;
-        private static Inventory _playerInventory; 
-        // private static string _shardId;
+        public static StoreShelve StoreShelve { get; set; }
 
-        // Bootstrap the whole thing
-        public void Start()
+        public static Inventory Inventory { get; set; }
+        // private static string _shardId;
+        
+        private void Start()
         {
-            _playerInventory ??= new Inventory();
             AuthenticationManager.OnLoginSuccess += InitializePlayFabEconomyAPI;
             AuthenticationManager.OnLoginSuccess += LoadAllCatalogItems;
             AuthenticationManager.OnLoginSuccess += LoadPlayerInventory;
-            // AuthenticationManager.OnRegisterSuccess += GrantStartingInventory;
         }
+
 
         public void OnDestroy()
         {
             AuthenticationManager.OnLoginSuccess -= InitializePlayFabEconomyAPI;
             AuthenticationManager.OnLoginSuccess -= LoadAllCatalogItems;
             AuthenticationManager.OnLoginSuccess -= LoadPlayerInventory;
+            StoreShelve = null;
+            Inventory = null;
             // AuthenticationManager.OnRegisterSuccess -= GrantStartingInventory;
         }
 
@@ -46,7 +47,7 @@ namespace CosmicShore.Integrations.Playfab.Economy
         /// Initialize PlayFab Economy API
         /// Instantiate PlayFab Economy API with auth context
         /// </summary>
-        static void InitializePlayFabEconomyAPI()
+        void InitializePlayFabEconomyAPI()
         {
             if (AuthenticationManager.PlayFabAccount.AuthContext == null)
             {
@@ -285,11 +286,13 @@ namespace CosmicShore.Integrations.Playfab.Economy
 
         private void ClearLocalInventoryOnLoading()
         {
-            _playerInventory.MiniGames.Clear();
-            _playerInventory.VesselUpgrades.Clear();
-            _playerInventory.Crystals.Clear();
-            _playerInventory.Ships.Clear();
-            _playerInventory.Vessels.Clear();
+            if (Inventory == null) return;
+            
+            Inventory.MiniGames.Clear();
+            Inventory.VesselUpgrades.Clear();
+            Inventory.Crystals.Clear();
+            Inventory.Ships.Clear();
+            Inventory.Vessels.Clear();
         }
         
         private void AddToInventory(VirtualItem item)
@@ -298,23 +301,23 @@ namespace CosmicShore.Integrations.Playfab.Economy
             {
                 case "Vessel":
                     Debug.LogFormat("{0} - {1} - Adding Vessel",nameof(CatalogManager), nameof(AddToInventory));
-                    _playerInventory.Vessels.Add(item);
+                    Inventory.Vessels.Add(item);
                     break;
                 case "ShipClass":
                     Debug.LogFormat("{0} - {1} - Adding Ship",nameof(CatalogManager), nameof(AddToInventory));
-                    _playerInventory.Ships.Add(item);
+                    Inventory.Ships.Add(item);
                     break;
                 case "VesselUpgrade":
                     Debug.LogFormat("{0} - {1} - Adding Upgrade",nameof(CatalogManager), nameof(AddToInventory));
-                    _playerInventory.VesselUpgrades.Add(item);
+                    Inventory.VesselUpgrades.Add(item);
                     break;
                 case "MiniGame":
                     Debug.LogFormat("{0} - {1} - Adding MiniGame",nameof(CatalogManager), nameof(AddToInventory));
-                    _playerInventory.MiniGames.Add(item);
+                    Inventory.MiniGames.Add(item);
                     break;
                 case "Crystal":
                     Debug.LogFormat("{0} - {1} - Adding Crystal",nameof(CatalogManager), nameof(AddToInventory));
-                    _playerInventory.Crystals.Add(item);
+                    Inventory.Crystals.Add(item);
                     break;
                 default:
                     Debug.LogWarningFormat("{0} - {1} - Item Content Type not related to player inventory items, such as Stores and Subscriptions.", nameof(CatalogManager), nameof(AddToInventory));
@@ -448,7 +451,6 @@ namespace CosmicShore.Integrations.Playfab.Economy
             OnGettingInvCollectionIds?.Invoke(response.CollectionIds);
         }
         
-    
         #endregion
 
         #region In-game Purchases

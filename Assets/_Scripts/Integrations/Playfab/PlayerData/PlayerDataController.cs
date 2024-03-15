@@ -1,11 +1,11 @@
 ﻿using System;
 using CosmicShore.Integrations.Playfab.Authentication;
-using CosmicShore.Utility.Singleton;
 using PlayFab;
 using PlayFab.ClientModels;
 using System.Collections.Generic;
 using System.Linq;
 using CosmicShore.App.Systems.Clout;
+using CosmicShore.Utility.Singleton;
 using UnityEngine;
 using Newtonsoft.Json;
 
@@ -29,22 +29,41 @@ namespace CosmicShore.Integrations.Playfab.PlayStream
 
     public class PlayerDataController : SingletonPersistent<PlayerDataController>
     {
-        const string VesselKnowledgeKey = "VesselKnowledge";
-        const string ShipCloutKey = "ShipClout";
+        private const string VesselKnowledgeKey = "VesselKnowledge";
+        private const string ShipCloutKey = "ShipClout";
         private const string MasterCloutKey = "MasterClout";
         
         static PlayFabClientInstanceAPI _playFabClientInstanceAPI;
         
         // Shard data
-        [HideInInspector] public Dictionary<ShipTypes, ShardData> PlayerShardData;
+        public Dictionary<ShipTypes, ShardData> PlayerShardData = new();
         
         // Clout data
         Clout playerClout;
         
         // Clout related event
         public static event Action<Clout> OnLoadingPlayerClout;
+
+        // private AuthenticationManager _authManager;
+        //
+        // public PlayerDataController(AuthenticationManager authManager)
+        // {
+        //     _authManager = authManager;
+        // }
+
+        private void Start()
+        {
+            AuthenticationManager.OnLoginSuccess += LoadVesselKnowledgeData;
+            AuthenticationManager.OnLoginSuccess += LoadClout;
+        }
+
+        public void OnDestroy()
+        {
+            AuthenticationManager.OnLoginSuccess -= LoadVesselKnowledgeData;
+            AuthenticationManager.OnLoginSuccess -= LoadClout;
+        }
         
-        static void InitializePlayerClientInstanceAPI()
+        void InitializePlayerClientInstanceAPI()
         {
             // Change API instance upon auth context changes
             if(_playFabClientInstanceAPI?.authenticationContext!= AuthenticationManager.PlayFabAccount.AuthContext)
@@ -55,18 +74,13 @@ namespace CosmicShore.Integrations.Playfab.PlayStream
                 _playFabClientInstanceAPI ??= new PlayFabClientInstanceAPI(AuthenticationManager.PlayFabAccount.AuthContext);
         }
 
-        void Start()
-        {
-            AuthenticationManager.OnLoginSuccess += LoadVesselKnowledgeData;
-            AuthenticationManager.OnLoginSuccess += LoadClout;
-        }
 
         void LoadVesselKnowledgeData()
         {
             InitializePlayerClientInstanceAPI();
 
             _playFabClientInstanceAPI.GetUserData(
-                new GetUserDataRequest()
+                new GetUserDataRequest
                 {
                     PlayFabId = AuthenticationManager.PlayFabAccount.ID,
                     Keys = new List<string> { VesselKnowledgeKey }
@@ -102,7 +116,7 @@ namespace CosmicShore.Integrations.Playfab.PlayStream
         {
             InitializePlayerClientInstanceAPI();
             _playFabClientInstanceAPI.GetUserData(
-                new GetUserDataRequest()
+                new GetUserDataRequest
                 {
                     PlayFabId = AuthenticationManager.PlayFabAccount.ID,
                     Keys = new List<string> { ShipCloutKey, MasterCloutKey }
@@ -150,7 +164,7 @@ namespace CosmicShore.Integrations.Playfab.PlayStream
             Dictionary<string, string> shardData = playerShardData.Keys.ToDictionary(key => key.ToString(), key => playerShardData[key].ToString());
 
             _playFabClientInstanceAPI.UpdateUserData(
-                new UpdateUserDataRequest()
+                new UpdateUserDataRequest
                 {
                     Data = shardData,
                     Permission = UserDataPermission.Public

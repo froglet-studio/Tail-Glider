@@ -5,6 +5,7 @@ using PlayFab.ClientModels;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 
 namespace CosmicShore.Integrations.Playfab.Authentication
 {
@@ -31,7 +32,9 @@ namespace CosmicShore.Integrations.Playfab.Authentication
         [SerializeField] TMP_InputField emailRegisterInputField;
         [SerializeField] TMP_InputField passwordRegisterInputField;
         [SerializeField] Button registerButton;
-        
+
+        // [Inject] private AuthenticationManager _authManager;
+
         // Start is called before the first frame update
         void Start()
         {

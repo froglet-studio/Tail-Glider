@@ -1,6 +1,4 @@
-﻿using CosmicShore.Core.HangerBuilder;
-using System.Collections;
-
+﻿using System.Collections;
 using UnityEngine;
 
 namespace CosmicShore.Core
@@ -16,10 +14,10 @@ namespace CosmicShore.Core
 
         [Header("Trail Block Volume")]
         [SerializeField] Vector3 minScale = new Vector3 (.5f, .5f, .5f);
-        [SerializeField] public Vector3 maxScale = new Vector3 (10, 10, 10);
+        [SerializeField] public Vector3 MaxScale = new Vector3 (10, 10, 10);
         public Vector3 TargetScale;
         Vector3 outerDimensions; // defines volume
-        [SerializeField] public Vector3 growthVector = new Vector3(0, 2, 0);
+        [SerializeField] public Vector3 GrowthVector = new Vector3(0, 2, 0);
         public float Volume { get => outerDimensions.x * outerDimensions.y * outerDimensions.z; }
         float growthRate = .01f;
 
@@ -36,9 +34,6 @@ namespace CosmicShore.Core
         public bool IsLargest = false;
 
 
-        [Header("Game Rewards")]
-        GameObject shards;
-        
         // Shader related properties
         MeshRenderer meshRenderer;
         Vector3 spread;
@@ -55,9 +50,6 @@ namespace CosmicShore.Core
 
         protected virtual void Start()
         {
-            if (warp)
-                shards = GameObject.FindGameObjectWithTag("field");
-
             if (fossilBlockContainer == null)
                 fossilBlockContainer = new GameObject { name = "FossilBlockContainer" };
 
@@ -135,15 +127,20 @@ namespace CosmicShore.Core
 
         public void ChangeSize()
         {
-            if (TargetScale.x > maxScale.x || TargetScale.y > maxScale.y || TargetScale.z > maxScale.z)
+            if (TargetScale.x > MaxScale.x || TargetScale.y > MaxScale.y || TargetScale.z > MaxScale.z)
+            {
                 ActivateShield();
                 IsLargest = true;
+            }
             if (TargetScale.x < minScale.x || TargetScale.y < minScale.y || TargetScale.z < minScale.z)
+            {
                 IsSmallest = true;
+            }
 
-            TargetScale.x = Mathf.Clamp(TargetScale.x, minScale.x, maxScale.x);
-            TargetScale.y = Mathf.Clamp(TargetScale.y, minScale.y, maxScale.y);
-            TargetScale.z = Mathf.Clamp(TargetScale.z, minScale.z, maxScale.z);
+
+            TargetScale.x = Mathf.Clamp(TargetScale.x, minScale.x, MaxScale.x);
+            TargetScale.y = Mathf.Clamp(TargetScale.y, minScale.y, MaxScale.y);
+            TargetScale.z = Mathf.Clamp(TargetScale.z, minScale.z, MaxScale.z);
 
             var oldVolume = TrailBlockProperties.volume;
             UpdateVolume();
@@ -158,13 +155,12 @@ namespace CosmicShore.Core
 
         public void Grow(float amount = 1)
         {
-            Grow(amount * growthVector);
+            Grow(amount * GrowthVector);
         }
 
         public void Grow(Vector3 growthVector)
         {
             TargetScale += growthVector;
-
 
             ChangeSize();
         }
@@ -218,8 +214,6 @@ namespace CosmicShore.Core
             //     StateTracker.Instance.RemoveBlock(TrailBlockProperties);
 
         }
-
-        
 
         public void DeactivateShields()
         {

@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using CosmicShore.Integrations.Playfab.Authentication;
 using CosmicShore.Integrations.Playfab.Event_Models;
+using CosmicShore.Utility.Singleton;
 using PlayFab;
 using PlayFab.GroupsModels;
-using CosmicShore.Utility.Singleton;
 using UnityEngine;
+using VContainer.Unity;
 
 namespace CosmicShore.Integrations.Playfab.Groups
 {
@@ -20,10 +21,20 @@ namespace CosmicShore.Integrations.Playfab.Groups
         private static event EventHandler<GetGroupResponse> OnGettingGroup;
         // Local cache for group info
         private Dictionary<string, GroupModel> groups;
-    
+
+        // private AuthenticationManager _authManager;
+        // public GroupController(AuthenticationManager authManager)
+        // {
+        //     _authManager = authManager;
+        // }
         private void Start()
         {
-            AuthenticationManager.OnLoginSuccess += InitializeGroupsInstanceAPI;
+             AuthenticationManager.OnLoginSuccess += InitializeGroupsInstanceAPI;
+        }
+
+        private void OnDestroy()
+        {
+            AuthenticationManager.OnLoginSuccess -= InitializeGroupsInstanceAPI;
         }
 
         #region Initialize PlayFab Groups API with Auth Context

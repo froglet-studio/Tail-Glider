@@ -9,6 +9,7 @@ using CosmicShore.Utility.ClassExtensions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 
 namespace CosmicShore.App.UI.Menus
 {
@@ -62,9 +63,9 @@ namespace CosmicShore.App.UI.Menus
             if (ShowEmailLinking)
                 InitializeEmailLinking();
 
-            AuthenticationManager.OnLoginSuccess += AuthenticationManager.Instance.LoadPlayerProfile;
+            // _authManager.OnLoginSuccess += _authManager.LoadPlayerProfile;
             AuthenticationManager.OnProfileLoaded += InitializePlayerDisplayNameView;
-            AuthenticationManager.Instance.AnonymousLogin();
+            // _authManager.AnonymousLogin();
         }
 
         #region OnEnable and OnDisable Override

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using CosmicShore.Integrations.Playfab.Authentication;
-using CosmicShore.Integrations.Playfab.Event_Models;
 using CosmicShore.Integrations.Playfab.PlayerModels;
 using PlayFab;
 using PlayFab.ClientModels;
@@ -18,6 +17,13 @@ namespace CosmicShore.Integrations.Playfab.PlayStream
         private static PlayFabEventsInstanceAPI _playFabEventsInstanceAPI;
         public static Action<PlayFabError> GeneratingErrorReport;
 
+        // private AuthenticationManager _authManager;
+        //
+        // public AnalyticsController(AuthenticationManager authManager)
+        // {
+        //     _authManager = authManager;
+        // }
+
         private void Start()
         {
             // Load Player Client Instance API
@@ -25,7 +31,7 @@ namespace CosmicShore.Integrations.Playfab.PlayStream
             AuthenticationManager.OnLoginSuccess += InitializeEventsInstanceAPI;
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             AuthenticationManager.OnLoginSuccess -= InitializeEventsInstanceAPI;
             AuthenticationManager.OnLoginSuccess -= InitializePlayerClientInstanceAPI;
@@ -99,8 +105,8 @@ namespace CosmicShore.Integrations.Playfab.PlayStream
                     {
                         Debug.LogWarning($"{nameof(AnalyticsController)} - {nameof(SetUserData)} - Unable to retrieve data or no data available");
                         return;
-                    };
-                
+                    }
+
                     Debug.Log($"{nameof(AnalyticsController)} - {nameof(SetUserData)} success.");
                 }, HandleErrorReport);
         }
@@ -142,8 +148,8 @@ namespace CosmicShore.Integrations.Playfab.PlayStream
                     {
                         Debug.LogWarning($"{nameof(AnalyticsController)} - {nameof(GetUserReadOnlyData)} - Unable to retrieve data or no data available");
                         return;
-                    };
-                
+                    }
+
                     Debug.Log($"{nameof(AnalyticsController)} - {nameof(GetUserReadOnlyData)} - success.");
                     foreach (var data in result.Data)
                     {

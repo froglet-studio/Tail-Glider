@@ -5,20 +5,21 @@ using System.Security;
 using CosmicShore.App.Systems.UserJourney;
 using CosmicShore.Integrations.Playfab.PlayerModels;
 using CosmicShore.Integrations.PlayFabV2.Models;
+using CosmicShore.Utility.Singleton;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using PlayFab;
 using PlayFab.ClientModels;
-using CosmicShore.Utility.Singleton;
 using UnityEngine;
 
 namespace CosmicShore.Integrations.Playfab.Authentication
 {
     public class AuthenticationManager : SingletonPersistent<AuthenticationManager>
     {
-        public static PlayFabAccount PlayFabAccount;
+        public static PlayFabAccount PlayFabAccount { get; private set; }
         // public static PlayerProfile PlayerProfile;
-        public static UserProfile UserProfile;
+        public static UserProfile UserProfile { get; private set; }
+        public static PlayerSession PlayerSession { get; private set; }
         
         public static event Action OnLoginSuccess;
  
@@ -31,15 +32,33 @@ namespace CosmicShore.Integrations.Playfab.Authentication
 
         public static List<string> Adjectives;
         public static List<string> Nouns;
-
-        public static PlayerSession PlayerSession;
         
-
-        void Start()
+        // public AuthenticationManager(PlayFabAccount account, UserProfile profile, PlayerSession session)
+        // {
+        //     PlayFabAccount = account;
+        //     UserProfile = profile;
+        //     PlayerSession = session;
+        // }
+        public override void Awake()
         {
-            UserProfile ??= new UserProfile();
-            OnLoginSuccess += LoadPlayerProfile;
+            base.Awake();
             AnonymousLogin();
+            OnLoginSuccess += LoadPlayerProfile;
+        }
+
+        private void OnEnable()
+        {
+            PlayFabAccount = new();
+            UserProfile = new();
+            PlayerSession = new();
+        }
+
+        private void OnDestroy()
+        {
+            PlayFabAccount = null;
+            UserProfile = null;
+            PlayerSession = null;
+            OnLoginSuccess -= LoadPlayerProfile;
         }
 
         #region Player Profile
@@ -231,7 +250,8 @@ namespace CosmicShore.Integrations.Playfab.Authentication
 
         void HandleLoginSuccess(LoginResult loginResult = null)
         {
-            PlayFabAccount ??= new PlayFabAccount();
+            PlayFabAccount ??= new();
+            UserProfile ??= new();
             if (loginResult != null)
             {
                 PlayFabAccount.ID = loginResult.PlayFabId;
@@ -418,5 +438,7 @@ namespace CosmicShore.Integrations.Playfab.Authentication
         }
         
         #endregion
+
+        
     }
 }
