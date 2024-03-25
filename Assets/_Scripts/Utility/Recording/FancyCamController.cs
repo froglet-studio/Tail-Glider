@@ -7,13 +7,18 @@ public class FancyCamController : MonoBehaviour
     [SerializeField] bool canRotate;
     [SerializeField] bool keyboardTranslation;
     [SerializeField] bool mouseRotation;
-    [SerializeField] bool gamepadTargetControls;
+    //[SerializeField] bool gamepadTargetControls;
     [SerializeField] bool mouseTargetControls;
     bool isRotating = false;
     public float speed = 10;
-    public KeyControl toggleKey = Keyboard.current.leftBracketKey;
+    public KeyControl toggleKey;
     public Transform target;
     float followDistance = 10;
+
+    private void Start()
+    {
+        toggleKey = Keyboard.current.leftBracketKey;
+    }
 
     void Update()
     {
@@ -40,7 +45,7 @@ public class FancyCamController : MonoBehaviour
             if (Mouse.current.rightButton.isPressed) transform.Rotate(Vector3.right * (speed * Time.deltaTime * Mouse.current.delta.ReadValue().y));
         }
 
-        if (target != null && !gamepadTargetControls)
+        /*if (target != null && !gamepadTargetControls)
         {
             transform.LookAt(target);
         }
@@ -59,7 +64,7 @@ public class FancyCamController : MonoBehaviour
             transform.RotateAround(target.position, transform.up, Gamepad.current.leftStick.ReadValue().x * speed * Time.deltaTime);
             transform.RotateAround(target.position, transform.right, Gamepad.current.leftStick.ReadValue().y * speed * Time.deltaTime);
 
-        }
+        }*/
 
         // this code uses the mouse to move the camera toward a target and roll the camera
         if (target != null && mouseTargetControls)

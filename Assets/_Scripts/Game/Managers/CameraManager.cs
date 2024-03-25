@@ -109,6 +109,21 @@ public class CameraManager : SingletonPersistent<CameraManager>
 
         if (activeCamera == closeCamera) SetNormalizedCloseCameraDistance(0);
     }
+    //Editor Recorder Scene Only
+    public void SetFancyCamera(CinemachineVirtualCameraBase activeCamera)
+    {
+        Orthographic(isOrthographic);
+        Debug.Log($"SetActiveCamera {activeCamera.Name}");
+
+        mainMenuCamera.Priority = inactivePriority;
+        closeCamera.Priority = inactivePriority;
+        endCamera.Priority = inactivePriority;
+        deathCamera.Priority = inactivePriority;
+
+        activeCamera.Priority = activePriority;
+
+        if (activeCamera == closeCamera) SetNormalizedCloseCameraDistance(0);
+    }
 
     void ClipPlaneAndOffsetLerper(float normalizedDistance)
     {

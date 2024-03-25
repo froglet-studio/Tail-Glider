@@ -179,11 +179,13 @@ namespace CosmicShore.App.UI.Menus
 
             // Deselect them all
             for (var i = 0; i < Ships.Count; i++)
-                ShipSelectionContainer.GetChild(i).gameObject.GetComponent<Image>().sprite = Ships[i].Icon;
+                ShipSelectionContainer.GetChild(i).gameObject.GetComponent<Image>().sprite = Ships[i].InactiveIcon;
+
 
             // Select the one
             SelectedShip = Ships[index];
-            ShipSelectionContainer.GetChild(index).gameObject.GetComponent<Image>().sprite = SelectedShip.SelectedIcon;
+
+            ShipSelectionContainer.GetChild(index).gameObject.GetComponent<Image>().sprite = SelectedShip.ActiveIcon;
 
             // notify the mini game engine that this is the ship to play
             Hangar.Instance.SetPlayerShip((int)SelectedShip.Class);

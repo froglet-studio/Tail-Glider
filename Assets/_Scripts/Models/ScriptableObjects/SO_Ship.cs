@@ -10,7 +10,9 @@ public class SO_Ship : ScriptableObject
     [SerializeField] public string Name;
     [SerializeField] public string Description;
     [SerializeField] public Sprite Icon;
-    [SerializeField] public Sprite SelectedIcon;
+    [SerializeField] public Sprite ActiveIcon;
+    [SerializeField] public Sprite InactiveIcon;
+    [SerializeField] public Sprite ShipIcon;
     [SerializeField] public Sprite PreviewImage;
     [SerializeField] public Sprite TrailPreviewImage;
     [SerializeField] public Sprite CardSilohoutte;

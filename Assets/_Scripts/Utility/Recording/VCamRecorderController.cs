@@ -11,6 +11,7 @@ namespace CosmicShore
         //[SerializeField] MiniGame game;
         [SerializeField] Player player;
         [SerializeField] CinemachineVirtualCameraBase specialCamera;
+
         // Start is called before the first frame update
         void Start()
         {

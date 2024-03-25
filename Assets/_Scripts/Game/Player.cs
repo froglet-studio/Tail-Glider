@@ -3,6 +3,7 @@ using CosmicShore.Core;
 using CosmicShore.Game.IO;
 using CosmicShore.Game.AI;
 using CosmicShore.Game.UI;
+using Cinemachine;
 
 [System.Serializable]
 public class Player : MonoBehaviour
@@ -15,6 +16,8 @@ public class Player : MonoBehaviour
     [SerializeField] public ShipTypes defaultShip = ShipTypes.Dolphin;
     [SerializeField] bool UseHangarConfiguration = true;
     [SerializeField] bool IsAI = false;
+
+    [SerializeField] CinemachineVirtualCameraBase FancyCam;
 
     public static Player ActivePlayer;
 
@@ -88,7 +91,11 @@ public class Player : MonoBehaviour
 
         ship = shipInstance;
         GetComponent<InputController>().ship = ship;
-            
+
+        //Editor Recorder Scene Only
+        FancyCam.GetComponent<FancyCamController>() .target = ship.transform;
+        CameraManager.Instance.SetFancyCamera(FancyCam);
+
         GameCanvas.MiniGameHUD.ship = ship;
         ship.Team = Team;
         ship.Player = this;
