@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3970261878899441704
+--- !u!1 &4944652137333443705
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,25 +8,25 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3970261878899441716}
-  - component: {fileID: 3970261878899441719}
-  - component: {fileID: 3970261878899441718}
-  - component: {fileID: 3970261878899441705}
-  - component: {fileID: 3970261878899441717}
+  - component: {fileID: 4944652137333443709}
+  - component: {fileID: 4944652137333443708}
+  - component: {fileID: 4944652137333443707}
+  - component: {fileID: 4944652137333443706}
+  - component: {fileID: 4944652137333443710}
   m_Layer: 0
-  m_Name: MUsicManager
+  m_Name: MusicManager 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3970261878899441716
+--- !u!4 &4944652137333443709
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3970261878899441704}
+  m_GameObject: {fileID: 4944652137333443705}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -35,21 +35,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3970261878899441719
+--- !u!33 &4944652137333443708
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3970261878899441704}
+  m_GameObject: {fileID: 4944652137333443705}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &3970261878899441718
+--- !u!23 &4944652137333443707
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3970261878899441704}
+  m_GameObject: {fileID: 4944652137333443705}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -85,26 +85,26 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3970261878899441705
+--- !u!65 &4944652137333443706
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3970261878899441704}
+  m_GameObject: {fileID: 4944652137333443705}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3970261878899441717
+--- !u!114 &4944652137333443710
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3970261878899441704}
+  m_GameObject: {fileID: 4944652137333443705}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
@@ -113,11 +113,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: -1760740196
-      Data2: 1215186854
-      Data3: 209026464
-      Data4: -1891100465
-    Path: event:/MUSIC/music_manager
+      Data1: -1462061688
+      Data2: 1108155821
+      Data3: -452781905
+      Data4: -1598274580
+    Path: event:/Music/Music_Manager
   Event: 
   PlayEvent: 1
   StopEvent: 2
@@ -126,7 +126,7 @@ MonoBehaviour:
   Preload: 0
   AllowNonRigidbodyDoppler: 0
   Params:
-  - Name: Music_Manager
+  - Name: GameScene
     Value: 0
   OverrideAttenuation: 0
   OverrideMinDistance: 1
