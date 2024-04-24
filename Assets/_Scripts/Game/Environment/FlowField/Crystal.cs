@@ -147,7 +147,7 @@ namespace CosmicShore.Environment.FlowField
 
             Explode(ship);
 
-            PlayExplosionAudio();
+            //PlayExplosionAudio();
 
             // Move the Crystal
             StartCoroutine(CrystalModel.GetComponent<FadeIn>().FadeInCoroutine());
@@ -169,11 +169,11 @@ namespace CosmicShore.Environment.FlowField
                 ship.transform.forward * ship.GetComponent<ShipStatus>().Speed, tempMaterial, ship.Player.PlayerName);
         }
 
-        protected void PlayExplosionAudio()
-        {
-            AudioSource audioSource = GetComponent<AudioSource>();
-            AudioSystem.Instance.PlaySFXClip(audioSource.clip, audioSource);
-        }
+        // protected void PlayExplosionAudio()
+        //{
+          //  AudioSource audioSource = GetComponent<AudioSource>();
+            //AudioSystem.Instance.PlaySFXClip(audioSource.clip, audioSource);
+        //}
 
         // TODO: P1 move to static ObjectResolver class
         protected bool IsShip(GameObject go)

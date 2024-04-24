@@ -1,0 +1,429 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8218454271591629648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/space_crys/ControllerType
+  m_EditorClassIdentifier: 
+  Name: ControllerType
+  StudioPath: 
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 1590172894
+    data2: 2775487939
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Player
+  - Team
+  - Enemy
+  Exists: 1
+--- !u!114 &-4503520917599593196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/Game_Music
+  m_EditorClassIdentifier: 
+  Path: event:/Music/Game_Music
+  Guid:
+    Data1: -1898272423
+    Data2: 1284846650
+    Data3: -1022400868
+    Data4: 2026638226
+  Banks:
+  - {fileID: 6471418537508814943}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 314018
+--- !u!114 &-3433550363271205765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Crystals/space_crys
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Crystals/space_crys
+  Guid:
+    Data1: -1283443839
+    Data2: 1264616519
+    Data3: 803792021
+    Data4: 1360977964
+  Banks:
+  - {fileID: 6471418537508814943}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -8218454271591629648}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-2012961405280917373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/New Event
+  m_EditorClassIdentifier: 
+  Path: event:/New Event
+  Guid:
+    Data1: -584368331
+    Data2: 1273553446
+    Data3: -225254224
+    Data4: 105543968
+  Banks:
+  - {fileID: 6471418537508814943}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 6437
+--- !u!114 &-1866656225096898308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/time_crys/ControllerType
+  m_EditorClassIdentifier: 
+  Name: ControllerType
+  StudioPath: 
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 1590172894
+    data2: 2775487939
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Player
+  - Team
+  - Enemy
+  Exists: 1
+--- !u!114 &-932148416159352749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Music_Manager/GameScene
+  m_EditorClassIdentifier: 
+  Name: GameScene
+  StudioPath: 
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 1837232464
+    data2: 2208193679
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Menu
+  - Game
+  - Pause
+  Exists: 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
+  m_Name: FMODStudioCache
+  m_EditorClassIdentifier: 
+  EditorBanks:
+  - {fileID: 7757227901287038945}
+  - {fileID: 6471418537508814943}
+  EditorEvents:
+  - {fileID: 3487620833168448349}
+  - {fileID: -2012961405280917373}
+  - {fileID: -4503520917599593196}
+  - {fileID: 755208551522064656}
+  - {fileID: -3433550363271205765}
+  - {fileID: 7279035197698697112}
+  - {fileID: 674301143095675245}
+  - {fileID: 3733305249043532341}
+  EditorParameters: []
+  MasterBanks:
+  - {fileID: 6471418537508814943}
+  StringsBanks:
+  - {fileID: 7757227901287038945}
+  cacheTime: 638495609131252060
+  cacheVersion: 131617
+--- !u!114 &372215839091507266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/mass_crys/ControllerType
+  m_EditorClassIdentifier: 
+  Name: ControllerType
+  StudioPath: 
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 1590172894
+    data2: 2775487939
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Player
+  - Team
+  - Enemy
+  Exists: 1
+--- !u!114 &674301143095675245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/Menu_Music
+  m_EditorClassIdentifier: 
+  Path: event:/Music/Menu_Music
+  Guid:
+    Data1: 959289811
+    Data2: 1207263847
+    Data3: -705860181
+    Data4: 1012556981
+  Banks:
+  - {fileID: 6471418537508814943}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 258766
+--- !u!114 &755208551522064656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Crystals/charge_crys
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Crystals/charge_crys
+  Guid:
+    Data1: 1589677415
+    Data2: 1233656771
+    Data3: 763140994
+    Data4: -739699586
+  Banks:
+  - {fileID: 6471418537508814943}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 4829206247172301639}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &3487620833168448349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Crystals/mass_crys
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Crystals/mass_crys
+  Guid:
+    Data1: 1799476748
+    Data2: 1111403520
+    Data3: -985794119
+    Data4: -1970022847
+  Banks:
+  - {fileID: 6471418537508814943}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 372215839091507266}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &3733305249043532341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Crystals/time_crys
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Crystals/time_crys
+  Guid:
+    Data1: 281770480
+    Data2: 1278831165
+    Data3: 1821259956
+    Data4: -992612195
+  Banks:
+  - {fileID: 6471418537508814943}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -1866656225096898308}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &4829206247172301639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/charge_crys/ControllerType
+  m_EditorClassIdentifier: 
+  Name: ControllerType
+  StudioPath: 
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 1590172894
+    data2: 2775487939
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Player
+  - Team
+  - Enemy
+  Exists: 1
+--- !u!114 &6471418537508814943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: ../../../Desktop/FrogletFMOD/Build/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 638495609131217798
+  FileSizes:
+  - Name: Desktop
+    Value: 9108704
+  Exists: 1
+--- !u!114 &7279035197698697112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/Music_Manager
+  m_EditorClassIdentifier: 
+  Path: event:/Music/Music_Manager
+  Guid:
+    Data1: -1462061688
+    Data2: 1108155821
+    Data3: -452781905
+    Data4: -1598274580
+  Banks:
+  - {fileID: 6471418537508814943}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: -932148416159352749}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &7757227901287038945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: ../../../Desktop/FrogletFMOD/Build/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 638495609131252060
+  FileSizes:
+  - Name: Desktop
+    Value: 1292
+  Exists: 1

@@ -31,7 +31,7 @@ namespace CosmicShore.Game.Projectiles
 
             Explode(ship);
 
-            PlayExplosionAudio();
+            //PlayExplosionAudio();
 
             RemoveSelfFromNode();
 
