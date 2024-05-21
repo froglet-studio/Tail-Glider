@@ -20,7 +20,6 @@ namespace CosmicShore.Game.Arcade
             Crystal.transform.localScale = CrystalStartScale;
             Crystal.SetOrigin(CrystalStartPosition);
 
-            SegmentSpawner.Seed = new System.Random().Next();
             SegmentSpawner.NumberOfSegments = IntensityLevel * 2 - 1;
             SegmentSpawner.origin.z = -(IntensityLevel - 1) * SegmentSpawner.StraightLineLength;
             SegmentSpawner.Initialize();

@@ -14,7 +14,6 @@ namespace CosmicShore.Game.Arcade
         {
             base.Start();
 
-            SegmentSpawner.Seed = new System.Random().Next();
             SegmentSpawner.DifficultyAngle = IntensityLevel * (140 / 4); // (180 - random buffer - dartbard arclength) / (max difficulty level)
             SegmentSpawner.Initialize();
         }

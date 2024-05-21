@@ -9,7 +9,7 @@ namespace CosmicShore.Game.Arcade
         [SerializeField] Vector3 CrystalStartPosition;
         [SerializeField] SegmentSpawner SegmentSpawner;
         [SerializeField] SpawnableEllipsoid spawnableEllipsoid;
-        int maxDifficulty = 4;
+        readonly int maxDifficulty = 4;
         [SerializeField] float maxSize = 100;
         [SerializeField] float maxSphereRadius = 100;
         [SerializeField] int initialSegments = 100;
@@ -20,8 +20,6 @@ namespace CosmicShore.Game.Arcade
         protected override void Start()
         {
             base.Start();
-
-            SegmentSpawner.Seed = new System.Random().Next();
         }
 
         protected override void SetupTurn()

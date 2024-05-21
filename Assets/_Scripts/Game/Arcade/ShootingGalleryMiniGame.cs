@@ -16,8 +16,6 @@ namespace CosmicShore.Game.Arcade
         protected override void Start()
         {
             base.Start();
-
-            SegmentSpawner.Seed = new System.Random().Next();
         }
 
         protected override void SetupTurn()
