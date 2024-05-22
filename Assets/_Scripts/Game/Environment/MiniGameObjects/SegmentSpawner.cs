@@ -2,11 +2,11 @@ using CosmicShore.Core;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using CosmicShore.Utility.UI;
 
 using URandom = UnityEngine.Random;
 
-namespace CosmicShore.Game.Arcade {// TODO: Add namespace.
-
+namespace CosmicShore.Game.Arcade {
 
 	public class SegmentSpawner : MonoBehaviour
 	{
@@ -108,10 +108,9 @@ namespace CosmicShore.Game.Arcade {// TODO: Add namespace.
 					}
 			}},
 		};
-		
-		[SerializeField] List<SpawnableAbstractBase> spawnableSegments;
+		[Header("Weighted Spanables")]
+       [SerializeField]  public List<WeightedSpawnable> spawnedSegment = new();
 		[SerializeField] PositioningScheme positioningScheme = PositioningScheme.SphereUniform;
-		[SerializeField] List<float> spawnSegmentWeights;
 		[SerializeField] Transform parent;
 		
 		[SerializeField] public Vector3 origin = Vector3.zero;
@@ -192,23 +191,23 @@ namespace CosmicShore.Game.Arcade {// TODO: Add namespace.
 			float spawnWeight = URandom.value;
 			var spawnIndex = 0;
 			var totalWeight = 0f;
-			for (int i = 0; i < spawnSegmentWeights.Count && totalWeight < spawnWeight; i++)
+			for (int i = 0; i < spawnedSegment.Count && totalWeight < spawnWeight; i++)
 			{
 				spawnIndex = i;
-				totalWeight += spawnSegmentWeights[i];
+				totalWeight += spawnedSegment[i].Weight;
 			}
 
-			return spawnableSegments[spawnIndex].Spawn();
+			return spawnedSegment[spawnIndex].Spawnable.Spawn();
 		}
 
 		void normalizeWeights()
 		{
 			float totalWeight = 0;
-			foreach (var weight in spawnSegmentWeights)
-				totalWeight += weight;
+			foreach (var spawned in spawnedSegment)
+				totalWeight += spawned.Weight;
 
-			for (int i = 0; i < spawnSegmentWeights.Count; i++)
-				spawnSegmentWeights[i] = spawnSegmentWeights[i] * (1 / totalWeight);
+			for (int i = 0; i < spawnedSegment.Count; i++)
+				spawnedSegment[i].Weight *= 1 / totalWeight;
 		}
 
 		private Vector3 RandomVectorRotation(Vector3 vector, out Quaternion rotation)
