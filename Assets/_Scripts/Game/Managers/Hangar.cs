@@ -62,7 +62,7 @@ namespace CosmicShore.Core
             PlayerPrefs.SetInt(SelectedShipPlayerPrefKey, shipType);
         }
 
-        public void SetTeamShipType(Teams team, ShipTypes shipType, int slot=0)
+        public void SetTeamShipType(Teams team, ShipTypes shipType, int slot = 0)
         {
             Debug.Log($"Hangar.SetTeamShipType: shipType:{shipType}, team:{team}, slot:{slot}");
 
@@ -79,7 +79,7 @@ namespace CosmicShore.Core
             return PlayerShipType;
         }
 
-        [Range(1,4)]
+        [Range(1, 4)]
         [SerializeField]
         int AIDifficultyLevel = 1;
 
@@ -98,7 +98,7 @@ namespace CosmicShore.Core
             TeamShipTypes.Add(Teams.Gold, GoldTeamShipTypes);
 
             if (PlayerPrefs.HasKey(SelectedShipPlayerPrefKey))
-                PlayerShipType = (ShipTypes) PlayerPrefs.GetInt(SelectedShipPlayerPrefKey);
+                PlayerShipType = (ShipTypes)PlayerPrefs.GetInt(SelectedShipPlayerPrefKey);
 
             TeamMaterialSets = new() {
                 { Teams.Green, GreenTeamMaterialSet },
@@ -122,7 +122,7 @@ namespace CosmicShore.Core
 
             AITeam = PlayerTeam == Teams.Green ? Teams.Red : Teams.Green;
         }
-        public Ship LoadPlayerShip(bool useSquad=false)
+        public Ship LoadPlayerShip(bool useSquad = false)
         {
             if (useSquad)
             {
@@ -146,15 +146,17 @@ namespace CosmicShore.Core
             Ship ship = Instantiate(shipTypeMap[shipType]);
 
             if (PlayerGuide != null)
-                ship.SetGuide(PlayerGuide);
+            {
+                ship.Guide = PlayerGuide;
+            }
 
-            ship.SetShipMaterial(TeamMaterialSets[team].ShipMaterial);
+            ship.ShipMaterial = TeamMaterialSets[team].ShipMaterial;
             ship.SetBlockMaterial(TeamMaterialSets[team].BlockMaterial);
             ship.SetBlockSilhouettePrefab(TeamMaterialSets[team].BlockSilhouettePrefab);
             ship.SetShieldedBlockMaterial(TeamMaterialSets[team].ShieldedBlockMaterial);
-            ship.SetAOEExplosionMaterial(TeamMaterialSets[team].AOEExplosionMaterial);
-            ship.SetAOEConicExplosionMaterial(TeamMaterialSets[team].AOEConicExplosionMaterial);
-            ship.SetSkimmerMaterial(TeamMaterialSets[team].SkimmerMaterial);
+            ship.AOEExplosionMaterial = TeamMaterialSets[team].AOEExplosionMaterial;
+            ship.AOEConicExplosionMaterial = TeamMaterialSets[team].AOEConicExplosionMaterial;
+            ship.SkimmerMaterial = TeamMaterialSets[team].SkimmerMaterial;
 
             SelectedShip = ship;
 
@@ -177,7 +179,7 @@ namespace CosmicShore.Core
         }
         public Ship LoadSquadMateTwo()
         {
-            SquadSystem.LoadSquad(); 
+            SquadSystem.LoadSquad();
             return LoadAIShip(SquadSystem.RogueTwo.Ship.Class, PlayerTeam, SquadSystem.RogueTwo);
         }
 
@@ -197,28 +199,30 @@ namespace CosmicShore.Core
         {
             return LoadAIShip(HostileMantaShipType, AITeam);
         }
-        public Ship LoadAIShip(ShipTypes shipType, Teams team, SO_Guide guide=null)
+        public Ship LoadAIShip(ShipTypes shipType, Teams team, SO_Guide guide = null)
         {
             if (shipType == ShipTypes.Random)
             {
                 Array values = Enum.GetValues(typeof(ShipTypes));
                 System.Random random = new System.Random();
-                shipType = (ShipTypes) values.GetValue(random.Next(1, values.Length));
+                shipType = (ShipTypes)values.GetValue(random.Next(1, values.Length));
             }
 
             Ship ship = Instantiate(shipTypeMap[shipType]);
             if (guide != null)
-                ship.SetGuide(guide);
-            ship.SetShipMaterial(TeamMaterialSets[team].ShipMaterial);
+            {
+                ship.Guide = guide;
+            }
+            ship.ShipMaterial = TeamMaterialSets[team].ShipMaterial;
             ship.SetBlockMaterial(TeamMaterialSets[team].BlockMaterial);
             ship.SetBlockSilhouettePrefab(TeamMaterialSets[team].BlockSilhouettePrefab);
             ship.SetShieldedBlockMaterial(TeamMaterialSets[team].ShieldedBlockMaterial);
-            ship.SetAOEExplosionMaterial(TeamMaterialSets[team].AOEExplosionMaterial);
-            ship.SetAOEConicExplosionMaterial(TeamMaterialSets[team].AOEConicExplosionMaterial);
-            ship.SetSkimmerMaterial(TeamMaterialSets[team].SkimmerMaterial);
+            ship.AOEExplosionMaterial = TeamMaterialSets[team].AOEExplosionMaterial;
+            ship.AOEConicExplosionMaterial = TeamMaterialSets[team].AOEConicExplosionMaterial;
+            ship.SkimmerMaterial = TeamMaterialSets[team].SkimmerMaterial;
 
             AIPilot pilot = ship.GetComponent<AIPilot>();
-            pilot.SkillLevel = ((float)AIDifficultyLevel-1) / 3; // this assumes that levels remain from 1-4
+            pilot.SkillLevel = ((float)AIDifficultyLevel - 1) / 3; // this assumes that levels remain from 1-4
             pilot.AutoPilotEnabled = true;
 
             return ship;
@@ -253,12 +257,12 @@ namespace CosmicShore.Core
         {
             return TeamMaterialSets[team].SpikeMaterial;
         }
-        
+
         public Material GetTeamShieldedBlockMaterial(Teams team)
         {
             return TeamMaterialSets[team].ShieldedBlockMaterial;
         }
-        
+
         public Material GetTeamSuperShieldedBlockMaterial(Teams team)
         {
             return TeamMaterialSets[team].SuperShieldedBlockMaterial;

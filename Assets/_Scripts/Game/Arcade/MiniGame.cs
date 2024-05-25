@@ -8,377 +8,381 @@ using UnityEngine.UI;
 using CosmicShore.App.Systems.UserActions;
 using CosmicShore.Game.UI;
 using UnityEngine.Serialization;
+using System.Linq;
 
 namespace CosmicShore.Game.Arcade
 {
-	public class MiniGame : MonoBehaviour
-	{
-		[SerializeField] protected MiniGames gameMode;
-		[SerializeField] protected int NumberOfRounds = int.MaxValue;
-		[SerializeField] protected List<TurnMonitor> TurnMonitors;
-		[SerializeField] protected ScoreTracker ScoreTracker;
-		[SerializeField] GameCanvas GameCanvas;
-		[SerializeField] Player playerPrefab;
-		[SerializeField] GameObject PlayerOrigin;
-		[SerializeField] float EndOfTurnDelay = 0f;
-		[SerializeField] bool EnableTrails = true;
-		[SerializeField] ShipTypes DefaultPlayerShipType = ShipTypes.Dolphin;
-		[FormerlySerializedAs("DefaultPlayerGuide")]
-		[SerializeField] SO_Guide DefaultPlayerCaptain;
+    public class MiniGame : MonoBehaviour
+    {
+        [SerializeField] protected MiniGames gameMode;
+        [SerializeField] protected int NumberOfRounds = int.MaxValue;
+        [SerializeField] protected List<TurnMonitor> TurnMonitors;
+        [SerializeField] protected ScoreTracker ScoreTracker;
+        [SerializeField] GameCanvas GameCanvas;
+        [SerializeField] Player playerPrefab;
+        [SerializeField] GameObject PlayerOrigin;
+        [SerializeField] float EndOfTurnDelay = 0f;
+        [SerializeField] bool EnableTrails = true;
+        [SerializeField] ShipTypes DefaultPlayerShipType = ShipTypes.Dolphin;
+        [FormerlySerializedAs("DefaultPlayerGuide")]
+        [SerializeField] SO_Guide DefaultPlayerCaptain;
 
-		protected Button ReadyButton;
-		protected GameObject EndGameScreen;
-		protected MiniGameHUD HUD;
-		protected List<Player> Players;
-		protected CountdownTimer countdownTimer;
+        protected Button ReadyButton;
+        protected GameObject EndGameScreen;
+        protected MiniGameHUD HUD;
+        protected LinkedList<Player> Players = new();
+        protected CountdownTimer countdownTimer;
 
-		List<Teams> PlayerTeams = new() { Teams.Green, Teams.Red, Teams.Gold };
-		List<string> PlayerNames = new() { "PlayerOne", "PlayerTwo", "PlayerThree" };
+        List<Teams> PlayerTeams = new() { Teams.Green, Teams.Red, Teams.Gold };
+        List<string> PlayerNames = new() { "PlayerOne", "PlayerTwo", "PlayerThree" };
 
-		// Configuration set by player
-		public static int NumberOfPlayers = 1;  // TODO: P1 - support excluding single player games (e.g for elimination)
-		public static int IntensityLevel = 1;
-		static ShipTypes playerShipType = ShipTypes.Dolphin;
-		static bool playerShipTypeInitialized;
-		
-		public static ShipTypes PlayerShipType
-		{
-			get 
-			{ 
-				return playerShipType; 
-			}
-			set 
-			{ 
-				playerShipType = value;
-				playerShipTypeInitialized = true;
-			}
-		}
-		public static SO_Guide PlayerCaptain;
+        /// <summary>
+        /// This value DETERMINES the number of players for this session as opposed
+        /// to tracking it.
+        /// </summary>
+        public static int NumberOfPlayers = 1;  // TODO: P1 - support excluding single player games (e.g for elimination)
+        public static int IntensityLevel = 1;
+        static ShipTypes playerShipType = ShipTypes.Dolphin;
+        static bool playerShipTypeInitialized;
 
-		// Game State Tracking
-		protected int TurnsTakenThisRound = 0;
-		int RoundsPlayedThisGame = 0;
+        public static ShipTypes PlayerShipType
+        {
+            get
+            {
+                return playerShipType;
+            }
+            set
+            {
+                playerShipType = value;
+                playerShipTypeInitialized = true;
+            }
+        }
+        public static SO_Guide PlayerCaptain;
 
-		// PlayerId Tracking
-		int activePlayerId;
-		int RemainingPlayersActivePlayerIndex = -1;
-		protected List<int> RemainingPlayers = new();
-		[HideInInspector] public Player ActivePlayer;
-		protected bool gameRunning;
-		
-		// Firebase analytics events
-		public delegate void MiniGameStart(MiniGames mode, ShipTypes ship, int playerCount, int intensity);
-		public static event MiniGameStart OnMiniGameStart;
+        // Game State Tracking
+        protected int TurnsTakenThisRound = 0;
+        int RoundsPlayedThisGame = 0;
 
-		public delegate void MiniGameEnd(MiniGames mode, ShipTypes ship, int playerCount, int intensity, int highScore);
+        // PlayerId Tracking
+        Player RemainingPlayersActivePlayer;
+        protected LinkedList<Player> RemainingPlayers = new();
+        [HideInInspector] public Player ActivePlayer;
+        protected bool gameRunning;
 
-		public static event MiniGameEnd OnMiniGameEnd;
+        // Firebase analytics events
+        public delegate void MiniGameStart(MiniGames mode, ShipTypes ship, int playerCount, int intensity);
+        public static event MiniGameStart OnMiniGameStart;
 
-		protected virtual void Awake()
-		{
-			EndGameScreen = GameCanvas.EndGameScreen;
-			HUD = GameCanvas.MiniGameHUD;
-			ReadyButton = HUD.ReadyButton;
-			countdownTimer = HUD.CountdownTimer;
-			ScoreTracker.GameCanvas = GameCanvas;
+        public delegate void MiniGameEnd(MiniGames mode, ShipTypes ship, int playerCount, int intensity, int highScore);
 
-			if (DefaultPlayerCaptain == null)
-			{
-				Debug.LogError("No Default Captain Set - This scene will not be able to launch without going through the main menu. Please set DefaultPlayerCaptain of the minigame script.");
-			}
+        public static event MiniGameEnd OnMiniGameEnd;
 
-			if (PlayerCaptain == null)
-			{
-				PlayerCaptain = DefaultPlayerCaptain;
-			}
+        protected virtual void Awake()
+        {
+            EndGameScreen = GameCanvas.EndGameScreen;
+            HUD = GameCanvas.MiniGameHUD;
+            ReadyButton = HUD.ReadyButton;
+            countdownTimer = HUD.CountdownTimer;
+            ScoreTracker.GameCanvas = GameCanvas;
 
-			for (int i = 0; i < TurnMonitors.Count; i++)
-			{
-				var turnMonitor = TurnMonitors[i];
-				if (turnMonitor is TimeBasedTurnMonitor tbtMonitor)
-				{
-					tbtMonitor.Display = HUD.RoundTimeDisplay;
-				}
-				else if (turnMonitor is VolumeCreatedTurnMonitor hvtMonitor) // TODO: consolidate with above
-				{
-					hvtMonitor.Display = HUD.RoundTimeDisplay;
-				}
-				else if (turnMonitor is ShipCollisionTurnMonitor scMonitor) // TODO: consolidate with above
-				{
-					scMonitor.Display = HUD.RoundTimeDisplay;
-				}
-				else if (turnMonitor is DistanceTurnMonitor dtMonitor) // TODO: consolidate with above
-				{
-					dtMonitor.Display = HUD.RoundTimeDisplay;
-				}
-			}
+            if (DefaultPlayerCaptain == null)
+            {
+                Debug.LogError("No Default Captain Set - This scene will not be able to launch without going through the main menu. Please set DefaultPlayerCaptain of the minigame script.");
+            }
 
-			GameManager.UnPauseGame();
-		}
+            if (PlayerCaptain == null)
+            {
+                PlayerCaptain = DefaultPlayerCaptain;
+            }
 
-		protected virtual void Start()
-		{
-			Players = new List<Player>();
-			for (var i = 0; i < NumberOfPlayers; i++)
-			{
-				Players.Add(Instantiate(playerPrefab));
-				Players[i].defaultShip = playerShipTypeInitialized ? PlayerShipType : DefaultPlayerShipType;
-				Players[i].Team = PlayerTeams[i];
-				Players[i].PlayerName = PlayerNames[i];
-				Players[i].PlayerUUID = PlayerNames[i];
-				Players[i].name = "Player" + (i + 1);
-				Players[i].gameObject.SetActive(true);
-			}
+            for (int i = 0; i < TurnMonitors.Count; i++)
+            {
+                var turnMonitor = TurnMonitors[i];
+                if (turnMonitor is TimeBasedTurnMonitor tbtMonitor)
+                {
+                    tbtMonitor.Display = HUD.RoundTimeDisplay;
+                }
+                else if (turnMonitor is VolumeCreatedTurnMonitor hvtMonitor) // TODO: consolidate with above
+                {
+                    hvtMonitor.Display = HUD.RoundTimeDisplay;
+                }
+                else if (turnMonitor is ShipCollisionTurnMonitor scMonitor) // TODO: consolidate with above
+                {
+                    scMonitor.Display = HUD.RoundTimeDisplay;
+                }
+                else if (turnMonitor is DistanceTurnMonitor dtMonitor) // TODO: consolidate with above
+                {
+                    dtMonitor.Display = HUD.RoundTimeDisplay;
+                }
+            }
 
-			ReadyButton.onClick.AddListener(OnReadyClicked);
-			ReadyButton.gameObject.SetActive(false);
+            GameManager.UnPauseGame();
+        }
 
-			// Give other objects a few moments to start
-			StartCoroutine(StartNewGameCoroutine());
-		}
-		
-		IEnumerator StartNewGameCoroutine()
-		{
-			yield return new WaitForSeconds(.2f);
+        protected virtual void Start()
+        {
+            Players.Clear();
+            for (var i = 0; i < NumberOfPlayers; i++)
+            {
+                Player currentPlayer = Instantiate(playerPrefab);
+                Players.AddLast(currentPlayer);
+                currentPlayer.defaultShip = playerShipTypeInitialized ? PlayerShipType : DefaultPlayerShipType;
+                currentPlayer.Team = PlayerTeams[i];
+                currentPlayer.PlayerName = PlayerNames[i];
+                currentPlayer.PlayerUUID = PlayerNames[i];
+                currentPlayer.name = "Player" + (i + 1);
+                currentPlayer.gameObject.SetActive(true);
+            }
 
-			StartNewGame();
-		}
+            ReadyButton.onClick.AddListener(OnReadyClicked);
+            ReadyButton.gameObject.SetActive(false);
 
-		public void OnReadyClicked()
-		{
-			ReadyButton.gameObject.SetActive(false);
+            // Give other objects a few moments to start
+            StartCoroutine(StartNewGameCoroutine());
+        }
 
-			countdownTimer.BeginCountdown(() =>
-			{
-				StartTurn();
+        IEnumerator StartNewGameCoroutine()
+        {
+            yield return new WaitForSeconds(.2f);
 
-				ActivePlayer.GetComponent<InputController>().Paused = false;
+            StartNewGame();
+        }
 
-				if (EnableTrails)
-				{
-					ActivePlayer.Ship.TrailSpawner.ForceStartSpawningTrail();
-					ActivePlayer.Ship.TrailSpawner.RestartTrailSpawnerAfterDelay(2f);
-				}
-			});
-		}
+        public void OnReadyClicked()
+        {
+            ReadyButton.gameObject.SetActive(false);
 
-		public virtual void StartNewGame()
-		{
-			//Debug.Log($"Playing as {PlayerGuide.Name} - \"{PlayerGuide.Description}\"");
-			if (PauseSystem.Paused)
-			{
-				PauseSystem.TogglePauseGame();
-			}
+            countdownTimer.BeginCountdown(() =>
+            {
+                StartTurn();
 
-			RemainingPlayers = new();
-			// TODO: change index to player object.
-			for (var i = 0; i < Players.Count; i++)
-			{
-				RemainingPlayers.Add(i);
-			}
+                ActivePlayer.GetComponent<InputController>().Paused = false;
 
-			StartGame();
-		}
+                if (EnableTrails)
+                {
+                    ActivePlayer.Ship.TrailSpawner.ForceStartSpawningTrail();
+                    ActivePlayer.Ship.TrailSpawner.RestartTrailSpawnerAfterDelay(2f);
+                }
+            });
+        }
 
-		protected virtual void Update()
-		{
-			if (!gameRunning)
-			{
-				return;
-			}
+        public virtual void StartNewGame()
+        {
+            //Debug.Log($"Playing as {PlayerGuide.Name} - \"{PlayerGuide.Description}\"");
+            if (PauseSystem.Paused)
+            {
+                PauseSystem.TogglePauseGame();
+            }
 
-			for (int i = 0; i < TurnMonitors.Count; i++)
-			{
-				var turnMonitor = TurnMonitors[i];
-				if (turnMonitor.CheckForEndOfTurn())
-				{
-					EndTurn();
-					return;
-				}
-			}
-		}
+            RemainingPlayers = new(Players);
 
-		void StartGame()
-		{
-			gameRunning = true;
-			Debug.Log($"MiniGame.StartGame, ... {Time.time}");
-			EndGameScreen.SetActive(false);
-			RoundsPlayedThisGame = 0;
-			OnMiniGameStart?.Invoke(gameMode, PlayerShipType, NumberOfPlayers, IntensityLevel);
-			StartRound();
-		}
+            StartGame();
+        }
 
-		void StartRound()
-		{
-			Debug.Log($"MiniGame.StartRound - Round {RoundsPlayedThisGame + 1} Start, ... {Time.time}");
-			TurnsTakenThisRound = 0;
-			SetupTurn();
-		}
+        protected virtual void Update()
+        {
+            if (!gameRunning)
+            {
+                return;
+            }
 
-		protected void StartTurn()
-		{
-			for (int i = 0; i < TurnMonitors.Count; i++)
-			{
-				TurnMonitors[i].ResumeTurn();
-			}
+            for (int i = 0; i < TurnMonitors.Count; i++)
+            {
+                var turnMonitor = TurnMonitors[i];
+                if (turnMonitor.CheckForEndOfTurn())
+                {
+                    EndTurn();
+                    return;
+                }
+            }
+        }
 
-			ScoreTracker.StartTurn(Players[activePlayerId].PlayerName, Players[activePlayerId].Team);
+        void StartGame()
+        {
+            gameRunning = true;
+            Debug.Log($"MiniGame.StartGame, ... {Time.time}");
+            EndGameScreen.SetActive(false);
+            RoundsPlayedThisGame = 0;
+            OnMiniGameStart?.Invoke(gameMode, PlayerShipType, Players.Count, IntensityLevel);
+            StartRound();
+        }
 
-			Debug.Log($"Player {activePlayerId + 1} Get Ready! {Time.time}");
-		}
+        void StartRound()
+        {
+            Debug.Log($"MiniGame.StartRound - Round {RoundsPlayedThisGame + 1} Start, ... {Time.time}");
+            TurnsTakenThisRound = 0;
+            SetupTurn();
+        }
 
-		protected virtual void EndTurn()
-		{
-			Player.ActivePlayer.Ship.TryGetComponent<Silhouette>(out Silhouette silhouette);
-			silhouette.Clear();
-			StartCoroutine(EndTurnCoroutine());
-		}
+        protected void StartTurn()
+        {
+            for (int i = 0; i < TurnMonitors.Count; i++)
+            {
+                TurnMonitors[i].ResumeTurn();
+            }
 
-		IEnumerator EndTurnCoroutine()
-		{
-			for (int i = 0; i < TurnMonitors.Count; i++)
-			{
-				TurnMonitors[i].PauseTurn();
-			}
-			ActivePlayer.GetComponent<InputController>().Paused = true;
-			ActivePlayer.Ship.TrailSpawner.PauseTrailSpawner();
+            ScoreTracker.StartTurn(ActivePlayer.PlayerName, ActivePlayer.Team);
 
-			yield return new WaitForSeconds(EndOfTurnDelay);
+            Debug.Log($"Player {ActivePlayer.PlayerName} Get Ready! {Time.time}");
+        }
 
-			TurnsTakenThisRound++;
+        protected virtual void EndTurn()
+        {
+            Player.ActivePlayer.Ship.TryGetComponent<Silhouette>(out Silhouette silhouette);
+            silhouette.Clear();
+            StartCoroutine(EndTurnCoroutine());
+        }
 
-			ScoreTracker.EndTurn();
-			Debug.Log($"MiniGame.EndTurn - Turns Taken: {TurnsTakenThisRound}, ... {Time.time}");
+        IEnumerator EndTurnCoroutine()
+        {
+            for (int i = 0; i < TurnMonitors.Count; i++)
+            {
+                TurnMonitors[i].PauseTurn();
+            }
+            ActivePlayer.GetComponent<InputController>().Paused = true;
+            ActivePlayer.Ship.TrailSpawner.PauseTrailSpawner();
 
-			if (TurnsTakenThisRound >= RemainingPlayers.Count)
-			{
-				EndRound();
-			}
-			else
-			{
-				SetupTurn();
-			}
-		}
+            yield return new WaitForSeconds(EndOfTurnDelay);
 
-		protected void EndRound()
-		{
-			RoundsPlayedThisGame++;
+            TurnsTakenThisRound++;
 
-			ResolveEliminations();
+            ScoreTracker.EndTurn();
+            Debug.Log($"MiniGame.EndTurn - Turns Taken: {TurnsTakenThisRound}, ... {Time.time}");
 
-			Debug.Log($"MiniGame.EndRound - Rounds Played: {RoundsPlayedThisGame}, ... {Time.time}");
+            if (TurnsTakenThisRound >= RemainingPlayers.Count)
+            {
+                EndRound();
+            }
+            else
+            {
+                SetupTurn();
+            }
+        }
 
-			if (RoundsPlayedThisGame >= NumberOfRounds || RemainingPlayers.Count <= 0)
-			{
-				EndGame();
-			}
-			else
-			{
-				StartRound();
-			}
-		}
+        protected void EndRound()
+        {
+            RoundsPlayedThisGame++;
 
-		void EndGame()
-		{
-			Debug.Log($"MiniGame.EndGame - Rounds Played: {RoundsPlayedThisGame}, ... {Time.time}");
-			Debug.Log($"MiniGame.EndGame - Winner: {ScoreTracker.GetWinner()} ");
+            ResolveEliminations();
 
-			for (int i = 0; i < Players.Count; i++)
-			{
-				Debug.Log($"MiniGame.EndGame - Player Score: {ScoreTracker.GetScore(Players[i].PlayerName)} ");
-			}
+            Debug.Log($"MiniGame.EndRound - Rounds Played: {RoundsPlayedThisGame}, ... {Time.time}");
 
-			LeaderboardManager.Instance.ReportGameplayStatistic(gameMode, PlayerShipType, IntensityLevel, ScoreTracker.GetHighScore(), ScoreTracker.GolfRules);
+            if (RoundsPlayedThisGame >= NumberOfRounds || RemainingPlayers.Count <= 0)
+            {
+                EndGame();
+            }
+            else
+            {
+                StartRound();
+            }
+        }
 
-			UserActionSystem.Instance.CompleteAction(new UserAction(
-					UserActionType.PlayGame,
-					ScoreTracker.GetHighScore(),
-					UserAction.GetGameplayUserActionLabel(gameMode, PlayerShipType, IntensityLevel)));
+        void EndGame()
+        {
+            Debug.Log($"MiniGame.EndGame - Rounds Played: {RoundsPlayedThisGame}, ... {Time.time}");
+            Debug.Log($"MiniGame.EndGame - Winner: {ScoreTracker.GetWinner()} ");
 
-			CameraManager.Instance.SetEndCameraActive();
-			PauseSystem.TogglePauseGame();
-			gameRunning = false;
-			EndGameScreen.SetActive(true);
-			ScoreTracker.DisplayScores();
-			OnMiniGameEnd?.Invoke(gameMode, PlayerShipType, NumberOfPlayers, IntensityLevel, ScoreTracker.GetHighScore());
-		}
+            LinkedListNode<Player> currentPlayer = Players.First;
+            while (currentPlayer != null)
+            {
+                Debug.Log($"MiniGame.EndGame - Player Score: {ScoreTracker.GetScore(currentPlayer.Value.PlayerName)} ");
+                currentPlayer = currentPlayer.Next;
+            }
 
-		void LoopActivePlayerIndex()
-		{
-			RemainingPlayersActivePlayerIndex++;
-			RemainingPlayersActivePlayerIndex %= RemainingPlayers.Count;
-		}
+            LeaderboardManager.Instance.ReportGameplayStatistic(gameMode, PlayerShipType, IntensityLevel, ScoreTracker.GetHighScore(), ScoreTracker.GolfRules);
 
-		List<int> EliminatedPlayers = new();
+            UserActionSystem.Instance.CompleteAction(new UserAction(
+                    UserActionType.PlayGame,
+                    ScoreTracker.GetHighScore(),
+                    UserAction.GetGameplayUserActionLabel(gameMode, PlayerShipType, IntensityLevel)));
 
-		protected void EliminateActivePlayer()
-		{
-			// TODO Add to queue and resolve when round ends
-			EliminatedPlayers.Add(activePlayerId);
-		}
+            CameraManager.Instance.SetEndCameraActive();
+            PauseSystem.TogglePauseGame();
+            gameRunning = false;
+            EndGameScreen.SetActive(true);
+            ScoreTracker.DisplayScores();
+            OnMiniGameEnd?.Invoke(gameMode, PlayerShipType, NumberOfPlayers, IntensityLevel, ScoreTracker.GetHighScore());
+        }
 
-		protected void ResolveEliminations()
-		{
-			EliminatedPlayers.Reverse();
-			// TODO: replace index with player object.
-			for (int i = 0; i < EliminatedPlayers.Count; i++)
-			{
-				RemainingPlayers.Remove(EliminatedPlayers[i]);
-			}
+        void LoopActivePlayer()
+        {
+            LinkedListNode<Player> currentActivePlayer = RemainingPlayers.First;
+            RemainingPlayers.RemoveFirst();
+            RemainingPlayers.AddLast(currentActivePlayer);
+            RemainingPlayersActivePlayer = RemainingPlayers.First.Value;
+        }
 
-			EliminatedPlayers = new List<int>();
+        List<Player> EliminatedPlayers = new();
 
-			if (RemainingPlayers.Count <= 0)
-			{
-				EndGame();
-			}
-		}
+        protected void EliminateActivePlayer()
+        {
+            // TODO Add to queue and resolve when round ends
+            EliminatedPlayers.Add(ActivePlayer);
+        }
 
-		protected virtual void ReadyNextPlayer()
-		{
-			LoopActivePlayerIndex();
-			activePlayerId = RemainingPlayers[RemainingPlayersActivePlayerIndex];
-			ActivePlayer = Players[activePlayerId];
+        protected void ResolveEliminations()
+        {
+            EliminatedPlayers.Reverse();
+            for (int i = 0; i < EliminatedPlayers.Count; i++)
+            {
+                RemainingPlayers.Remove(EliminatedPlayers[i]);
+            }
 
-			for (int i = 0; i < Players.Count; i++)
-			{
-				Debug.Log($"PlayerUUID: {Players[i].PlayerUUID}");
-				Players[i].gameObject.SetActive(Players[i].PlayerUUID == ActivePlayer.PlayerUUID);
-			}
+            EliminatedPlayers.Clear();
 
-			Player.ActivePlayer = ActivePlayer;
-		}
+            if (RemainingPlayers.Count == 0)
+            {
+                EndGame();
+            }
+        }
 
-		protected virtual void SetupTurn()
-		{
-			ReadyNextPlayer();
+        protected virtual void ReadyNextPlayer()
+        {
+            LoopActivePlayer();
+            ActivePlayer = RemainingPlayersActivePlayer;
 
-			// Wait for player ready before activating turn monitor (only really relevant for time based monitor)
-			for (int i = 0; i < TurnMonitors.Count; i++)
-			{
-				TurnMonitors[i].NewTurn(Players[activePlayerId].PlayerName);
-				TurnMonitors[i].PauseTurn();
-			}
+            LinkedListNode<Player> currentPlayer = Players.First;
+            while (currentPlayer != null)
+            {
+                currentPlayer = currentPlayer.Next;
+                Debug.Log($"PlayerUUID: {currentPlayer.Value.PlayerUUID}");
+                currentPlayer.Value.gameObject.SetActive(currentPlayer.Value.PlayerUUID == ActivePlayer.PlayerUUID);
+                currentPlayer = currentPlayer.Next;
+            }
 
-			ActivePlayer.transform.SetPositionAndRotation(PlayerOrigin.transform.position, PlayerOrigin.transform.rotation);
-			ActivePlayer.GetComponent<InputController>().Paused = true;
-			ActivePlayer.Ship.Teleport(PlayerOrigin.transform);
-			ActivePlayer.Ship.GetComponent<ShipTransformer>().Reset();
-			ActivePlayer.Ship.TrailSpawner.PauseTrailSpawner();
-			ActivePlayer.Ship.ResourceSystem.Reset();
-			ActivePlayer.Ship.SetGuide(PlayerCaptain);
+            Player.ActivePlayer = ActivePlayer;
+        }
 
-			CameraManager.Instance.SetupGamePlayCameras(ActivePlayer.Ship.FollowTarget);
+        protected virtual void SetupTurn()
+        {
+            ReadyNextPlayer();
 
-			// For single player games, don't require the extra button press
-			if (Players.Count > 1)
-			{
-				ReadyButton.gameObject.SetActive(true);
-			}
-			else
-			{
-				OnReadyClicked();
-			}
-		}
-	}
+            // Wait for player ready before activating turn monitor (only really relevant for time based monitor)
+            for (int i = 0; i < TurnMonitors.Count; i++)
+            {
+                TurnMonitors[i].NewTurn(ActivePlayer.PlayerName);
+                TurnMonitors[i].PauseTurn();
+            }
+
+            ActivePlayer.transform.SetPositionAndRotation(PlayerOrigin.transform.position, PlayerOrigin.transform.rotation);
+            ActivePlayer.GetComponent<InputController>().Paused = true;
+            ActivePlayer.Ship.Teleport(PlayerOrigin.transform);
+            ActivePlayer.Ship.GetComponent<ShipTransformer>().Reset();
+            ActivePlayer.Ship.TrailSpawner.PauseTrailSpawner();
+            ActivePlayer.Ship.ResourceSystem.Reset();
+            ActivePlayer.Ship.Guide = PlayerCaptain;
+
+            CameraManager.Instance.SetupGamePlayCameras(ActivePlayer.Ship.FollowTarget);
+
+            // For single player games, don't require the extra button press
+            if (Players.Count > 1)
+            {
+                ReadyButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                OnReadyClicked();
+            }
+        }
+    }
 }

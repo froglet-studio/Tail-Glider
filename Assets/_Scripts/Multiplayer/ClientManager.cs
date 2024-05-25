@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CosmicShore.Utility.ClassExtensions;
 using CosmicShore.Utility.Singleton;
 
+
 namespace CosmicShore
 {
     public class ClientManager : SingletonPersistent<ClientManager>
@@ -15,10 +16,9 @@ namespace CosmicShore
         {
             var fullUrl = $"{SharedData.HttpUrl}/calculator/add/1/2";
             await RunOperations(fullUrl);
-            
+
             fullUrl = $"{SharedData.HttpUrl}/calculator/subtract/1/2";
             await RunOperations(fullUrl);
-
         }
 
         public async Task RunOperations(string url)
@@ -28,9 +28,9 @@ namespace CosmicShore
         }
 
         // Update is called once per frame
-        public async Task<string> GetResponse(string url)
+        public async System.Threading.Tasks.Task<string> GetResponse(string url)
         {
-            
+
             using (_client = new())
             {
                 try
@@ -46,7 +46,7 @@ namespace CosmicShore
                         this.LogErrorWithClassMethod(MethodBase.GetCurrentMethod()?.ToString(), errorMessage);
                         return errorMessage;
                     }
-                
+
                 }
                 catch (Exception e)
                 {
@@ -54,7 +54,6 @@ namespace CosmicShore
                     return e.Message;
                 }
             }
-           
         }
     }
 }

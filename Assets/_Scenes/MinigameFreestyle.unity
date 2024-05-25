@@ -1287,18 +1287,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5d3599573f5d3348865c8d5efe8c29f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnableSegments:
-  - {fileID: 2091254371}
-  - {fileID: 1450883833}
-  - {fileID: 1692904587}
-  - {fileID: 2089761477}
+  spawnedSegment:
+  - Spawnable: {fileID: 2091254371}
+    Weight: 1
   positioningScheme: 0
-  spawnSegmentWeights:
-  - 1
-  - 1
-  - 1
-  - 0
-  Seed: 0
   parent: {fileID: 0}
   origin: {x: 0, y: 0, z: 0}
   Radius: 250
@@ -1306,7 +1298,7 @@ MonoBehaviour:
   RotationAmount: 10
   DifficultyAngle: 0
   InitializeOnStart: 0
-  numberOfSegments: 300
+  NumberOfSegments: 1
   branchProbability: 0.2
   minBranchAngle: 20
   maxBranchAngle: 20
@@ -1429,7 +1421,7 @@ MonoBehaviour:
   EndOfTurnDelay: 0
   EnableTrails: 1
   DefaultPlayerShipType: 2
-  DefaultPlayerGuide: {fileID: 0}
+  DefaultPlayerCaptain: {fileID: 0}
   ActivePlayer: {fileID: 0}
   Crystal: {fileID: 1568959833}
   CrystalStartPosition: {x: 0, y: 0, z: -120}

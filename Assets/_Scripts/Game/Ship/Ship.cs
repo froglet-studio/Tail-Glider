@@ -7,9 +7,16 @@ using CosmicShore.Game.AI;
 using CosmicShore.Game.Projectiles;
 using CosmicShore.Integrations.Enums;
 using CosmicShore.Models.ScriptableObjects;
+using QFSW.QC.Actions;
 
 namespace CosmicShore.Core
 {
+    // TODO: Why are these structs and not classes?
+    // I ask because they seem to be structs in the C sense:
+    // sort of like classes with no functions. These also
+    // contain a reference to a List<>, which is a class.
+    // So they're structs that contain a class. I don't get
+    // it.
     [Serializable]
     public struct InputEventShipActionMapping
     {
@@ -29,6 +36,125 @@ namespace CosmicShore.Core
     [RequireComponent(typeof(ShipStatus))]
     public class Ship : MonoBehaviour
     {
+        readonly Dictionary<TrailBlockImpactEffects, Action<Ship, TrailBlockProperties>> ImpactTrailBlockActions = new()
+        {
+            {
+                TrailBlockImpactEffects.PlayHaptics,
+                (ship, trailBlockProperties) => {
+                    if (!ship.ShipStatus.AutoPilotEnabled)
+                    {
+                        HapticController.PlayHaptic(HapticType.BlockCollision);
+                    }
+                }
+            },
+            {
+                TrailBlockImpactEffects.DrainHalfAmmo,
+
+                (ship, trailBlockProperties) => {
+                    ship.ResourceSystem.ChangeAmmoAmount(-ship.ResourceSystem.CurrentAmmo / 2f);
+                }
+            },
+            {
+                TrailBlockImpactEffects.DebuffSpeed,
+                (ship, trailBlockProperties) => {
+                    ship.ShipTransformer.ModifyThrottle(
+                        trailBlockProperties.speedDebuffAmount, ship.speedModifierDuration);
+                }
+            },
+            {
+                TrailBlockImpactEffects.OnlyBuffSpeed,
+                (ship, trailBlockProperties) => {
+                    if (trailBlockProperties.speedDebuffAmount > 1)
+                    {
+                        ship.ShipTransformer.ModifyThrottle(
+                            trailBlockProperties.speedDebuffAmount, ship.speedModifierDuration);
+                    }
+                }
+            },
+            {
+                TrailBlockImpactEffects.ChangeBoost,
+                (ship, trailBlockProperties) => {
+                    ship.ResourceSystem.ChangeBoostAmount(ship.BlockChargeChange);
+                }
+            },
+            {
+                TrailBlockImpactEffects.Attach, (ship, trailBlockProperties) => {
+                    ship.Attach(trailBlockProperties.trailBlock);
+                    ship.ShipStatus.GunsActive = true;
+                }
+            },
+            {
+                TrailBlockImpactEffects.ChangeAmmo, (ship, trailBlockProperties) => {
+                    ship.ResourceSystem.ChangeAmmoAmount(ship.BlockChargeChange);
+                }
+            },
+            {
+                TrailBlockImpactEffects.Bounce, (ship, trailBlockProperties) => {
+                    var cross = Vector3.Cross(ship.transform.forward, trailBlockProperties.trailBlock.transform.forward);
+                    var normal = Quaternion.AngleAxis(90, cross) * trailBlockProperties.trailBlock.transform.forward;
+                    var reflectForward = Vector3.Reflect(ship.transform.forward, normal);
+                    var reflectUp = Vector3.Reflect(ship.transform.up, normal);
+                    ship.ShipTransformer.GentleSpinShip(reflectForward, reflectUp, 1);
+                    ship.ShipTransformer.ModifyVelocity(
+                        (ship.transform.position - trailBlockProperties.trailBlock.transform.position).normalized * 5,
+                        Time.deltaTime * 15);
+                }
+            },
+            {
+                TrailBlockImpactEffects.Explode, (ship, trailBlockProperties) => {
+                    trailBlockProperties.trailBlock.Explode(
+                        ship.ShipStatus.Course * ship.ShipStatus.Speed, ship.Team, ship.Player.PlayerName);
+                }
+            },
+        };
+
+        readonly Dictionary<CrystalImpactEffects, Action<Ship, CrystalProperties>> CrystalImpactActions = new()
+        {
+            { CrystalImpactEffects.AreaOfEffectExplosion, (ship, crystalProperties) =>
+                {
+                    var AOEExplosion = Instantiate(ship.AOEPrefab).GetComponent<AOEExplosion>();
+                    AOEExplosion.Ship = ship;
+                    AOEExplosion.SetPositionAndRotation(ship.transform.position, ship.transform.rotation);
+                    AOEExplosion.MaxScale =  Mathf.Lerp(ship.minExplosionScale, ship.maxExplosionScale, ship.ResourceSystem.CurrentAmmo);
+                }
+            },
+            { CrystalImpactEffects.IncrementLevel, (ship, crystalProperties) =>
+                {
+                     // TODO: consider removing here and leaving this up to the crystals.
+                    ship.ResourceSystem.IncrementLevel(crystalProperties.Element);
+                }
+            },
+            { CrystalImpactEffects.FillCharge, (ship, crystalProperties) =>
+                {
+                     ship.ResourceSystem.ChangeBoostAmount(crystalProperties.fuelAmount);
+                }
+            },
+            { CrystalImpactEffects.Boost, (ship, crystalProperties) =>
+                {
+                    ship.ShipTransformer.ModifyThrottle(crystalProperties.speedBuffAmount, 4 * ship.speedModifierDuration);
+                }
+            },
+            { CrystalImpactEffects.DrainAmmo, (ship, crystalProperties) =>
+                {
+                    ship.ResourceSystem.ChangeAmmoAmount(-ship.ResourceSystem.CurrentAmmo);
+                }
+            },
+            { CrystalImpactEffects.GainOneThirdMaxAmmo, (ship, crystalProperties) =>
+                {
+                    ship.ResourceSystem.ChangeAmmoAmount(ship.ResourceSystem.MaxAmmo/3f);
+                }
+            },
+            { CrystalImpactEffects.GainFullAmmo, (ship, crystalProperties) =>
+                {
+                    ship.ResourceSystem.ChangeAmmoAmount(ship.ResourceSystem.MaxAmmo);
+                }
+            },
+        };
+
+        // TODO: Why are so many of these public but hidden in the Inspector?
+        // I understand that, that way, they can be changed from code but
+        // not from the Editor. But why do it that way? (I'm not saying or
+        // implying it's wrong. I'm just wondering.)
         [SerializeField] List<ImpactProperties> impactProperties;
         [HideInInspector] public CameraManager cameraManager;
         [HideInInspector] public InputController InputController;
@@ -43,7 +169,7 @@ namespace CosmicShore.Core
         [HideInInspector] public ShipTransformer ShipTransformer;
         [HideInInspector] public AIPilot AutoPilot;
         [HideInInspector] public ShipStatus ShipStatus;
-        [SerializeField] Skimmer nearFieldSkimmer;
+        [SerializeField] Skimmer nearFieldSkimmer { get; set; }
         [SerializeField] GameObject OrientationHandle;
         [SerializeField] public List<GameObject> shipGeometries;
 
@@ -60,7 +186,7 @@ namespace CosmicShore.Core
         [ShowIf(CrystalImpactEffects.AreaOfEffectExplosion)] [SerializeField] float maxExplosionScale = 400;
 
         [SerializeField] List<TrailBlockImpactEffects> trailBlockImpactEffects;
-        [SerializeField] float blockChargeChange;
+        [SerializeField] public float BlockChargeChange { get; set; }
 
         [Header("Configuration")]
         [SerializeField] public float boostMultiplier = 4f; // TODO: Move to ShipController
@@ -84,18 +210,57 @@ namespace CosmicShore.Core
         public List<ShipLevelEffects> LevelEffects;
         [SerializeField] float closeCamDistance;
         [SerializeField] float farCamDistance;
-        
-        Dictionary<InputEvents, float> inputAbilityStartTimes = new();
-        Dictionary<ResourceEvents, float> resourceAbilityStartTimes = new();
 
-        Material ShipMaterial;
-        [HideInInspector] public Material AOEExplosionMaterial;
-        [HideInInspector] public Material AOEConicExplosionMaterial;
-        [HideInInspector] public Material SkimmerMaterial;
-        float speedModifierDuration = 2f;
-        
+        readonly Dictionary<InputEvents, float> inputAbilityStartTimes = new();
+        readonly Dictionary<ResourceEvents, float> resourceAbilityStartTimes = new();
+
+        Material _ShipMaterial;
+
+        public Material ShipMaterial {
+            get
+
+            {
+                return _ShipMaterial;
+            }
+            set
+            {
+                _ShipMaterial = value;
+                ApplyShipMaterial();
+
+            }
+        }
+
+        [HideInInspector] public Material AOEExplosionMaterial { get; set; }
+        [HideInInspector] public Material AOEConicExplosionMaterial { get; set; }
+        [HideInInspector] public Material SkimmerMaterial { get; set; }
+        public readonly float speedModifierDuration = 2f;
+
+        SO_Guide _guide;
+
         // Guide and guide upgrade properties
-        SO_Guide guide;
+        public SO_Guide Guide
+        {
+            get
+            {
+                return _guide;
+            }
+            set
+            {
+                _guide = value;
+                ResourceSystem.InitialChargeLevel = Guide.InitialCharge;
+                ResourceSystem.InitialMassLevel = Guide.InitialMass;
+                ResourceSystem.InitialSpaceLevel = Guide.InitialSpace;
+                ResourceSystem.InitialTimeLevel = Guide.InitialTime;
+
+            }
+        }
+
+        private bool IsUsingGamepad
+        {
+            get {
+                return UnityEngine.InputSystem.Gamepad.current != null;
+            }
+        }
 
         private Dictionary<Element, SO_GuideUpgrade> _guideUpgrades;
         public Dictionary<Element, SO_GuideUpgrade> GuideUpgrades
@@ -116,20 +281,20 @@ namespace CosmicShore.Core
         }
 
         Teams team;
-        public Teams Team 
-        { 
-            get => team; 
-            set 
-            { 
+        public Teams Team
+        {
+            get => team;
+            set
+            {
                 team = value;
                 if (nearFieldSkimmer != null) nearFieldSkimmer.team = value;
-                if (farFieldSkimmer != null) farFieldSkimmer.team = value; 
+                if (farFieldSkimmer != null) farFieldSkimmer.team = value;
             }
         }
 
         Player player;
-        public Player Player 
-        { 
+        public Player Player
+        {
             get => player;
             set
             {
@@ -158,53 +323,71 @@ namespace CosmicShore.Core
             if (!FollowTarget) FollowTarget = transform;
             if (bottomEdgeButtons) Player.GameCanvas.MiniGameHUD.PositionButtonPanel(true);
 
-            foreach (var shipGeometry in shipGeometries)
-                shipGeometry.AddComponent<ShipGeometry>().Ship = this;
+            for (int i = 0; i < shipGeometries.Count; i++)
+                shipGeometries[i].AddComponent<ShipGeometry>().Ship = this;
 
-            foreach (var inputEventShipAction in inputEventShipActions)
-                if (!ShipControlActions.ContainsKey(inputEventShipAction.InputEvent))
-                    ShipControlActions.Add(inputEventShipAction.InputEvent, inputEventShipAction.ShipActions);
+            for (int i = 0; i < inputEventShipActions.Count; i++)
+            {
+                if (!ShipControlActions.ContainsKey(inputEventShipActions[i].InputEvent))
+                {
+                    ShipControlActions.Add(inputEventShipActions[i].InputEvent, inputEventShipActions[i].ShipActions);
+                }
                 else
-                    ShipControlActions[inputEventShipAction.InputEvent].AddRange(inputEventShipAction.ShipActions);
+                {
+                    ShipControlActions[inputEventShipActions[i].InputEvent].AddRange(inputEventShipActions[i].ShipActions);
+                }
+            }
 
-            foreach (var key in ShipControlActions.Keys)
-                foreach (var shipAction in ShipControlActions[key])
-                    shipAction.Ship = this;
-            
-            foreach (var resourceEventClassAction in resourceEventClassActions)
-                if (!ClassResourceActions.ContainsKey(resourceEventClassAction.ResourceEvent))
-                    ClassResourceActions.Add(resourceEventClassAction.ResourceEvent, resourceEventClassAction.ClassActions);
+            for (int i = 0; i < ShipControlActions.Count; i++)
+            {
+                var shipControlAction = ShipControlActions.ElementAt(i).Value;
+                for (int j = 0; j < shipControlAction.Count; j++)
+                {
+                    shipControlAction[j].Ship = this;
+                }
+            }
+
+            for (int i = 0; i < resourceEventClassActions.Count; i++)
+            {
+                if (!ClassResourceActions.ContainsKey(resourceEventClassActions[i].ResourceEvent))
+                {
+                    ClassResourceActions.Add(
+                        resourceEventClassActions[i].ResourceEvent, resourceEventClassActions[i].ClassActions);
+                }
                 else
-                    ClassResourceActions[resourceEventClassAction.ResourceEvent].AddRange(resourceEventClassAction.ClassActions);
+                {
+                    ClassResourceActions[resourceEventClassActions[i].
+                        ResourceEvent].AddRange(resourceEventClassActions[i].ClassActions);
+                }
+            }
 
-            foreach (var key in ClassResourceActions.Keys)
-                foreach (var classAction in ClassResourceActions[key])
-                    classAction.Ship = this;
+            for (int i = 0; i < ClassResourceActions.Count; i++)
+            {
+                List<ShipAction> shipAction = ClassResourceActions.ElementAt(i).Value;
+                for (int j = 0; j < shipAction.Count; j++)
+                {
+                    shipAction[j].Ship = this;
+                }
+            }
 
             if (!AutoPilot.AutoPilotEnabled)
             {
                 if (ShipControlActions.ContainsKey(InputEvents.Button1Action))
                 {
-                    Player.GameCanvas.MiniGameHUD.SetButtonActive(!CheckIfUsingGamepad(), 1);
+                    Player.GameCanvas.MiniGameHUD.SetButtonActive(!IsUsingGamepad, 1);
                 }
 
                 if (ShipControlActions.ContainsKey(InputEvents.Button2Action))
                 {
-                    Player.GameCanvas.MiniGameHUD.SetButtonActive(!CheckIfUsingGamepad(), 2);
+                    Player.GameCanvas.MiniGameHUD.SetButtonActive(!IsUsingGamepad, 2);
                 }
 
                 if (ShipControlActions.ContainsKey(InputEvents.Button3Action))
                 {
-                    Player.GameCanvas.MiniGameHUD.SetButtonActive(!CheckIfUsingGamepad(), 3);
+                    Player.GameCanvas.MiniGameHUD.SetButtonActive(!IsUsingGamepad, 3);
                 }
             }
         }
-
-        bool CheckIfUsingGamepad()
-        {
-            return UnityEngine.InputSystem.Gamepad.current != null;
-        }
-        
 
         [Serializable] public struct ElementStat
         {
@@ -223,177 +406,114 @@ namespace CosmicShore.Core
         {
             Debug.Log($"Ship.NotifyShipStatBinding - statName:{statName}, element:{element}");
             if (!ElementStats.Where(x => x.StatName == statName).Any())
+            {
                 ElementStats.Add(new ElementStat(statName, element));
-            
+            }
+
             Debug.Log($"Ship.NotifyShipStatBinding - ElementStats.Count:{ElementStats.Count}");
         }
 
         public void PerformCrystalImpactEffects(CrystalProperties crystalProperties)
         {
             if (StatsManager.Instance != null)
+            {
                 StatsManager.Instance.CrystalCollected(this, crystalProperties);
+            }
 
             foreach (CrystalImpactEffects effect in crystalImpactEffects)
             {
-                switch (effect)
-                {
-                    case CrystalImpactEffects.PlayHaptics:
-                        if (!ShipStatus.AutoPilotEnabled) HapticController.PlayHaptic(HapticType.CrystalCollision);//.PlayCrystalImpactHaptics();
-                        break;
-                    case CrystalImpactEffects.AreaOfEffectExplosion:
-                        var AOEExplosion = Instantiate(AOEPrefab).GetComponent<AOEExplosion>();
-                        AOEExplosion.Ship = this;
-                        AOEExplosion.SetPositionAndRotation(transform.position, transform.rotation);
-                        AOEExplosion.MaxScale =  Mathf.Lerp(minExplosionScale, maxExplosionScale, ResourceSystem.CurrentAmmo);
-                        break;
-                    case CrystalImpactEffects.IncrementLevel:
-                        ResourceSystem.IncrementLevel(crystalProperties.Element); // TODO: consider removing here and leaving this up to the crystals
-                        break;
-                    case CrystalImpactEffects.FillCharge:
-                        ResourceSystem.ChangeBoostAmount(crystalProperties.fuelAmount);
-                        break;
-                    case CrystalImpactEffects.Boost:
-                        ShipTransformer.ModifyThrottle(crystalProperties.speedBuffAmount, 4 * speedModifierDuration);
-                        break;
-                    case CrystalImpactEffects.DrainAmmo:
-                        ResourceSystem.ChangeAmmoAmount(-ResourceSystem.CurrentAmmo);
-                        break;
-                    case CrystalImpactEffects.GainOneThirdMaxAmmo:
-                        ResourceSystem.ChangeAmmoAmount(ResourceSystem.MaxAmmo/3f);
-                        break;
-                    case CrystalImpactEffects.GainFullAmmo:
-                        ResourceSystem.ChangeAmmoAmount(ResourceSystem.MaxAmmo);
-                        break;
-                }
+                CrystalImpactActions[effect](this, crystalProperties);
             }
         }
 
         public void PerformTrailBlockImpactEffects(TrailBlockProperties trailBlockProperties)
         {
-            foreach (TrailBlockImpactEffects effect in trailBlockImpactEffects)
+            for (int i = 0; i < trailBlockImpactEffects.Count; i++)
             {
-                switch (effect)
-                {
-                    case TrailBlockImpactEffects.PlayHaptics:
-                        if (!ShipStatus.AutoPilotEnabled) HapticController.PlayHaptic(HapticType.BlockCollision);//.PlayBlockCollisionHaptics();
-                        break;
-                    case TrailBlockImpactEffects.DrainHalfAmmo:
-                        ResourceSystem.ChangeAmmoAmount(-ResourceSystem.CurrentAmmo / 2f);
-                        break;
-                    case TrailBlockImpactEffects.DebuffSpeed:
-                        ShipTransformer.ModifyThrottle(trailBlockProperties.speedDebuffAmount, speedModifierDuration);
-                        break;
-                    case TrailBlockImpactEffects.DeactivateTrailBlock:
-                        break;
-                    case TrailBlockImpactEffects.ActivateTrailBlock:
-                        break;
-                    case TrailBlockImpactEffects.OnlyBuffSpeed:
-                        if (trailBlockProperties.speedDebuffAmount > 1) ShipTransformer.ModifyThrottle(trailBlockProperties.speedDebuffAmount, speedModifierDuration);
-                        break;
-                    case TrailBlockImpactEffects.ChangeBoost:
-                        ResourceSystem.ChangeBoostAmount(blockChargeChange);
-                        break;
-                    case TrailBlockImpactEffects.Attach:
-                        Attach(trailBlockProperties.trailBlock);
-                        ShipStatus.GunsActive = true;
-                        break;
-                    case TrailBlockImpactEffects.ChangeAmmo:
-                        ResourceSystem.ChangeAmmoAmount(blockChargeChange);
-                        break;
-                    case TrailBlockImpactEffects.Bounce:
-                        var cross = Vector3.Cross(transform.forward, trailBlockProperties.trailBlock.transform.forward);
-                        var normal = Quaternion.AngleAxis(90, cross) * trailBlockProperties.trailBlock.transform.forward;
-                        var reflectForward = Vector3.Reflect(transform.forward, normal);
-                        var reflectUp = Vector3.Reflect(transform.up, normal);
-                        ShipTransformer.GentleSpinShip(reflectForward, reflectUp, 1);
-                        ShipTransformer.ModifyVelocity((transform.position - trailBlockProperties.trailBlock.transform.position).normalized * 5 , Time.deltaTime * 15);
-                        break;
-                    case TrailBlockImpactEffects.Explode:
-                        trailBlockProperties.trailBlock.Explode(ShipStatus.Course * ShipStatus.Speed, Team, Player.PlayerName);
-                        break;
-                }
+                ImpactTrailBlockActions[trailBlockImpactEffects[i]](this, trailBlockProperties);
             }
         }
-
 
         public void PerformShipControllerActions(InputEvents controlType)
         {
             if (!inputAbilityStartTimes.ContainsKey(controlType))
+            {
                 inputAbilityStartTimes.Add(controlType, Time.time);
+            }
             else
+            {
                 inputAbilityStartTimes[controlType] = Time.time;
+            }
 
             if (ShipControlActions.ContainsKey(controlType))
             {
                 var shipControlActions = ShipControlActions[controlType];
                 foreach (var action in shipControlActions)
+                {
                     action.StartAction();
+                }
             }
         }
 
         public void StopShipControllerActions(InputEvents controlType)
         {
             if (StatsManager.Instance != null)
-                StatsManager.Instance.AbilityActivated(Team, player.PlayerName, controlType, Time.time-inputAbilityStartTimes[controlType]);
+            {
+                StatsManager.Instance.AbilityActivated(
+                    Team, player.PlayerName, controlType, Time.time-inputAbilityStartTimes[controlType]);
+            }
 
             if (ShipControlActions.ContainsKey(controlType))
             {
                 var shipControlActions = ShipControlActions[controlType];
                 foreach (var action in shipControlActions)
+                {
                     action.StopAction();
+                }
             }
         }
 
         public void PerformClassResourceActions(ResourceEvents resourceEvent)
         {
             if (!resourceAbilityStartTimes.ContainsKey(resourceEvent))
+            {
                 resourceAbilityStartTimes.Add(resourceEvent, Time.time);
+            }
             else
+            {
                 resourceAbilityStartTimes[resourceEvent] = Time.time;
+            }
 
             if (ClassResourceActions.ContainsKey(resourceEvent))
             {
                 var classResourceActions = ClassResourceActions[resourceEvent];
                 foreach (var action in classResourceActions)
+                {
                     action.StartAction();
+                }
             }
         }
-     
+
         public void StopClassResourceActions(ResourceEvents resourceEvent)
         {
-            //if (StatsManager.Instance != null)
-            //    StatsManager.Instance.AbilityActivated(Team, player.PlayerName, resourceEvent, Time.time-inputAbilityStartTimes[controlType]);
-
             if (ClassResourceActions.ContainsKey(resourceEvent))
             {
                 var classResourceActions = ClassResourceActions[resourceEvent];
                 foreach (var action in classResourceActions)
+                {
                     action.StopAction();
+                }
             }
-        }
-
-        public void ToggleCollision(bool enabled)
-        {
-            foreach (var collider in GetComponentsInChildren<Collider>(true))
-                collider.enabled = enabled;
-        }
-
-        public void SetGuide(SO_Guide guide)
-        {
-            this.guide = guide;
-            ResourceSystem.InitialChargeLevel = this.guide.InitialCharge;
-            ResourceSystem.InitialMassLevel = this.guide.InitialMass;
-            ResourceSystem.InitialSpaceLevel = this.guide.InitialSpace;
-            ResourceSystem.InitialTimeLevel = this.guide.InitialTime;
-
-            ResourceSystem.InitializeElementLevels();
         }
 
         public void UpdateLevel(Element element, int upgradeLevel)
         {
             Debug.Log($"Ship: UpdateLevel: element{element}, upgradeLevel: {upgradeLevel}");
-            if (GuideUpgrades == null) GuideUpgrades = new();
-            
+            if (GuideUpgrades == null)
+            {
+                GuideUpgrades = new();
+            }
+
             if (GuideUpgrades.ContainsKey(element))
             {
                 GuideUpgrades[element].element = element;
@@ -414,14 +534,8 @@ namespace CosmicShore.Core
                 Debug.LogFormat("{0} - {1}: element: {2} upgrade level: {3}", nameof(GuideUpgrades), nameof(UpdateLevel), upgrade.Key, upgrade.Value.upgradeLevel.ToString());
             }
             #endif
-            
         }
 
-        public void SetShipMaterial(Material material)
-        {
-            ShipMaterial = material;
-            ApplyShipMaterial();
-        }
 
         public void SetBlockMaterial(Material material)
         {
@@ -430,27 +544,15 @@ namespace CosmicShore.Core
 
         public void SetBlockSilhouettePrefab(GameObject prefab)
         {
-            if (Silhouette) Silhouette.SetBlockPrefab(prefab);
+            if (Silhouette)
+            {
+                Silhouette.SetBlockPrefab(prefab);
+            }
         }
 
         public void SetShieldedBlockMaterial(Material material)
         {
             TrailSpawner.SetShieldedBlockMaterial(material);
-        }
-
-        public void SetAOEExplosionMaterial(Material material)
-        {
-            AOEExplosionMaterial = material;
-        }
-
-        public void SetAOEConicExplosionMaterial(Material material)
-        {
-            AOEConicExplosionMaterial = material;
-        }
-
-        public void SetSkimmerMaterial(Material material)
-        {
-            SkimmerMaterial = material;
         }
 
         public void FlipShipUpsideDown() // TODO: move to shipController
@@ -476,36 +578,44 @@ namespace CosmicShore.Core
         // TODO: need to be able to disable ship abilities as well for minigames
         public void DisableSkimmer()
         {
-            nearFieldSkimmer?.gameObject.SetActive(false);
-            farFieldSkimmer?.gameObject.SetActive(false);
+            if (nearFieldSkimmer != null)
+            {
+                nearFieldSkimmer.gameObject.SetActive(false);
+            }
+            if (farFieldSkimmer != null)
+            {
+                farFieldSkimmer.gameObject.SetActive(false);
+            }
         }
 
         void ApplyShipMaterial()
         {
             if (ShipMaterial == null)
-                return;
-
-            foreach (var shipGeometry in shipGeometries)
             {
-                if (shipGeometry.GetComponent<SkinnedMeshRenderer>() != null) 
+                return;
+            }
+
+            for (int i = 0; i < shipGeometries.Count; i++)
+            {
+                if (shipGeometries[i].GetComponent<SkinnedMeshRenderer>() != null)
                 {
-                    var materials = shipGeometry.GetComponent<SkinnedMeshRenderer>().materials;
+                    var materials = shipGeometries[i].GetComponent<SkinnedMeshRenderer>().materials;
                     materials[2] = ShipMaterial;
-                    shipGeometry.GetComponent<SkinnedMeshRenderer>().materials = materials;
+                    shipGeometries[i].GetComponent<SkinnedMeshRenderer>().materials = materials;
                 }
-                else if (shipGeometry.GetComponent<MeshRenderer>() != null)
+                else if (shipGeometries[i].GetComponent<MeshRenderer>() != null)
                 {
-                    var materials = shipGeometry.GetComponent<MeshRenderer>().materials;
+                    var materials = shipGeometries[i].GetComponent<MeshRenderer>().materials;
                     materials[1] = ShipMaterial;
-                    shipGeometry.GetComponent<MeshRenderer>().materials = materials;
-                } 
+                    shipGeometries[i].GetComponent<MeshRenderer>().materials = materials;
+                }
             }
         }
 
         //
         // Attach and Detach
         //
-        void Attach(TrailBlock trailBlock) 
+        public void Attach(TrailBlock trailBlock)
         {
             if (trailBlock.Trail != null)
             {
