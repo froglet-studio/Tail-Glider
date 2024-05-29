@@ -420,6 +420,10 @@ namespace PlayFab.AdminModels
         /// The reason why this ban was applied.
         /// </summary>
         public string Reason;
+        /// <summary>
+        /// The family type of the suer that is included in the ban.
+        /// </summary>
+        public string UserFamilyType;
     }
 
     [Serializable]
@@ -470,6 +474,10 @@ namespace PlayFab.AdminModels
         /// The reason for this ban. Maximum 140 characters.
         /// </summary>
         public string Reason;
+        /// <summary>
+        /// The family type of the user that should be included in the ban if applicable. May affect multiple players.
+        /// </summary>
+        public UserFamilyType? UserFamilyType;
     }
 
     /// <summary>
@@ -2617,6 +2625,14 @@ namespace PlayFab.AdminModels
         LeaderboardNameConflict,
         LinkedStatisticColumnMismatch,
         NoLinkedStatisticToLeaderboard,
+        StatDefinitionAlreadyLinkedToLeaderboard,
+        LinkingStatsNotAllowedForEntityType,
+        LeaderboardCountLimitExceeded,
+        LeaderboardSizeLimitExceeded,
+        LeaderboardDefinitionModificationNotAllowedWhileLinked,
+        StatisticDefinitionModificationNotAllowedWhileLinked,
+        LeaderboardUpdateNotAllowedWhileLinked,
+        CloudScriptAzureFunctionsEventHubRequestError,
         MatchmakingEntityInvalid,
         MatchmakingPlayerAttributesInvalid,
         MatchmakingQueueNotFound,
@@ -2817,19 +2833,52 @@ namespace PlayFab.AdminModels
         CopilotDisabled,
         CopilotInvalidRequest,
         TrueSkillUnauthorized,
-        TrueSkillBadRequest,
+        TrueSkillInvalidTitleId,
+        TrueSkillInvalidScenarioId,
+        TrueSkillInvalidModelId,
+        TrueSkillInvalidModelName,
+        TrueSkillInvalidPlayerIds,
+        TrueSkillInvalidEntityKey,
+        TrueSkillInvalidConditionKey,
+        TrueSkillInvalidConditionValue,
+        TrueSkillInvalidConditionAffinityWeight,
+        TrueSkillInvalidEventName,
+        TrueSkillMatchResultCreated,
         TrueSkillMatchResultAlreadySubmitted,
+        TrueSkillBadPlayerIdInMatchResult,
+        TrueSkillInvalidBotIdInMatchResult,
         TrueSkillDuplicatePlayerInMatchResult,
+        TrueSkillNoPlayerInMatchResultTeam,
+        TrueSkillPlayersInMatchResultExceedingLimit,
+        TrueSkillInvalidPreMatchPartyInMatchResult,
+        TrueSkillInvalidTimestampInMatchResult,
+        TrueSkillStartTimeMissingInMatchResult,
+        TrueSkillEndTimeMissingInMatchResult,
+        TrueSkillInvalidPlayerSecondsPlayedInMatchResult,
+        TrueSkillNoTeamInMatchResult,
+        TrueSkillNotEnoughTeamsInMatchResult,
         TrueSkillInvalidRanksInMatchResult,
         TrueSkillNoWinnerInMatchResult,
-        TrueSkillMissingRequiredConditionInMatchResult,
-        TrueSkillMissingRequiredEventInMatchResult,
-        TrueSkillUnknownEventInMatchResult,
-        TrueSkillUnknownConditionName,
+        TrueSkillMissingRequiredCondition,
+        TrueSkillMissingRequiredEvent,
+        TrueSkillUnknownEventName,
+        TrueSkillInvalidEventCount,
+        TrueSkillUnknownConditionKey,
         TrueSkillUnknownConditionValue,
-        TrueSkillUnknownScenarioId,
+        TrueSkillScenarioConfigDoesNotExist,
         TrueSkillUnknownModelId,
-        TrueSkillNoActiveModelInScenario,
+        TrueSkillNoModelInScenario,
+        TrueSkillNotSupportedForTitle,
+        TrueSkillModelIsNotActive,
+        TrueSkillUnauthorizedToQueryOtherPlayerSkills,
+        TrueSkillInvalidMaxIterations,
+        TrueSkillEndTimeBeforeStartTime,
+        TrueSkillInvalidJobId,
+        TrueSkillInvalidMetadataId,
+        TrueSkillMissingBuildVerison,
+        TrueSkillJobAlreadyExists,
+        TrueSkillJobNotFound,
+        TrueSkillOperationCanceled,
         StateShareUnauthorized,
         StateShareStateNotFound,
         StateShareLinkNotFound
@@ -6667,6 +6716,10 @@ namespace PlayFab.AdminModels
         /// The updated reason for the ban to be updated. Maximum 140 characters. Null for no change.
         /// </summary>
         public string Reason;
+        /// <summary>
+        /// The updated family type of the user that should be included in the ban. Null for no change.
+        /// </summary>
+        public UserFamilyType? UserFamilyType;
     }
 
     /// <summary>
@@ -7315,6 +7368,13 @@ namespace PlayFab.AdminModels
         /// Facebook Instant Games ID
         /// </summary>
         public string FacebookInstantGamesId;
+    }
+
+    public enum UserFamilyType
+    {
+        None,
+        Xbox,
+        Steam
     }
 
     [Serializable]

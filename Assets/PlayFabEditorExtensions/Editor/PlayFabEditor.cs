@@ -219,7 +219,7 @@ namespace PlayFab.PfEditor
                 using (new UnityHorizontal())
                 {
                     GUILayout.FlexibleSpace();
-                    if (GUILayout.Button("VIEW DOCUMENTATION", PlayFabEditorHelper.uiStyle.GetStyle("textButton")))
+                    if (GUILayout.Button("VIEW DOCUMENTATION ->", PlayFabEditorHelper.uiStyle.GetStyle("textButton")))
                     {
                         Application.OpenURL("https://github.com/PlayFab/UnityEditorExtensions");
                     }
@@ -229,7 +229,7 @@ namespace PlayFab.PfEditor
                 using (new UnityHorizontal())
                 {
                     GUILayout.FlexibleSpace();
-                    if (GUILayout.Button("REPORT ISSUES", PlayFabEditorHelper.uiStyle.GetStyle("textButton")))
+                    if (GUILayout.Button("REPORT ISSUES ->", PlayFabEditorHelper.uiStyle.GetStyle("textButton")))
                     {
                         Application.OpenURL("https://github.com/PlayFab/UnityEditorExtensions/issues");
                     }
@@ -241,7 +241,7 @@ namespace PlayFab.PfEditor
                     using (new UnityHorizontal())
                     {
                         GUILayout.FlexibleSpace();
-                        if (GUILayout.Button("UNINSTALL ", PlayFabEditorHelper.uiStyle.GetStyle("textButton")))
+                        if (GUILayout.Button("UNINSTALL ", PlayFabEditorHelper.uiStyle.GetStyle("button")))
                         {
                             RemoveEdEx();
                         }
@@ -341,13 +341,13 @@ namespace PlayFab.PfEditor
                     // clear blocking requests
                     ProgressBar.UpdateState(ProgressBar.ProgressBarStates.error);
                     ClearBlockingRequest();
-                    Debug.LogError(string.Format("<color=white>PlayFab EditorExtensions: Caught an error:</color>{0}", status));
+                    Debug.LogError(string.Format("PlayFab EditorExtensions: Caught an error:{0}", status));
                     break;
 
                 case EdExStates.OnWarning:
                     ProgressBar.UpdateState(ProgressBar.ProgressBarStates.warning);
                     ClearBlockingRequest();
-                    Debug.LogWarning(string.Format("<color=white>PlayFab EditorExtensions:</color>{0}",  status ));
+                    Debug.LogWarning(string.Format("PlayFab EditorExtensions: {0}", status));
                     break;
 
                 case EdExStates.OnSuccess:
