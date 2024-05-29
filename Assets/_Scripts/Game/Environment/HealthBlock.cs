@@ -9,7 +9,6 @@ namespace CosmicShore
     {
         public LifeForm LifeForm;
 
-
         public override void Explode(Vector3 impactVector, Teams team, string playerName, bool devastate = false)
         {
             base.Explode(impactVector, team, playerName, devastate);
