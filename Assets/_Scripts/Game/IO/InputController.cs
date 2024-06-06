@@ -80,10 +80,10 @@ namespace CosmicShore.Game.IO
             // Enable Input gyro and then give the value to the local properties, otherwise it will only give null value
             Input.gyro.enabled = true;
             gyro = Input.gyro;
-            
+
             StartCoroutine(GyroInitializationCoroutine());
-            invertYEnabled = GameSetting.Instance.InvertYEnabled;       
-            invertYEnabled = GameSetting.Instance.InvertThrottleEnabled;       
+            invertYEnabled = GameSetting.Instance.InvertYEnabled;
+            invertYEnabled = GameSetting.Instance.InvertThrottleEnabled;
         }
 
         IEnumerator GyroInitializationCoroutine()
@@ -133,7 +133,7 @@ namespace CosmicShore.Game.IO
                     XDiff = ship.AutoPilot.XDiff;
                     YDiff = ship.AutoPilot.YDiff;
                 }
-     
+
                 PerformSpeedAndDirectionalEffects();
             }
             else if (Gamepad.current != null)
@@ -178,7 +178,7 @@ namespace CosmicShore.Game.IO
                         Debug.Log($"InputController Phone flip state change detected - new flip state: {phoneFlipState}, acceleration.y: {Input.acceleration.y}");
                     }
                 }
-                  
+
                 var threeFingerFumble = false;
                 if (Input.touchCount >= 3)
                 {
@@ -297,7 +297,7 @@ namespace CosmicShore.Game.IO
                     YDiff = 0;
 
                     Idle = true;
-                    if (ship) ship.PerformShipControllerActions(InputEvents.IdleAction); // consider placing some stop methods for other Input events here  
+                    if (ship) ship.PerformShipControllerActions(InputEvents.IdleAction); // consider placing some stop methods for other Input events here
                 }
             }
         }
@@ -314,7 +314,7 @@ namespace CosmicShore.Game.IO
                 joystickStart = touch.position;
 
             Vector2 offset = touch.position - joystickStart;
-            Vector2 clampedOffset = Vector2.ClampMagnitude(offset, JoystickRadius); 
+            Vector2 clampedOffset = Vector2.ClampMagnitude(offset, JoystickRadius);
             clampedPosition = joystickStart + clampedOffset;
             Vector2 normalizedOffset = clampedOffset / JoystickRadius;
             joystick = normalizedOffset;
@@ -363,22 +363,22 @@ namespace CosmicShore.Game.IO
         {
             // if (Input.gyro == null)
             // {
-            //     Debug.LogWarningFormat("{0} - {1} - {2}", 
+            //     Debug.LogWarningFormat("{0} - {1} - {2}",
             //         nameof(InputController), nameof(GetGyroRotation), "input gyro is null");
             // }
             // if(gyro.attitude == null)
-            //     Debug.LogWarningFormat("{0} - {1} - {2}: {3}", 
+            //     Debug.LogWarningFormat("{0} - {1} - {2}: {3}",
             //         nameof(InputController), nameof(GetGyroRotation), nameof(inverseInitialRotation), inverseInitialRotation.ToString());
             // if(inverseInitialRotation == null)
-            //     Debug.LogWarningFormat("{0} - {1} - {2}: {3}", 
+            //     Debug.LogWarningFormat("{0} - {1} - {2}: {3}",
             //         nameof(InputController), nameof(GetGyroRotation), nameof(inverseInitialRotation), inverseInitialRotation.ToString());
             // if(GyroQuaternionToUnityQuaternion(gyro.attitude) == null)
-            //     Debug.LogWarningFormat("{0} - {1} - {2}: {3}", 
+            //     Debug.LogWarningFormat("{0} - {1} - {2}: {3}",
             //         nameof(InputController), nameof(GetGyroRotation), "GyroQuaternionToUnityQuaternion(gyro.attitude)", GyroQuaternionToUnityQuaternion(gyro.attitude).ToString());
             // if(derivedCorrection == null)
-            //     Debug.LogWarningFormat("{0} - {1} - {2}: {3}", 
+            //     Debug.LogWarningFormat("{0} - {1} - {2}: {3}",
             //         nameof(InputController), nameof(GetGyroRotation), nameof(derivedCorrection), derivedCorrection.ToString());
-            
+
             return inverseInitialRotation * GyroQuaternionToUnityQuaternion(gyro.attitude) * derivedCorrection;
         }
 
@@ -400,9 +400,25 @@ namespace CosmicShore.Game.IO
             invertThrottleEnabled = status;
         }
 
+        /// <summary>
+        /// Computationally very cheap function that changes a linear input to an input that's eased in the middle.
+        /// </summary>
+        /// <param name="input">Sum or difference of raw input. Ranged between -2 and 2.</param>
+        /// <returns>The input flattened at 0 but not at -2 or 2. Ranged -1 to 1.
+        /// In effect, it has low sensitivity at the neighborhood of origin, and higher sensitivity at the extremes.</returns>
         float Ease(float input)
         {
-            return input < 0 ? (Mathf.Cos(input* piOverFour) - 1) : -(Mathf.Cos(input* piOverFour) - 1); // the inflection point when fed a value of two which is the maximum input.
+            int factor = input < 0 ? 1 : -1;
+            // A sinusoid wave that has a period of 8, centered at zero, with the same peaks and valleys at -1 and 1.
+            // Like the original sinusiod wave, it's flat at input 0.
+            // It intersects with (0, -2) and (0, 2).
+            float sinusoid = Mathf.Cos(input * piOverFour);
+            // Shifts curve so that it now ranges from 0 to -2.
+            // Between -1 and 0, it flattens towards 0 but not near 1.
+            sinusoid -= 1;
+            // If the input in greater than one, get positive values instead of negative.
+            sinusoid *= factor;
+            return sinusoid;
         }
 
         void PerformSpeedAndDirectionalEffects()
@@ -516,7 +532,7 @@ namespace CosmicShore.Game.IO
             }
         }
 
-        public void Button1Press() 
+        public void Button1Press()
         {
             ship.PerformShipControllerActions(InputEvents.Button1Action);
         }
@@ -526,7 +542,7 @@ namespace CosmicShore.Game.IO
             ship.StopShipControllerActions(InputEvents.Button1Action);
         }
 
-        public void Button2Press() 
+        public void Button2Press()
         {
             ship.PerformShipControllerActions(InputEvents.Button2Action);
         }
@@ -536,7 +552,7 @@ namespace CosmicShore.Game.IO
             ship.StopShipControllerActions(InputEvents.Button2Action);
         }
 
-        public void Button3Press() 
+        public void Button3Press()
         {
             ship.PerformShipControllerActions(InputEvents.Button3Action);
         }
@@ -548,7 +564,7 @@ namespace CosmicShore.Game.IO
 
         public void SetPortrait(bool portrait)
         {
-            Portrait = portrait; 
+            Portrait = portrait;
         }
 
         int GetClosestTouch(Vector2 target)

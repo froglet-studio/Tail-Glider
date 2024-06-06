@@ -1606,6 +1606,7 @@ GameObject:
   - component: {fileID: 5086360743770514783}
   - component: {fileID: 2731003324702047408}
   - component: {fileID: 3882236086036410899}
+  - component: {fileID: 2384011990715197389}
   m_Layer: 0
   m_Name: Manta
   m_TagString: Player_Ship
@@ -1695,12 +1696,6 @@ MonoBehaviour:
     ShipActions:
     - {fileID: 5096403877754360922}
   resourceEventClassActions: []
-  MassAbilityTarget: {fileID: 0}
-  ChargeAbilityTarget: {fileID: 0}
-  SpaceAbilityTarget: {fileID: 0}
-  TimeAbilityTarget: {fileID: 0}
-  ChargeAbility2Target: {fileID: 0}
-  LevelEffects: 
   closeCamDistance: 0
   farCamDistance: 0
   AOEExplosionMaterial: {fileID: 0}
@@ -1755,6 +1750,7 @@ MonoBehaviour:
   ThrottleScaler: 0
   DefaultMinimumSpeed: 10
   DefaultThrottleScaler:
+    Enabled: 0
     Value: 50
     Min: 0
     Max: 0
@@ -1817,6 +1813,7 @@ MonoBehaviour:
   displayAmmo: 1
   gainsAmmo: 0
   ammoGainRate:
+    Enabled: 0
     Value: 0.1
     Min: 0
     Max: 0
@@ -1897,6 +1894,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2116872444dccfd43a29513c3af008b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputAction:
+    m_Name: Input
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: e27aeeda-8029-4fe3-8f6a-1caa22bee54d
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
   SkinnedMeshRenderer: {fileID: 7720489361082621337}
   SaveNewPositions: 1
   UseShapeKeys: 1
@@ -1916,6 +1922,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46ca128b16ccbfd42be69beb8b52be77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputAction:
+    m_Name: Input
+    m_Type: 2
+    m_ExpectedControlType: Axis
+    m_Id: 749da285-0d2b-4735-a4a1-fb82cae8d6a5
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 2f1bb39a-b2f9-4e7d-b5e8-362d5cf0cc8d
+      m_Path: <Gamepad>/leftStick/x
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input
+      m_Flags: 0
+    - m_Name: 1D Axis
+      m_Id: ad9df483-e0e1-46ed-9f2d-cfc8e4438134
+      m_Path: 1DAxis
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input
+      m_Flags: 4
+    - m_Name: negative
+      m_Id: 00889655-31f7-4673-a4fa-b14b19af3f85
+      m_Path: <Gamepad>/leftStick/x
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input
+      m_Flags: 8
+    - m_Name: positive
+      m_Id: 9e435f02-0fe3-46d7-9b75-b8c57496b636
+      m_Path: 
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input
+      m_Flags: 8
+    m_Flags: 0
   SkinnedMeshRenderer: {fileID: 7720489361082621337}
   SaveNewPositions: 1
   UseShapeKeys: 0
@@ -1989,6 +2036,73 @@ MonoBehaviour:
   FollowTarget: {fileID: 0}
   FollowTargetPosition: {x: 0, y: 0, z: 0}
   isOrthographic: 0
+--- !u!114 &2384011990715197389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6417075533431866457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: df9bd9def73ad5934aec78380dfcdb88,
+    type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f27a291f-c427-4248-a45b-c042ecd5ee8f
+    m_ActionName: Flight/Rotate[/Keyboard/s,/Keyboard/w,/Keyboard/a,/Keyboard/d,/Gamepad/leftStick/down,/Gamepad1/leftStick/down,/Gamepad2/leftStick/down,/Gamepad3/leftStick/down,/Gamepad4/leftStick/down,/Gamepad/leftStick/up,/Gamepad1/leftStick/up,/Gamepad2/leftStick/up,/Gamepad3/leftStick/up,/Gamepad4/leftStick/up,/Gamepad/leftStick/left,/Gamepad1/leftStick/left,/Gamepad2/leftStick/left,/Gamepad3/leftStick/left,/Gamepad4/leftStick/left,/Gamepad/leftStick/right,/Gamepad1/leftStick/right,/Gamepad2/leftStick/right,/Gamepad3/leftStick/right,/Gamepad4/leftStick/right]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 464b419c-ec4c-4e2c-b66d-93e5d0feb63b
+    m_ActionName: Flight/Use[/Keyboard/e,/Gamepad/buttonSouth,/Gamepad1/buttonSouth,/Gamepad2/buttonSouth,/Gamepad3/buttonSouth,/Gamepad4/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 890d74bc-b3d1-4320-b37a-15bddc3e8959
+    m_ActionName: Touch/PrimaryContact
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fb908e4c-e315-43f2-bcb5-c3e423cf32c2
+    m_ActionName: Touch/PrimaryPosition
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 861d94d2-0189-4908-a7e3-b391ce003a89
+    m_ActionName: Touch/SecondaryPostion
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6776027772320837218}
+        m_TargetAssemblyTypeName: CosmicShore.Game.Animation.ShipAnimation, Assembly-CSharp
+        m_MethodName: OnJoystickInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+    m_ActionId: b9e7515c-36ab-47e7-903d-ec044132a4d6
+    m_ActionName: Controller Play/Fly ship[/Gamepad/leftStick,/Gamepad1/leftStick,/Gamepad2/leftStick,/Gamepad3/leftStick,/Gamepad4/leftStick,/Mouse/delta,/Gamepad/rightStick,/Gamepad1/rightStick,/Gamepad2/rightStick,/Gamepad3/rightStick,/Gamepad4/rightStick]
+  m_NeverAutoSwitchControlSchemes: 1
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Controller Play
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &6675130274311316141
 GameObject:
   m_ObjectHideFlags: 0

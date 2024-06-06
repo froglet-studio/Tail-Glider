@@ -1,7 +1,10 @@
 using CosmicShore.Core;
 using CosmicShore.Game.IO;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 namespace CosmicShore.Game.Animation
 {
@@ -19,6 +22,35 @@ namespace CosmicShore.Game.Animation
 
         protected List<Transform> Transforms = new(); // TODO: use this to populate the ship geometries on ship.cs
         protected List<Quaternion> InitialRotations = new(); // TODO: use this to populate the ship geometries on ship.cs
+
+        private StickControl leftStick;
+        private StickControl rightStick;
+        private Vector2 LeftStickValue;
+        private Vector2 RightStickValue;
+        private Vector2 ControllerSum
+        {
+            get
+            {
+                return LeftStickValue + RightStickValue;
+            }
+        }
+        private Vector2 ControllerDifference
+        {
+            get
+
+            {
+                return new Vector2(
+                    (LeftStickValue.x - RightStickValue.x + 2) / 4,
+                    LeftStickValue.y - RightStickValue.y
+                );
+            }
+        }
+
+        public void Awake()
+        {
+            leftStick = Gamepad.all[0].leftStick;
+            rightStick = Gamepad.all[0].rightStick;
+        }
 
         protected virtual void Start()
         {
@@ -119,6 +151,18 @@ namespace CosmicShore.Game.Animation
                 case Element.Time: index = 3; break;
             }
             SkinnedMeshRenderer.SetBlendShapeWeight(index, level / 10f);
+        }
+
+        public void OnJoystickInput(InputAction.CallbackContext context)
+        {
+            if (context.control == leftStick)
+            {
+                LeftStickValue = context.ReadValue<Vector2>();
+            }
+            else
+            {
+                RightStickValue = context.ReadValue<Vector2>();
+            }
         }
     }
 }
