@@ -1,9 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 using CosmicShore.App.Systems.UserJourney;
-using CosmicShore.Integrations.Playfab.PlayerModels;
+using CosmicShore.Integrations.PlayFab.PlayerModels;
 using CosmicShore.Integrations.PlayFabV2.Models;
 using CosmicShore.Utility.Singleton;
 using JetBrains.Annotations;
@@ -12,45 +13,44 @@ using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
 
-namespace CosmicShore.Integrations.Playfab.Authentication
+namespace CosmicShore.Integrations.PlayFab.Authentication
 {
     public class AuthenticationManager : SingletonPersistent<AuthenticationManager>
     {
-        public static PlayFabAccount PlayFabAccount { get; private set; }
-        // public static PlayerProfile PlayerProfile;
-        public static UserProfile UserProfile { get; private set; }
-        public static PlayerSession PlayerSession { get; private set; }
+        public static PlayFabAccount PlayFabAccount { get; private set; } = new();
+        public static UserProfile UserProfile { get; private set; } = new();
+        public static PlayerSession PlayerSession { get; private set; } = new();
         
         public static event Action OnLoginSuccess;
  
         public static event Action OnLoginError;
-
-        // public delegate void ProfileLoaded();
+        
         public static event Action OnProfileLoaded;
 
         public static event Action OnRegisterSuccess;
 
         public static List<string> Adjectives;
         public static List<string> Nouns;
-
+        
         public override void Awake()
         {
             base.Awake();
-            PlayFabAccount = new();
-            UserProfile = new();
-            PlayerSession = new();
-            AnonymousLogin();
+
+            //AnonymousLogin();
             OnLoginSuccess += LoadPlayerProfile;
+            StartCoroutine(LoginCoroutine());
         }
 
-        private void OnEnable()
-        {
-            
-        }
-
-        private void OnDestroy()
+        void OnDestroy()
         {
             OnLoginSuccess -= LoadPlayerProfile;
+        }
+
+        IEnumerator LoginCoroutine()
+        {
+            yield return new WaitForSeconds(1f);
+
+            AnonymousLogin();
         }
 
         #region Player Profile
@@ -64,13 +64,13 @@ namespace CosmicShore.Integrations.Playfab.Authentication
             var request = new UpdateUserTitleDisplayNameRequest();
             request.DisplayName = displayName;
             PlayFabClientAPI.UpdateUserTitleDisplayName(request,
-                (result) =>
+                result =>
                 {
                     Debug.Log($"AuthenticationManager - Successful updated player display name: {UserProfile.DisplayName}");
                     UserProfile.DisplayName = result.DisplayName;
                     callback?.Invoke(result);
                 }, 
-                (error) =>
+                error =>
                 {
                     Debug.LogError(error.GenerateErrorReport());
                 }
@@ -146,11 +146,11 @@ namespace CosmicShore.Integrations.Playfab.Authentication
             }
             
             PlayFabClientAPI.GetTitleData(
-                new GetTitleDataRequest()
+                new GetTitleDataRequest
                 {
                     AuthenticationContext = PlayFabAccount.AuthContext
                 }, 
-                (result) =>
+                result =>
                 {
                     if (result.Data != null)
                     {
@@ -242,24 +242,21 @@ namespace CosmicShore.Integrations.Playfab.Authentication
 
         void HandleLoginSuccess(LoginResult loginResult = null)
         {
+            if (loginResult == null) return;
+            
             PlayFabAccount ??= new();
             UserProfile ??= new();
-            if (loginResult != null)
-            {
-                PlayFabAccount.ID = loginResult.PlayFabId;
-                PlayFabAccount.AuthContext = loginResult.AuthenticationContext;
-                UserProfile.IsNewlyCreated = loginResult.NewlyCreated;
+            
+            PlayFabAccount.ID = loginResult.PlayFabId;
+            PlayFabAccount.AuthContext = loginResult.AuthenticationContext;
+            UserProfile.IsNewlyCreated = loginResult.NewlyCreated;
 
-                Debug.Log($"AuthenticationManager - Logged in - Newly Created: {loginResult.NewlyCreated.ToString()}");
-                Debug.Log($"AuthenticationManager - Play Fab Id: {PlayFabAccount.ID}");
-                Debug.Log($"AuthenticationManager - Entity Type: {PlayFabAccount.AuthContext.EntityType}");
-                Debug.Log($"AuthenticationManager - Entity Id: {PlayFabAccount.AuthContext.EntityId}");
-                // Get it when we need to use postman for testing requests
-                // Debug.Log($"AuthenticationManager - Entity Token: {loginResult.AuthenticationContext.EntityToken}");
-                Debug.Log($"AuthenticationManager - Session Ticket: {PlayFabAccount.AuthContext.ClientSessionTicket}");
+            Debug.Log($"AuthenticationManager - Logged in - Newly Created: {loginResult.NewlyCreated.ToString()}");
+            Debug.Log($"AuthenticationManager - Play Fab Id: {PlayFabAccount.ID}");
+            Debug.Log($"AuthenticationManager - Entity Type: {PlayFabAccount.AuthContext.EntityType}");
+            Debug.Log($"AuthenticationManager - Entity Id: {PlayFabAccount.AuthContext.EntityId}");
 
-                OnLoginSuccess?.Invoke();
-            }
+            OnLoginSuccess?.Invoke();
         }
 
         void HandleLoginError(PlayFabError loginError = null)
@@ -393,15 +390,15 @@ namespace CosmicShore.Integrations.Playfab.Authentication
         {
             // Silent login first, if successful continue logging in with the anonymous account by adding username, email and password
             AnonymousLogin();
+            
+            var request = new AddUsernamePasswordRequest();
+            
+            request.Username = string.IsNullOrEmpty(UserProfile.Email) ? email : UserProfile.Email;
+            request.Email = email;
+            request.Password = password.ToString();
+            
             PlayFabClientAPI.AddUsernamePassword(
-                new AddUsernamePasswordRequest()
-                {
-                    // Username is required for registering an account
-                    Username = string.IsNullOrEmpty(UserProfile.Email)? email: UserProfile.Email,
-                    Email = email,
-                    Password = password.ToString()
-                    
-                }, (AddUsernamePasswordResult result) =>
+                request, result =>
                 {
                     UserProfile.Email = result.Username;
                     if (PlayerSession.IsRemembered)
@@ -409,7 +406,7 @@ namespace CosmicShore.Integrations.Playfab.Authentication
                         // If the session is asked to be remembered, replace the custom id with newly generated Guid
                         PlayerSession.LoginId = Guid.NewGuid().ToString();
                         PlayFabClientAPI.LinkCustomID(
-                            new LinkCustomIDRequest()
+                            new LinkCustomIDRequest
                             {
                                 CustomId = PlayerSession.IsRemembered? PlayerSession.LoginId : SystemInfo.deviceUniqueIdentifier,
                                 // True if another user is already linked to the custom ID, unlink the other user and re-link.

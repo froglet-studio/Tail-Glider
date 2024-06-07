@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/_Prefabs/CORE/LobbyHandler.prefab.meta
 guid: b5f402fc3c0d40a4b8599516768470d8
+========
+guid: ce56669fceb209244bccd55cb445c334
+>>>>>>>> origin/master:Assets/_Prefabs/CORE/DailyRewardHandler.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 

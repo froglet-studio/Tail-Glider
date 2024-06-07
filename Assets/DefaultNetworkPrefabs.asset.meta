@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/DefaultNetworkPrefabs.asset.meta
 guid: 0ae817b62c5672749a29fe90204341da
+========
+guid: 95d53b4da5bd8dd4a805458d4f59bb24
+>>>>>>>> origin/master:Assets/_SO_Assets/Captains/SO_Captain_Squirrel_Charge.asset.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 11400000

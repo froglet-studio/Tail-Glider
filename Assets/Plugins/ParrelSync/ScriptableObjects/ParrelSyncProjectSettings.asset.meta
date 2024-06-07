@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Plugins/ParrelSync/ScriptableObjects/ParrelSyncProjectSettings.asset.meta
 guid: d974bebd9ad146f42b08ec0f46f4a04f
+========
+guid: d8fdc5ad35460e94b816497b65d2909e
+>>>>>>>> origin/master:Assets/_SO_Assets/Captains/SO_Captain_Squirrel_Space.asset.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 11400000

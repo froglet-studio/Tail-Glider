@@ -1,24 +1,60 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
-namespace CosmicShore.Integrations.Playfab.Economy
+namespace CosmicShore.Integrations.PlayFab.Economy
 {
     [Serializable]
     public class Inventory
     {
         // Crystals - including Omni Crystals and Elemental Crystals
-        public List<VirtualItem> Crystals = new();
+        public List<VirtualItem> crystals = new();
 
-        // Vessels
-        public List<VirtualItem> Vessels = new();
-        
-        // Vessel Upgrades
-        public List<VirtualItem> VesselUpgrades = new();
+        // Captains
+        public List<VirtualItem> captains = new();
+
+        // Captain Upgrades
+        public List<VirtualItem> captainUpgrades = new();
         
         // Ships
-        public List<VirtualItem> Ships = new();
+        public List<VirtualItem> shipClasses = new();
         
-        // MiniGames
-        public List<VirtualItem> MiniGames = new();
+        // Games
+        public List<VirtualItem> games = new();
+
+        public void SaveToDisk()
+        {
+            DataAccessor.Save("inventory.data", this);
+        }
+
+        public void LoadFromDisk()
+        {
+            Debug.Log("Inventory.LoadFromDisk");
+            var tempInventory = DataAccessor.Load<Inventory>("inventory.data");
+
+            crystals = tempInventory.crystals;
+            captains = tempInventory.captains;
+            captainUpgrades = tempInventory.captainUpgrades;
+            shipClasses = tempInventory.shipClasses;
+            games = tempInventory.games;
+        }
+
+        public bool ContainsCaptain(string captainName)
+        {
+            return captains.Where(item => item.Name == captainName).Count() > 0;
+        }
+
+        public bool ContainsShipClass(string shipName)
+        {
+            foreach (var item in shipClasses)
+            {
+                Debug.LogWarning($"Ship Class Item {item.Name}");
+            }
+
+            var count = shipClasses.Where(item => item.Name == shipName).Count();
+            Debug.LogWarning($"ContainsShipClass {shipName}, Count: {count}");
+            return count > 0;
+        }
     }
 }

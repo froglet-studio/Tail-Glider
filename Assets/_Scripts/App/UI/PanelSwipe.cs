@@ -1,4 +1,5 @@
 using CosmicShore.App.Systems.UserActions;
+using CosmicShore.App.UI.Menus;
 using CosmicShore.Core;
 using System;
 using System.Collections;
@@ -7,6 +8,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.UI;
 
 namespace CosmicShore.App.UI
 {
@@ -16,10 +18,10 @@ namespace CosmicShore.App.UI
         public enum MenuScreens
         {
             STORE = 0,
-            Port = 1,
+            ARCADE = 1,
             HOME = 2,
-            HANGAR = 3,
-            ARCADE = 4,
+            Port = 3,
+            HANGAR = 4,
         }
 
         [Serializable]
@@ -39,14 +41,21 @@ namespace CosmicShore.App.UI
         [SerializeField] Transform NavBar;
         [SerializeField] List<ScreenAnimator> NavigateToScreenAnimations;
 
+
+        [SerializeField] HangarMenu HangarMenu;
+        [SerializeField] LeaderboardsMenu LeaderboardMenu;
+
         Vector3 panelLocation;
         Coroutine navigateCoroutine;
 
         const int STORE = (int)MenuScreens.STORE;
-        const int RECORDS = (int)MenuScreens.Port;
+        const int PORT = (int)MenuScreens.Port;
         const int HOME = (int)MenuScreens.HOME;
         const int HANGAR = (int)MenuScreens.HANGAR;
         const int ARCADE = (int)MenuScreens.ARCADE;
+
+        [SerializeField] Image NavBarLine;
+        [SerializeField] List<Sprite> NavBarLineSprites;
 
         void Start()
         {
@@ -140,23 +149,25 @@ namespace CosmicShore.App.UI
             DeactiveSubpages();
         }
 
-        public void OnClickOptionsMenuButton()
+        public void OnClickStoreNav()
         {
             NavigateTo(STORE);
         }
-        public void OnClickRecords()
+        public void OnClickPortNav()
         {
-            NavigateTo(RECORDS);
+            LeaderboardMenu.LoadView();
+            NavigateTo(PORT);
         }
-        public void OnClickHome()
+        public void OnClickHomeNav()
         {
             NavigateTo(HOME);
         }
-        public void OnClickHangar()
+        public void OnClickHangarNav()
         {
+            HangarMenu.LoadView();
             NavigateTo(HANGAR);
         }
-        public void OnClickMinigames()
+        public void OnClickArcadeNav()
         {
             NavigateTo(ARCADE);
         }
@@ -191,6 +202,8 @@ namespace CosmicShore.App.UI
             // Select the one
             NavBar.GetChild(index + 1).GetChild(0).gameObject.SetActive(false);
             NavBar.GetChild(index + 1).GetChild(1).gameObject.SetActive(true);
+
+            NavBarLine.sprite = NavBarLineSprites[index];
         }
         IEnumerator SmoothMove(Vector3 startpos, Vector3 endpos, float seconds)
         {

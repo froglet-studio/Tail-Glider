@@ -71,15 +71,7 @@ namespace CosmicShore.Core
         [SerializeField] List<ResourceEventShipActionMapping> resourceEventClassActions;
         Dictionary<ResourceEvents, List<ShipAction>> ClassResourceActions = new();
 
-        [Header("Leveling Targets")]
-        [SerializeField] LevelAwareShipAction MassAbilityTarget;
-        [SerializeField] LevelAwareShipAction ChargeAbilityTarget;
-        [SerializeField] LevelAwareShipAction SpaceAbilityTarget;
-        [SerializeField] LevelAwareShipAction TimeAbilityTarget;
-        [SerializeField] LevelAwareShipAction ChargeAbility2Target;
-
         [Header("Passive Effects")]
-        public List<ShipLevelEffects> LevelEffects;
         [SerializeField] float closeCamDistance;
         [SerializeField] float farCamDistance;
         
@@ -91,19 +83,19 @@ namespace CosmicShore.Core
         public Material AOEConicExplosionMaterial {get; set;}
         public Material SkimmerMaterial {get; set;}
         float speedModifierDuration = 2f;
-        
-        // Vessel and vessel upgrade properties
-        SO_Vessel vessel;
 
-        private Dictionary<Element, SO_VesselUpgrade> _vesselUpgrades;
-        public Dictionary<Element, SO_VesselUpgrade> VesselUpgrades
+        // Captain and captain upgrade properties
+        SO_Captain captain;
+
+        private Dictionary<Element, SO_CaptainUpgrade> _captainUpgrades;
+        public Dictionary<Element, SO_CaptainUpgrade> CaptainUpgrades
         {
-            get => _vesselUpgrades;
+            get => _captainUpgrades;
             set
             {
-                _vesselUpgrades = value;
+                _captainUpgrades = value;
 
-                if (_vesselUpgrades != null)
+                if (_captainUpgrades != null)
                 {
                     UpdateLevel(Element.Charge, ResourceSystem.GetLevel(Element.Charge));
                     UpdateLevel(Element.Time, ResourceSystem.GetLevel(Element.Time));
@@ -183,26 +175,20 @@ namespace CosmicShore.Core
             {
                 if (ShipControlActions.ContainsKey(InputEvents.Button1Action))
                 {
-                    Player.GameCanvas.MiniGameHUD.SetButtonActive(!CheckIfUsingGamepad(), 1);
+                    Player.GameCanvas.MiniGameHUD.SetButtonActive(!InputController.UsingGamepad(), 1);
                 }
 
                 if (ShipControlActions.ContainsKey(InputEvents.Button2Action))
                 {
-                    Player.GameCanvas.MiniGameHUD.SetButtonActive(!CheckIfUsingGamepad(), 2);
+                    Player.GameCanvas.MiniGameHUD.SetButtonActive(!InputController.UsingGamepad(), 2);
                 }
 
                 if (ShipControlActions.ContainsKey(InputEvents.Button3Action))
                 {
-                    Player.GameCanvas.MiniGameHUD.SetButtonActive(!CheckIfUsingGamepad(), 3);
+                    Player.GameCanvas.MiniGameHUD.SetButtonActive(!InputController.UsingGamepad(), 3);
                 }
             }
         }
-
-        bool CheckIfUsingGamepad()
-        {
-            return UnityEngine.InputSystem.Gamepad.current != null;
-        }
-        
 
         [Serializable] public struct ElementStat
         {
@@ -217,7 +203,7 @@ namespace CosmicShore.Core
         }
 
         [SerializeField] List<ElementStat> ElementStats = new List<ElementStat>();
-        public void NotifyElementalFloatBinding(string statName, Element element)
+        public void BindElementalFloat(string statName, Element element)
         {
             Debug.Log($"Ship.NotifyShipStatBinding - statName:{statName}, element:{element}");
             if (!ElementStats.Where(x => x.StatName == statName).Any())
@@ -376,13 +362,13 @@ namespace CosmicShore.Core
                 collider.enabled = enabled;
         }
 
-        public void SetVessel(SO_Vessel vessel)
+        public void AssignCaptain(SO_Captain captain)
         {
-            this.vessel = vessel;
-            ResourceSystem.InitialChargeLevel = this.vessel.InitialCharge;
-            ResourceSystem.InitialMassLevel = this.vessel.InitialMass;
-            ResourceSystem.InitialSpaceLevel = this.vessel.InitialSpace;
-            ResourceSystem.InitialTimeLevel = this.vessel.InitialTime;
+            this.captain = captain;
+            ResourceSystem.InitialChargeLevel = this.captain.InitialCharge;
+            ResourceSystem.InitialMassLevel = this.captain.InitialMass;
+            ResourceSystem.InitialSpaceLevel = this.captain.InitialSpace;
+            ResourceSystem.InitialTimeLevel = this.captain.InitialTime;
 
             ResourceSystem.InitializeElementLevels();
         }
@@ -390,26 +376,26 @@ namespace CosmicShore.Core
         public void UpdateLevel(Element element, int upgradeLevel)
         {
             Debug.Log($"Ship: UpdateLevel: element{element}, upgradeLevel: {upgradeLevel}");
-            if (VesselUpgrades == null) VesselUpgrades = new();
+            if (CaptainUpgrades == null) CaptainUpgrades = new();
             
-            if (VesselUpgrades.ContainsKey(element))
+            if (CaptainUpgrades.ContainsKey(element))
             {
-                VesselUpgrades[element].element = element;
-                VesselUpgrades[element].upgradeLevel = upgradeLevel;
+                CaptainUpgrades[element].element = element;
+                CaptainUpgrades[element].upgradeLevel = upgradeLevel;
             }
             else
             {
                 // TODO: preset individual upgrade properties such as name, description, icon etc based on upgrade properties.
-                var newUpgrade = ScriptableObject.CreateInstance<SO_VesselUpgrade>();
+                var newUpgrade = ScriptableObject.CreateInstance<SO_CaptainUpgrade>();
                 newUpgrade.element = element;
                 newUpgrade.upgradeLevel = upgradeLevel;
-                VesselUpgrades.TryAdd(element, newUpgrade);
+                CaptainUpgrades.TryAdd(element, newUpgrade);
             }
 
             #if UNITY_EDITOR
-            foreach (var upgrade in VesselUpgrades)
+            foreach (var upgrade in CaptainUpgrades)
             {
-                Debug.LogFormat("{0} - {1}: element: {2} upgrade level: {3}", nameof(VesselUpgrades), nameof(UpdateLevel), upgrade.Key, upgrade.Value.upgradeLevel.ToString());
+                Debug.LogFormat("{0} - {1}: element: {2} upgrade level: {3}", nameof(CaptainUpgrades), nameof(UpdateLevel), upgrade.Key, upgrade.Value.upgradeLevel.ToString());
             }
             #endif
             

@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CosmicShore.Integrations.Playfab.Economy
+namespace CosmicShore.Integrations.PlayFab.Economy
 {
     [Serializable]
     public class StoreShelve
     {
-        public List<VirtualItem> Crystals;
-        public List<VirtualItem> MiniGames;
-        public List<VirtualItem> Ships;
+        public Dictionary<string, VirtualItem> allItems = new();
+        public Dictionary<string, VirtualItem> crystals = new();
+        public Dictionary<string, VirtualItem> games = new();
+        public Dictionary<string, VirtualItem> classes = new();
+        public Dictionary<string, VirtualItem> captains = new();
+        public Dictionary<string, VirtualItem> captainUpgrades = new();
+        public Dictionary<string, VirtualItem> dailyRewards = new();
     }
 }

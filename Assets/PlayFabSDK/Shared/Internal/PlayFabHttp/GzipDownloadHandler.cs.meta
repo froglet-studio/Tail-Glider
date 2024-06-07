@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/PlayFabSDK/Shared/Internal/PlayFabHttp/GzipDownloadHandler.cs.meta
 guid: 40479a6315f18a54a9db2c924e0af5ae
+========
+guid: 2bee430d761d21345b3689e718fcda04
+>>>>>>>> origin/master:Assets/HangarTrainingGameButton.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

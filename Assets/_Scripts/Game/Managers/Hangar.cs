@@ -4,7 +4,6 @@ using CosmicShore.Utility.Singleton;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace CosmicShore.Core
 {
@@ -14,8 +13,7 @@ namespace CosmicShore.Core
 
         [Header("Ship Type Settings")]
         [SerializeField] Teams PlayerTeam = Teams.Green;
-        [FormerlySerializedAs("PlayerPilot")]
-        [SerializeField] SO_Vessel PlayerVessel;  // Serialized for inspection in hierarchy
+        [SerializeField] SO_Captain PlayerCaptain;  // Serialized for inspection in hierarchy
         [SerializeField] ShipTypes PlayerShipType = ShipTypes.Random;
         [SerializeField] ShipTypes FriendlyAIShipType = ShipTypes.Manta;
         [SerializeField] ShipTypes HostileAI1ShipType = ShipTypes.Random;
@@ -30,13 +28,10 @@ namespace CosmicShore.Core
         Dictionary<Teams, List<ShipTypes>> TeamShipTypes = new();
 
 
-        [Header("Vessel Settings")]
-        [FormerlySerializedAs("SoarPilot")]
-        [SerializeField] public SO_Vessel SoarVessel;
-        [FormerlySerializedAs("SmashPilot")]
-        [SerializeField] public SO_Vessel SmashVessel;
-        [FormerlySerializedAs("SportPilot")]
-        [SerializeField] public SO_Vessel SportVessel;
+        [Header("Captain Settings")]
+        [SerializeField] public SO_Captain SoarCaptain;
+        [SerializeField] public SO_Captain SmashCaptain;
+        [SerializeField] public SO_Captain SportCaptain;
 
         [Header("Material Settings")]
         [SerializeField] SO_MaterialSet GreenTeamMaterialSet;
@@ -69,9 +64,9 @@ namespace CosmicShore.Core
             TeamShipTypes[team][slot] = shipType;
         }
 
-        public void SetPlayerVessel(SO_Vessel vessel)
+        public void SetPlayerCaptain(SO_Captain captain)
         {
-            PlayerVessel = vessel;
+            PlayerCaptain = captain;
         }
 
         public ShipTypes GetPlayerShip()
@@ -145,8 +140,8 @@ namespace CosmicShore.Core
         {
             Ship ship = Instantiate(shipTypeMap[shipType]);
 
-            if (PlayerVessel != null)
-                ship.SetVessel(PlayerVessel);
+            if (PlayerCaptain != null)
+                ship.AssignCaptain(PlayerCaptain);
 
             ship.SetShipMaterial(TeamMaterialSets[team].ShipMaterial);
             ship.SetBlockMaterial(TeamMaterialSets[team].BlockMaterial);
@@ -197,7 +192,7 @@ namespace CosmicShore.Core
         {
             return LoadAIShip(HostileMantaShipType, AITeam);
         }
-        public Ship LoadAIShip(ShipTypes shipType, Teams team, SO_Vessel vessel=null)
+        public Ship LoadAIShip(ShipTypes shipType, Teams team, SO_Captain captain=null)
         {
             if (shipType == ShipTypes.Random)
             {
@@ -207,8 +202,8 @@ namespace CosmicShore.Core
             }
 
             Ship ship = Instantiate(shipTypeMap[shipType]);
-            if (vessel != null)
-                ship.SetVessel(vessel);
+            if (captain != null)
+                ship.AssignCaptain(captain);
             ship.SetShipMaterial(TeamMaterialSets[team].ShipMaterial);
             ship.SetBlockMaterial(TeamMaterialSets[team].BlockMaterial);
             ship.SetBlockSilhouettePrefab(TeamMaterialSets[team].BlockSilhouettePrefab);

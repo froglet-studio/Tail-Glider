@@ -4,12 +4,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using CosmicShore.Integrations.Firebase.Controller;
-using CosmicShore.Integrations.Playfab.PlayStream;
+using CosmicShore.Integrations.PlayFab.PlayStream;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using CosmicShore.App.Systems.UserActions;
 using CosmicShore.Game.UI;
+using UnityEngine.Serialization;
 
 namespace CosmicShore.Game.Arcade
 {
@@ -25,7 +26,7 @@ namespace CosmicShore.Game.Arcade
         [SerializeField] float EndOfTurnDelay = 0f;
         [SerializeField] bool EnableTrails = true;
         [SerializeField] ShipTypes DefaultPlayerShipType = ShipTypes.Dolphin;
-        [SerializeField] SO_Vessel DefaultPlayerVessel;
+        [SerializeField] SO_Captain DefaultPlayerCaptain;
 
         protected Button ReadyButton;
         protected GameObject EndGameScreen;
@@ -54,7 +55,7 @@ namespace CosmicShore.Game.Arcade
                 playerShipTypeInitialized = true;
             }
         }
-        public static SO_Vessel PlayerVessel;
+        public static SO_Captain PlayerCaptain;
 
         // Game State Tracking
         protected int TurnsTakenThisRound = 0;
@@ -83,8 +84,11 @@ namespace CosmicShore.Game.Arcade
             countdownTimer = HUD.CountdownTimer;
             ScoreTracker.GameCanvas = GameCanvas;
 
-            if (PlayerVessel == null)
-                PlayerVessel = DefaultPlayerVessel;
+            if (DefaultPlayerCaptain == null)
+                Debug.LogWarning("No Default Captain Set - This scene will not be able to launch without going through the main menu. Please set DefaultPlayerCaptain of the minigame script.");
+
+            if (PlayerCaptain == null)
+                PlayerCaptain = DefaultPlayerCaptain;
 
             foreach (var turnMonitor in TurnMonitors)
                 if (turnMonitor is TimeBasedTurnMonitor tbtMonitor)
@@ -93,6 +97,8 @@ namespace CosmicShore.Game.Arcade
                     hvtMonitor.Display = HUD.RoundTimeDisplay;
                 else if (turnMonitor is ShipCollisionTurnMonitor scMonitor) // TODO: consolidate with above
                     scMonitor.Display = HUD.RoundTimeDisplay;
+                else if (turnMonitor is DistanceTurnMonitor dtMonitor) // TODO: consolidate with above
+                    dtMonitor.Display = HUD.RoundTimeDisplay;
 
             GameManager.UnPauseGame();
         }
@@ -170,7 +176,7 @@ namespace CosmicShore.Game.Arcade
 
         public virtual void StartNewGame()
         {
-            //Debug.Log($"Playing as {PlayerVessel.Name} - \"{PlayerVessel.Description}\"");
+            //Debug.Log($"Playing as {PlayerCaptain.Name} - \"{PlayerCaptain.Description}\"");
             if (PauseSystem.Paused) PauseSystem.TogglePauseGame();
 
             RemainingPlayers = new();
@@ -343,7 +349,7 @@ namespace CosmicShore.Game.Arcade
             ActivePlayer.Ship.GetComponent<ShipTransformer>().Reset();
             ActivePlayer.Ship.TrailSpawner.PauseTrailSpawner();
             ActivePlayer.Ship.ResourceSystem.Reset();
-            ActivePlayer.Ship.SetVessel(PlayerVessel);
+            ActivePlayer.Ship.AssignCaptain(PlayerCaptain);
 
             CameraManager.Instance.SetupGamePlayCameras(ActivePlayer.Ship.FollowTarget);
 

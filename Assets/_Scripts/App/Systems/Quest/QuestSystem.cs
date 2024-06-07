@@ -1,4 +1,4 @@
-using CosmicShore.Integrations.Playfab.Economy;
+using CosmicShore.Integrations.PlayFab.Economy;
 using CosmicShore.App.Systems.CTA;
 using CosmicShore.App.Systems.UserActions;
 using CosmicShore.Utility.Singleton;
@@ -31,7 +31,7 @@ namespace CosmicShore.App.Systems.Quests
 
             // Grant Reward
             // TODO: Look for PlayerDataController
-            // CatalogManager.Instance.GrantVesselKnowledge(quest.ShardValue, ShipTypes.Manta, Element.Space);
+            // CatalogManager.Instance.GrantCaptainXP(quest.ShardValue, ShipTypes.Manta, Element.Space);
 
             // Mark Granted
             quest.RewardGranted = true;

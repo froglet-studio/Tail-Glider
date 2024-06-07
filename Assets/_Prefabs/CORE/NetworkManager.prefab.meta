@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/_Prefabs/CORE/NetworkManager.prefab.meta
 guid: 74440c160d04cdd48b8670260f998bac
 PrefabImporter:
+========
+guid: 5a5e110916ffb32448d1d9cc2fde5c4e
+DefaultImporter:
+>>>>>>>> origin/master:Assets/_Scenes/MinigameCurvatious.unity.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

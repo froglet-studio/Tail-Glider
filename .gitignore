@@ -80,3 +80,5 @@ Assets/ParrelSync.meta
 mono_crash*.json
 
 //ParrelSync preferences
+
+/ProjectSettings/BurstAotSettings_StandaloneLinux64.json

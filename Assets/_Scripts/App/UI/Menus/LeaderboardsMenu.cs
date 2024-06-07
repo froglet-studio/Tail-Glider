@@ -1,13 +1,12 @@
 using CosmicShore.Core;
-using CosmicShore.Integrations.Playfab.Authentication;
-using CosmicShore.Integrations.Playfab.PlayStream;
+using CosmicShore.Integrations.PlayFab.Authentication;
+using CosmicShore.Integrations.PlayFab.PlayStream;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using VContainer;
 
 namespace CosmicShore.App.UI.Menus
 {
@@ -26,9 +25,6 @@ namespace CosmicShore.App.UI.Menus
         ShipTypes SelectedShipType = ShipTypes.Any;
 
         int _displayCount;
-        // Start is called before the first frame update
-        // [Inject] private AuthenticationManager _authManager;
-        // [Inject] private LeaderboardManager _leaderboardManager;
         void Start()
         {
             // TODO: Reconsider this implementation for avoiding displaying Freestyle on the scoreboard
@@ -44,7 +40,10 @@ namespace CosmicShore.App.UI.Menus
             AuthenticationManager.OnProfileLoaded += FetchLeaderboard;
 
             ShipClassSelection.onValueChanged.AddListener(SelectShipType);
+        }
 
+        public void LoadView()
+        {
             PopulateGameSelectionList();
         }
 
@@ -140,12 +139,12 @@ namespace CosmicShore.App.UI.Menus
         {
             var options = new List<TMP_Dropdown.OptionData>();
 
-            // Only add "Any" selection if there is more than one vessel class available
-            if (SelectedGame.Vessels.Count > 1)
+            // Only add "Any" selection if there is more than one captain class available
+            if (SelectedGame.Captains.Count > 1)
                 options.Add(new TMP_Dropdown.OptionData("Any"));
 
-            foreach (var vessel in SelectedGame.Vessels)
-                options.Add(new TMP_Dropdown.OptionData(vessel.Ship.Class.ToString()));
+            foreach (var captain in SelectedGame.Captains)
+                options.Add(new TMP_Dropdown.OptionData(captain.Ship.Class.ToString()));
 
             ShipClassSelection.options = options;
             ShipClassSelection.value = 0;

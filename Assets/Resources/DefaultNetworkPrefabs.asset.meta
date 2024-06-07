@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Resources/DefaultNetworkPrefabs.asset.meta
 guid: 275781a703f816d4593fd0ee62fb1748
+========
+guid: 10c8a11b812b71744b4f5a845490b95a
+>>>>>>>> origin/master:Assets/_SO_Assets/Captains/SO_Captain_Squirrel_Time.asset.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 11400000

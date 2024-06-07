@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using CosmicShore.Integrations.Playfab.Authentication;
+using CosmicShore.Integrations.PlayFab.Authentication;
 using CosmicShore.Utility.ClassExtensions;
 using CosmicShore.Utility.Singleton;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
 
-namespace CosmicShore.Integrations.Playfab.PlayStream
+namespace CosmicShore.Integrations.PlayFab.PlayStream
 {
     /// <summary>
     /// Leaderboard Manager
@@ -113,14 +113,13 @@ namespace CosmicShore.Integrations.Playfab.PlayStream
             yield return new WaitUntil(() => AuthenticationManager.PlayFabAccount != null);
             
             Debug.Log("LeaderboardManager - ReportAndFlushOfflineStatistics");
-            var dataAccessor = new DataAccessor(OfflineStatsFileName);
-            var offlineStatistics = dataAccessor.Load<List<StatisticUpdate>>();
+            var offlineStatistics = DataAccessor.Load<List<StatisticUpdate>>(OfflineStatsFileName);
 
             if (offlineStatistics.Count > 0)
             {
                 Debug.Log($"LeaderboardManager - StatCount:{offlineStatistics.Count}");
                 UpdatePlayerStatistic(offlineStatistics);
-                dataAccessor.Flush();
+                DataAccessor.Flush(OfflineStatsFileName);
             }
         }
 
@@ -224,10 +223,9 @@ namespace CosmicShore.Integrations.Playfab.PlayStream
             {
                 Debug.Log($"LeaderboardManager.UpdatePlayerStatistic - offline");
                 // TODO: custom tags lost?
-                var dataAccessor = new DataAccessor(OfflineStatsFileName);
-                var offlineStatistics = dataAccessor.Load<List<StatisticUpdate>>();
+                var offlineStatistics = DataAccessor.Load<List<StatisticUpdate>>(OfflineStatsFileName);
                 offlineStatistics.AddRange(stats);
-                dataAccessor.Save(offlineStatistics);
+                DataAccessor.Save(OfflineStatsFileName, offlineStatistics);
             }
         }
 
@@ -279,8 +277,7 @@ namespace CosmicShore.Integrations.Playfab.PlayStream
 
                         callback(entries);
 
-                        var dataAccessor = new DataAccessor(GetLeaderboardFileName(leaderboardName));
-                        dataAccessor.Save(entries);
+                        DataAccessor.Save(GetLeaderboardFileName(leaderboardName), entries);
 
                         Debug.Log("UpdatePlayerStatistic success: " + response);
                     },
@@ -288,8 +285,7 @@ namespace CosmicShore.Integrations.Playfab.PlayStream
             }
             else
             {
-                var dataAccessor = new DataAccessor(GetLeaderboardFileName(leaderboardName));
-                var cachedLeaderboard = dataAccessor.Load<List<LeaderboardEntry>>();
+                var cachedLeaderboard = DataAccessor.Load<List<LeaderboardEntry>>(GetLeaderboardFileName(leaderboardName));
                 callback(cachedLeaderboard);
             }
         }

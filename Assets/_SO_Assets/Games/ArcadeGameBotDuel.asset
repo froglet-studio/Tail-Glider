@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: ArcadeGameBotDuel
   m_EditorClassIdentifier: 
   Mode: 23
-  DisplayName: 
+  DisplayName: Bot Duel
   Description: watch bots play each other
   Icon: {fileID: 21300000, guid: 8232e087c5e0fee4fa59cdb880e64ca4, type: 3}
   SelectedIcon: {fileID: 21300000, guid: ff915aad644c07144a1d02cc4723b015, type: 3}
   CardBackground: {fileID: 21300000, guid: 78575ccdc916fca45960791606e128c9, type: 3}
   PreviewClip: {fileID: 241334157148977051, guid: f48cd1df8d808014c8a8f4db1258d202,
     type: 3}
-  Vessels:
+  Captains:
   - {fileID: 11400000, guid: 5ac362560a34d414e835db83e82daa08, type: 2}
   - {fileID: 11400000, guid: 47ecdb78312b0be4d8785da5ebaced42, type: 2}
   - {fileID: 11400000, guid: 93969af9015d6d347848a9231cb52743, type: 2}

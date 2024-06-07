@@ -1,11 +1,11 @@
+using CosmicShore.Game.Arcade;
 using CosmicShore.Utility.ClassExtensions;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UI;
-using CosmicShore.Game.Arcade;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-namespace CosmicShore
+namespace CosmicShore.App.UI.Elements
 {
     public class MultiplayerView : MonoBehaviour
     {
@@ -14,9 +14,9 @@ namespace CosmicShore
         [SerializeField] private Button hostGameButton;
         [SerializeField] private Button spectateGameButton;
         
-        [Header("Vessel Settings")]
-        [SerializeField] private SO_Vessel hostVessel;
-        [SerializeField] private SO_Vessel clientVessel;
+        [Header("Captain Settings")]
+        [SerializeField] private SO_Captain host;
+        [SerializeField] private SO_Captain client;
         
         private void Awake()
         {
@@ -28,14 +28,12 @@ namespace CosmicShore
         private void HostGame()
         {
             this.LogWithClassMethod("", "Hosting a game.");
-            LoadMiniGame(ShipTypes.Manta, hostVessel, 1,1);
             NetworkManager.Singleton.StartHost();
         }
 
         private void JoinGame()
         {
             this.LogWithClassMethod("", "Joining a game as client.");
-            LoadMiniGame(ShipTypes.Rhino, clientVessel, 1,1);
             NetworkManager.Singleton.StartClient();
         }
 
@@ -45,10 +43,10 @@ namespace CosmicShore
             NetworkManager.Singleton.StartClient();
         }
 
-        private void LoadMiniGame(ShipTypes type, SO_Vessel vessel, int intensity, int playerCount)
+        private void LoadMiniGame(ShipTypes type, SO_Captain captain, int intensity, int playerCount)
         {
             MiniGame.PlayerShipType = type;
-            MiniGame.PlayerVessel = vessel;
+            MiniGame.PlayerCaptain = captain;
             MiniGame.IntensityLevel = intensity;
             MiniGame.NumberOfPlayers = playerCount;
 

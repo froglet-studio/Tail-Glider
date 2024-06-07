@@ -24,7 +24,7 @@ namespace CosmicShore
         EsD = 12,
     }
 
-    public class GyroidAssembler : MonoBehaviour
+    public class GyroidAssembler : Assembler
     {
         
 
@@ -52,7 +52,12 @@ namespace CosmicShore
 
         public TrailBlock GyroidBlock;
         public GyroidBlockType BlockType = GyroidBlockType.AB;
-        public int Depth = -1;
+        int depth = -1;
+        public override int Depth
+        {
+            get { return depth; }
+            set { depth = value; }
+        }
         public bool isSeed = false;
 
         private float snapDistance = .3f;
@@ -63,14 +68,17 @@ namespace CosmicShore
         void Start()
         {
             GyroidBlock = GetComponent<TrailBlock>();
-            scale = GyroidBlock.TargetScale;
-            if (isSeed)
+            if (GyroidBlock)
             {
-                GyroidBlock.Team = Teams.Blue;
+                scale = GyroidBlock.TargetScale;
+                if (isSeed)
+                {
+                    GyroidBlock.Team = Teams.Blue;
+                }
             }
         }
 
-        public void StartBonding()
+        public override void StartBonding()
         {
             StartCoroutine(LookForMatesCoroutine());
         }
@@ -81,6 +89,15 @@ namespace CosmicShore
         //    GyroidBlock.ActivateSuperShield();
         //    GyroidBlock.Grow();
         //}
+
+        public override void Grow()
+        {
+            Instantiate(GyroidBlock, transform.position, transform.rotation);
+            var newAssembler = ConvertBlock(GyroidBlock);
+            newAssembler.depth = depth - 1;
+            PrepareMate(newAssembler.TopRightMate);
+            Invoke("newAssembler.Grow()", 1);
+        }
 
         public void ClearMateList()
         {
@@ -94,6 +111,7 @@ namespace CosmicShore
             BottomLeftIsBonded = false;
             BottomRightIsBonded = false;
         }
+
 
         public GyroidBondMate CreateGyroidBondMate(GyroidAssembler mate, GyroidBlockType blockType, CornerSiteType siteType)
         {
@@ -160,9 +178,9 @@ namespace CosmicShore
         {
             if (isBonded && mate.Mate.MateList.Count < 2)
             {
-                if (Depth != 0 && preferedBlocks.Count == 0)
+                if (depth != 0 && preferedBlocks.Count == 0)
                 {
-                    mate.Mate.Depth = Depth;
+                    mate.Mate.depth = depth;
                     mate.Mate.StartBonding();
                 }
                 else
@@ -175,7 +193,7 @@ namespace CosmicShore
 
         IEnumerator LookForMatesCoroutine()
         {
-            Debug.Log($"GyroidAssembler LookForMates Depth: {Depth}");
+            Debug.Log($"GyroidAssembler LookForMates Depth: {depth}");
             bool[] activeMates = new bool[] { false, true, true, false };
             //if (depth == 0) StopAllCoroutines();
             //else if (depth == 1) activeMates = new bool[] { false, true, true, false };
@@ -191,7 +209,7 @@ namespace CosmicShore
                 }
                 yield return new WaitForSeconds(1f);
                 // TopLeftMate
-                if (Depth == 0)
+                if (depth == 0)
                 {
                     CleanupMates(activeMates);
                     break;
@@ -200,9 +218,9 @@ namespace CosmicShore
                 {
                     TopLeftMate = FindClosestMate(CalculateGlobalBondSite(CornerSiteType.TopLeft), CornerSiteType.TopLeft);
                     PrepareMate(TopLeftMate);
-                    Depth--;
+                    depth--;
                 }
-                if (Depth == 0)
+                if (depth == 0)
                 {
                     CleanupMates(activeMates);
                     break;
@@ -212,9 +230,9 @@ namespace CosmicShore
                 {
                     TopRightMate = FindClosestMate(CalculateGlobalBondSite(CornerSiteType.TopRight), CornerSiteType.TopRight);
                     PrepareMate(TopRightMate);
-                    Depth--;
+                    depth--;
                 }
-                if (Depth == 0)
+                if (depth == 0)
                 {
                     CleanupMates(activeMates);
                     break;
@@ -224,9 +242,9 @@ namespace CosmicShore
                 {
                     BottomLeftMate = FindClosestMate(CalculateGlobalBondSite(CornerSiteType.BottomLeft), CornerSiteType.BottomLeft);
                     PrepareMate(BottomLeftMate);
-                    Depth--;
+                    depth--;
                 }
-                if (Depth == 0)
+                if (depth == 0)
                 {
                     CleanupMates(activeMates);
                     break;
@@ -236,9 +254,9 @@ namespace CosmicShore
                 {
                     BottomRightMate = FindClosestMate(CalculateGlobalBondSite(CornerSiteType.BottomRight), CornerSiteType.BottomRight);
                     PrepareMate(BottomRightMate);
-                    Depth--;
+                    depth--;
                 }
-                if (Depth == 0)
+                if (depth == 0)
                 {
                     CleanupMates(activeMates);
                     break;
@@ -268,13 +286,14 @@ namespace CosmicShore
 
         IEnumerator UpdateMate(GyroidBondMate gyroidBondMate)
         {
+            var targetRotation = CalculateRotation(gyroidBondMate);
             while (true)
             {
                 yield return null;
                 if (gyroidBondMate.Mate != null)
                 {
-                    MoveMateToSite(gyroidBondMate, CalculateGlobalBondSite(gyroidBondMate.Substrate));
-                    RotateMate(gyroidBondMate, false);
+                    MoveMateToSite(gyroidBondMate, targetRotation, CalculateGlobalBondSite(gyroidBondMate.Substrate));
+                    RotateMate(gyroidBondMate, targetRotation, false);
                 }
                 else Debug.Log("gyroidAssembler is trying to move a null mate");
             }
@@ -343,13 +362,13 @@ namespace CosmicShore
         {
             if (preferedBlocks.Count > 0)
             {
-                Debug.Log($"GyroidAssembler: Prefered Block, Depth: {Depth}");
+                Debug.Log($"GyroidAssembler: Prefered Block, Depth: {depth}");
                 var Mate = CreateGyroidBondMate(preferedBlocks.Dequeue(), BlockType, siteType); 
                 return Mate;
             }
             else
             {
-                Debug.Log($"GyroidAssembler: No Prefered Block, Depth: {Depth}");
+                Debug.Log($"GyroidAssembler: No Prefered Block, Depth: {depth}");
             }
 
             float closestDistance = float.MaxValue;
@@ -369,19 +388,7 @@ namespace CosmicShore
                     var trailBlock = potentialMate.GetComponent<TrailBlock>();
                     if (trailBlock != null)
                     {
-                        Boid boid = trailBlock.GetComponentInParent<Boid>();
-                        if (boid != null)
-                        {
-                            trailBlock.transform.parent = GyroidBlock.transform.parent;
-                            boid.isKilled = true;
-                        }
-                        trailBlock.TargetScale = scale;
-                        trailBlock.MaxScale = GyroidBlock.MaxScale;
-                        trailBlock.GrowthVector = GyroidBlock.GrowthVector;
-                        trailBlock.Steal(GyroidBlock.Player, GyroidBlock.Team);
-                        trailBlock.ChangeSize();
-                        mateComponent = trailBlock.gameObject.AddComponent<GyroidAssembler>();
-                        mateComponent.GyroidBlock = trailBlock;
+                        mateComponent = ConvertBlock(trailBlock);
                     }
                     else continue;
                 }
@@ -417,7 +424,25 @@ namespace CosmicShore
             return CreateGyroidBondMate(closest, BlockType, siteType);
         }
 
-        private void MoveMateToSite(GyroidBondMate mate, Vector3 bondSite)
+        GyroidAssembler ConvertBlock(TrailBlock trailBlock)
+        {
+            Boid boid = trailBlock.GetComponentInParent<Boid>();
+            if (boid != null)
+            {
+                trailBlock.transform.parent = GyroidBlock.transform.parent;
+                boid.isKilled = true;
+            }
+            trailBlock.TargetScale = scale;
+            trailBlock.MaxScale = GyroidBlock.MaxScale;
+            trailBlock.GrowthVector = GyroidBlock.GrowthVector;
+            trailBlock.Steal(GyroidBlock.Player, GyroidBlock.Team);
+            trailBlock.ChangeSize();
+            var mateComponent = trailBlock.gameObject.AddComponent<GyroidAssembler>();
+            mateComponent.GyroidBlock = trailBlock;
+            return mateComponent;
+        }
+
+        private void MoveMateToSite(GyroidBondMate mate, Quaternion targetRotation, Vector3 bondSite)
         {
             {
                 var initialPosition = mate.Mate.transform.position;
@@ -425,7 +450,7 @@ namespace CosmicShore
                 
                 if (directionToMate.sqrMagnitude < snapDistance)
                 {
-                    RotateMate(mate, true);
+                    RotateMate(mate, targetRotation, true);
                     mate.Mate.transform.position = bondSite;
                     StopCoroutine(updateCoroutineDict[mate]);
                     updateCoroutineDict.Remove(mate);
@@ -449,12 +474,16 @@ namespace CosmicShore
             }
         }
 
-        private void RotateMate(GyroidBondMate mate, bool isSnapping)
+        private Quaternion CalculateRotation(GyroidBondMate mate)
         {
             Quaternion targetRotation = Quaternion.LookRotation(mate.DeltaForward.x * transform.right + mate.DeltaForward.y * transform.up + mate.DeltaForward.z * transform.forward + transform.forward,
-                                                                mate.DeltaUp.x * transform.right + mate.DeltaUp.y * transform.up + mate.DeltaUp.z * transform.forward + transform.up);  // TODO: pull this into setup, so it is only called once.
-            mate.Mate.transform.rotation = isSnapping ?
-                targetRotation :
+                                                                mate.DeltaUp.x * transform.right + mate.DeltaUp.y * transform.up + mate.DeltaUp.z * transform.forward + transform.up);
+            return targetRotation;
+        }
+
+        private void RotateMate(GyroidBondMate mate, Quaternion targetRotation, bool isSnapping)
+        {
+            mate.Mate.transform.rotation = isSnapping ? targetRotation :
                 Quaternion.Lerp(mate.Mate.transform.rotation, targetRotation, Time.deltaTime); // Adjust rotation speed as needed
         }
     }

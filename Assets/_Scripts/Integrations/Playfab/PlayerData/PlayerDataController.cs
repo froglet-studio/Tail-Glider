@@ -1,15 +1,15 @@
 ﻿using System;
-using CosmicShore.Integrations.Playfab.Authentication;
 using PlayFab;
 using PlayFab.ClientModels;
 using System.Collections.Generic;
 using System.Linq;
 using CosmicShore.App.Systems.Clout;
+using CosmicShore.Integrations.PlayFab.Authentication;
 using CosmicShore.Utility.Singleton;
 using UnityEngine;
 using Newtonsoft.Json;
 
-namespace CosmicShore.Integrations.Playfab.PlayStream
+namespace CosmicShore.Integrations.PlayFab.PlayStream
 {
     public struct ShardData
     {
@@ -29,7 +29,7 @@ namespace CosmicShore.Integrations.Playfab.PlayStream
 
     public class PlayerDataController : SingletonPersistent<PlayerDataController>
     {
-        private const string VesselKnowledgeKey = "VesselKnowledge";
+        private const string CaptainXPKey = "CaptainXP";
         private const string ShipCloutKey = "ShipClout";
         private const string MasterCloutKey = "MasterClout";
         
@@ -53,13 +53,13 @@ namespace CosmicShore.Integrations.Playfab.PlayStream
 
         private void Start()
         {
-            AuthenticationManager.OnLoginSuccess += LoadVesselKnowledgeData;
+            AuthenticationManager.OnLoginSuccess += LoadCaptainXPData;
             AuthenticationManager.OnLoginSuccess += LoadClout;
         }
 
         public void OnDestroy()
         {
-            AuthenticationManager.OnLoginSuccess -= LoadVesselKnowledgeData;
+            AuthenticationManager.OnLoginSuccess -= LoadCaptainXPData;
             AuthenticationManager.OnLoginSuccess -= LoadClout;
         }
         
@@ -75,7 +75,7 @@ namespace CosmicShore.Integrations.Playfab.PlayStream
         }
 
 
-        void LoadVesselKnowledgeData()
+        void LoadCaptainXPData()
         {
             InitializePlayerClientInstanceAPI();
 
@@ -83,7 +83,7 @@ namespace CosmicShore.Integrations.Playfab.PlayStream
                 new GetUserDataRequest
                 {
                     PlayFabId = AuthenticationManager.PlayFabAccount.ID,
-                    Keys = new List<string> { VesselKnowledgeKey }
+                    Keys = new List<string> { CaptainXPKey }
                 },
                 (result) =>
                 {
