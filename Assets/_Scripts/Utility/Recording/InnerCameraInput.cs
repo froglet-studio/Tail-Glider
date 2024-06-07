@@ -39,7 +39,7 @@ public partial class @InnerCameraInput: IInputActionCollection2, IDisposable
             ],
             ""bindings"": [
                 {
-                    ""name"": ""Pitch"",
+                    ""name"": ""Keyboard"",
                     ""id"": ""97590170-ccc7-46d3-bcd1-8c1a07101d34"",
                     ""path"": ""2DVector(mode=2)"",
                     ""interactions"": """",
@@ -92,6 +92,17 @@ public partial class @InnerCameraInput: IInputActionCollection2, IDisposable
                     ""action"": ""MoveCamera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f1879c2d-b5aa-43fc-8b84-f903613a8e4b"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
