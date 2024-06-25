@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CosmicShore.Multiplayer.UnityMultiplayer.Netcode
 {
-    public enum AuthorityMode
+    public enum AuthMode
     {
         Server,
         Client
@@ -11,10 +11,10 @@ namespace CosmicShore.Multiplayer.UnityMultiplayer.Netcode
     [DisallowMultipleComponent]
     public class ClientNetworkTransform : NetworkTransform
     {
-        public AuthorityMode authorityMode = AuthorityMode.Client;
+        public AuthMode authMode = AuthMode.Client;
         protected override bool OnIsServerAuthoritative()
         {
-            return authorityMode == AuthorityMode.Server;
+            return authMode == AuthMode.Server;
         }
     }
 }
