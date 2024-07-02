@@ -4,6 +4,7 @@ using CosmicShore.Environment.FlowField;
 using CosmicShore.Game.AI;
 using CosmicShore;
 using UnityEngine;
+using CosmicShore.Core;
 
 public class Node : MonoBehaviour
 {
@@ -27,6 +28,9 @@ public class Node : MonoBehaviour
     [SerializeField] float baseFaunaSpawnTime = 60f;
 
     [SerializeField] bool hasRandomFloraAndFauna;
+
+    [SerializeField] private float minOctreeSize = 1f;
+    public BlockOctree blockOctree;
 
     Dictionary<Teams, float> teamVolumes = new Dictionary<Teams, float>();
 
@@ -53,6 +57,28 @@ public class Node : MonoBehaviour
         if (fauna2) StartCoroutine(SpawnFauna(fauna2));
         if (flora1) StartCoroutine(SpawnFlora(flora1));
         if (flora2) StartCoroutine(SpawnFlora(flora2));
+    }
+
+    void Awake()
+    {
+        Vector3 size = transform.localScale;
+        float maxSize = Mathf.Max(size.x, size.y, size.z) / 2;
+        blockOctree = new BlockOctree(transform.position, maxSize, minOctreeSize);
+    }
+
+    public void AddBlock(TrailBlock block)
+    {
+        blockOctree.AddBlock(block);
+    }
+
+    public void RemoveBlock(TrailBlock block)
+    {
+        blockOctree.RemoveBlock(block);
+    }
+
+    public List<Vector3> GetExplosionTargets(int count)
+    {
+        return blockOctree.FindDensestRegions(count);
     }
 
     public void AddItem(NodeItem item)
